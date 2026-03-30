@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useEffect, useRef } from "react"
-import { ScrambleTextOnHover } from "@/components/scramble-text"
-import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
-import { AnimatedNoise } from "@/components/animated-noise"
-import { BitmapChevron } from "@/components/bitmap-chevron"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { AnimatedNoise } from '@/components/animated-noise'
+import { BitmapChevron } from '@/components/bitmap-chevron'
+import { ScrambleTextOnHover } from '@/components/scramble-text'
+import { SplitFlapAudioProvider, SplitFlapMuteToggle, SplitFlapText } from '@/components/split-flap-text'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,10 +23,10 @@ export function HeroSection() {
         opacity: 0,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
       })
     }, sectionRef)
 
@@ -34,56 +34,56 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12">
-      <AnimatedNoise opacity={0.03} />
+    <section ref={sectionRef} id='hero' className='relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12'>
+      <AnimatedNoise opacity={0.02} />
 
       {/* Left vertical labels */}
-      <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground -rotate-90 origin-left block whitespace-nowrap">
-          |||
+      <div className='absolute left-3 md:left-6 top-1/2 -translate-y-1/2'>
+        <span className='font-mono text-[6px] uppercase tracking-[0.5em] text-muted-foreground -rotate-90 origin-left block whitespace-nowrap'>
+          ⏺⏺⏺
         </span>
       </div>
 
       {/* Main content */}
-      <div ref={contentRef} className="flex-1 w-full">
+      <div ref={contentRef} className='flex-1 w-full'>
         <SplitFlapAudioProvider>
-          <div className="relative">
-            <SplitFlapText text="INTERFACE" speed={80} />
-            <div className="mt-4">
+          <div className='relative'>
+            <SplitFlapText text='C_LAYER' speed={64} />
+            <div className='mt-4'>
               <SplitFlapMuteToggle />
             </div>
           </div>
         </SplitFlapAudioProvider>
 
-        <h2 className="font-[var(--font-bebas)] text-muted-foreground/60 text-[clamp(1rem,3vw,2rem)] mt-4 tracking-wide">
-          Studies in Controlled Environments
+        <h2 className='_text-[clamp(1rem,3vw,2rem)] my-2'>
+          <span className='font-ct font-medium text-2xl tracking-wider'>One platform. Every payment path.</span>
         </h2>
 
-        <p className="mt-12 max-w-md font-mono text-sm text-muted-foreground leading-relaxed">
-          We design systems that behave, not just screens that display. Signals from the edge of what&apos;s shippable.
+        <p className='mt-2 max-w-md font-mono text-sm text-muted-foreground leading-relaxed'>
+          Connect to multiple payment gateways and processors through one platform.
+          {/*Launch cards, crypto/Web3,
+                    e-wallets, and bank transfers without stitching together separate systems.*/}
         </p>
 
-        <div className="mt-16 flex items-center gap-8">
+        <div className='mt-16 flex items-center gap-8'>
           <a
-            href="#work"
-            className="group inline-flex items-center gap-3 border border-foreground/20 px-6 py-3 font-mono text-xs uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
-          >
-            <ScrambleTextOnHover text="View Experiments" as="span" duration={0.6} />
-            <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
+            href='#work'
+            className='group inline-flex items-center gap-4 border border-foreground/20 px-6 py-3 font-mono text-xs uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200'>
+            <ScrambleTextOnHover text='Get Started' as='span' duration={0.6} />
+            <BitmapChevron className='transition-transform duration-400 size-4 ease-in-out group-hover:rotate-45' />
           </a>
-          <a
-            href="#signals"
-            className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Latest Signals
-          </a>
+          {/*<a
+            href='#signals'
+            className='font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-200'>
+            Payment Coverage
+          </a>*/}
         </div>
       </div>
 
       {/* Floating info tag */}
-      <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12">
-        <div className="border border-border px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          v.01 / Experimental Build
+      <div className='absolute bottom-8 right-8 md:bottom-12 md:right-12'>
+        <div className='border border-border px-3 py-1 font-cm text-[8px] lowercase tracking-widest text-muted-foreground'>
+          cl_v.01
         </div>
       </div>
     </section>

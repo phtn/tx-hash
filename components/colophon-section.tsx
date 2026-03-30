@@ -1,8 +1,9 @@
-"use client"
+'use client'
 
-import { useRef, useEffect } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef } from 'react'
+import { SectionHeader } from './section-header'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,29 +23,29 @@ export function ColophonSection() {
           x: -60,
           opacity: 0,
           duration: 1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
         })
       }
 
       // Grid columns fade up with stagger
       if (gridRef.current) {
-        const columns = gridRef.current.querySelectorAll(":scope > div")
+        const columns = gridRef.current.querySelectorAll(':scope > div')
         gsap.from(columns, {
           y: 40,
           opacity: 0,
           duration: 0.8,
           stagger: 0.1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: gridRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
         })
       }
 
@@ -54,12 +55,12 @@ export function ColophonSection() {
           y: 20,
           opacity: 0,
           duration: 0.8,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: footerRef.current,
-            start: "top 95%",
-            toggleActions: "play none none reverse",
-          },
+            start: 'top 95%',
+            toggleActions: 'play none none reverse'
+          }
         })
       }
     }, sectionRef)
@@ -70,98 +71,100 @@ export function ColophonSection() {
   return (
     <section
       ref={sectionRef}
-      id="colophon"
-      className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12 border-t border-border/30"
-    >
+      id='colophon'
+      className='relative py-32 pl-6 md:pl-28 pr-6 md:pr-12 border-t border-border/30'>
       {/* Section header */}
-      <div ref={headerRef} className="mb-16">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">04 / Colophon</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">CREDITS</h2>
-      </div>
+      <SectionHeader title='Snapshot' tag='SITEMAP' id='04' ref={headerRef} />
 
       {/* Multi-column layout */}
-      <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-12">
-        {/* Design */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Design</h4>
-          <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Signal Studio</li>
-            <li className="font-mono text-xs text-foreground/80">Interface Lab</li>
-          </ul>
+      <div ref={gridRef} className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-12'>
+        {/* Payment Methods */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Payment Methods' />
+          <ColumnItems items={[{ id: 'cards', name: 'Credit/Debit Cards' }]} />
         </div>
 
-        {/* Stack */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Stack</h4>
-          <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Next.js</li>
-            <li className="font-mono text-xs text-foreground/80">Tailwind CSS</li>
-            <li className="font-mono text-xs text-foreground/80">Vercel</li>
-          </ul>
+        {/* Alternative Rails */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Alternative Rails' />
+          <ColumnItems items={[{ id: 'cards', name: 'Credit/Debit Cards' }]} />
         </div>
 
-        {/* Typography */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Typography</h4>
-          <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Bebas Neue</li>
-            <li className="font-mono text-xs text-foreground/80">Inter</li>
-            <li className="font-mono text-xs text-foreground/80">Geist Mono</li>
-          </ul>
+        {/* Connectivity */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Connectivity' />
+          <ColumnItems
+            items={[
+              { id: 'multi-chain', name: 'Multi Chain' },
+              { id: 'multi-coin', name: 'Multi Coin' },
+              { id: 'multi-currency', name: 'Multi Currency' }
+            ]}
+          />
         </div>
 
-        {/* Location */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Location</h4>
-          <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Remote</li>
-            <li className="font-mono text-xs text-foreground/80">Everywhere</li>
-          </ul>
+        {/* Checkout Logic */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Checkout' />
+          <ColumnItems
+            items={[
+              { id: 'txhash-verification', name: 'Txhash verification' },
+              { id: 'transaction-based', name: 'Transaction-based routing' }
+            ]}
+          />
         </div>
 
-        {/* Contact */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Contact</h4>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="mailto:hello@signal.studio"
-                className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
-              >
-                Email
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
-              >
-                Twitter/X
-              </a>
-            </li>
-          </ul>
+        {/* Business Impact */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Business Impact' />
+          <ColumnItems
+            items={[
+              { id: 'instant-payouts', name: 'Instant Payouts' },
+              { id: 'multi-layer-security', name: 'Multi-Layer Security' }
+            ]}
+          />
         </div>
 
-        {/* Year */}
-        <div className="col-span-1">
-          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Year</h4>
-          <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">2025</li>
-            <li className="font-mono text-xs text-foreground/80">Ongoing</li>
-          </ul>
+        {/* Ideal Fit */}
+        <div className='col-span-1'>
+          <ColumnHeader title='Ideal Fit' />
+          <ColumnItems
+            items={[
+              { id: 'instant-payouts', name: 'Instant Payouts' },
+              { id: 'ecommerce-marketplaces', name: 'E-commerce & marketplaces' }
+            ]}
+          />
         </div>
       </div>
 
       {/* Bottom copyright */}
       <div
         ref={footerRef}
-        className="mt-24 pt-8 border-t border-border/20 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-      >
-        <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
-          © 2025 Signal. All rights reserved.
+        className='mt-24 pt-8 border-t border-border/20 flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+        <p className='font-ios font-light text-xs text-muted-foreground uppercase tracking-widest'>
+          © 2026 c-layer. All rights reserved.
         </p>
-        <p className="font-mono text-[10px] text-muted-foreground">Designed with intention. Built with precision.</p>
+        <p className='font-ios font-light text-xs uppercase text-foreground/40 tracking-widest'>
+          Designed to Scale Fast
+        </p>
       </div>
     </section>
+  )
+}
+
+const ColumnHeader = ({ title }: { title: string }) => {
+  return (
+    <h4 className='font-ios font-extrabold text-[9px] uppercase tracking-[0.25em] text-slate-300/35 mb-4'>{title}</h4>
+  )
+}
+
+const ColumnItems = ({ items }: { items: { id: string; name: string }[] }) => {
+  return (
+    <ul className='space-y-2.5'>
+      {items.map((item) => (
+        <li key={item.id} className='font-ct font-medium text-xs text-foreground/80 tracking-widest'>
+          {item.name}
+        </li>
+      ))}
+    </ul>
   )
 }

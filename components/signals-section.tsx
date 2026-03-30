@@ -1,38 +1,40 @@
-"use client"
+'use client'
 
-import { useRef, useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { cn } from '@/lib/utils'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
+import { SectionHeader } from './section-header'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const signals = [
+const coverageItems = [
   {
-    date: "2025.06.10",
-    title: "Signal Field",
-    note: "New interface paradigm for ambient computing environments.",
+    label: 'CORE',
+    title: 'Card Payments',
+    note: 'Accept debit and credit card payments through connected gateways and processors from one integration layer.'
   },
   {
-    date: "2025.05.28",
-    title: "Silent Agent",
-    note: "Orchestration layer for autonomous design systems.",
+    label: 'WEB3',
+    title: 'Crypto / Web3',
+    note: 'Extend checkout with digital-asset payment options for customers operating in crypto-native commerce flows.'
   },
   {
-    date: "2025.05.15",
-    title: "Noir Grid",
-    note: "Typographic system for editorial interfaces.",
+    label: 'WALLET',
+    title: 'E-Wallets',
+    note: 'Offer familiar wallet experiences that match customer preference and improve local conversion performance.'
   },
+  // {
+  //   label: 'BANK',
+  //   title: 'Bank Transfers',
+  //   note: 'Support account-based payment methods for businesses that need direct transfer and settlement flexibility.'
+  // },
   {
-    date: "2025.04.30",
-    title: "Project Lattice",
-    note: "Structural framework for adaptive layouts.",
-  },
-  {
-    date: "2025.04.12",
-    title: "Echo Chamber",
-    note: "Audio-visual synthesis in browser environments.",
-  },
+    label: 'ROUTE',
+    title: 'Provider Routing',
+    note: 'Present the right payment option by geography, currency, transaction context, or business rules.'
+  }
 ]
 
 export function SignalsSection() {
@@ -58,21 +60,21 @@ export function SignalsSection() {
         x: x,
         y: y,
         duration: 0.5,
-        ease: "power3.out",
+        ease: 'power3.out'
       })
     }
 
     const handleMouseEnter = () => setIsHovering(true)
     const handleMouseLeave = () => setIsHovering(false)
 
-    section.addEventListener("mousemove", handleMouseMove)
-    section.addEventListener("mouseenter", handleMouseEnter)
-    section.addEventListener("mouseleave", handleMouseLeave)
+    section.addEventListener('mousemove', handleMouseMove)
+    section.addEventListener('mouseenter', handleMouseEnter)
+    section.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
-      section.removeEventListener("mousemove", handleMouseMove)
-      section.removeEventListener("mouseenter", handleMouseEnter)
-      section.removeEventListener("mouseleave", handleMouseLeave)
+      section.removeEventListener('mousemove', handleMouseMove)
+      section.removeEventListener('mouseenter', handleMouseEnter)
+      section.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
@@ -88,16 +90,16 @@ export function SignalsSection() {
           x: 0,
           opacity: 1,
           duration: 1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        },
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
       )
 
-      const cards = cardsRef.current?.querySelectorAll("article")
+      const cards = cardsRef.current?.querySelectorAll('article')
       if (cards) {
         gsap.fromTo(
           cards,
@@ -107,13 +109,13 @@ export function SignalsSection() {
             opacity: 1,
             duration: 0.8,
             stagger: 0.2,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          },
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
         )
       }
     }, sectionRef)
@@ -122,22 +124,23 @@ export function SignalsSection() {
   }, [])
 
   return (
-    <section id="signals" ref={sectionRef} className="relative py-32 pl-6 md:pl-28">
+    <section id='signals' ref={sectionRef} className='relative py-32 pl-6 md:pl-28'>
       <div
         ref={cursorRef}
         className={cn(
-          "pointer-events-none absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-50",
-          "w-12 h-12 rounded-full border-2 border-accent bg-accent",
-          "transition-opacity duration-300",
-          isHovering ? "opacity-100" : "opacity-0",
-        )}
-      />
+          'pointer-events-none absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-50',
+          'transition-opacity duration-300',
+          isHovering ? 'opacity-100' : 'opacity-0'
+        )}>
+        <motion.div
+          animate={{ rotate: '360deg' }}
+          transition={{ repeat: Number.MAX_SAFE_INTEGER, duration: 2.5, ease: 'easeInOut' }}
+          className='w-6 h-6 rounded-full border border-accent border-dashed bg-card/40 shadow-inner'
+        />
+      </div>
 
       {/* Section header */}
-      <div ref={headerRef} className="mb-16 pr-6 md:pr-12">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">01 / Signals</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">WHAT&apos;S NEW</h2>
-      </div>
+      <SectionHeader title='Global Coverage' tag='Payments' id='01' ref={headerRef} />
 
       {/* Horizontal scroll container */}
       <div
@@ -145,10 +148,9 @@ export function SignalsSection() {
           scrollRef.current = el
           cardsRef.current = el
         }}
-        className="flex gap-8 overflow-x-auto pb-8 pr-12 scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {signals.map((signal, index) => (
+        className='flex gap-8 overflow-x-auto pb-8 pr-12 scrollbar-hide'
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {coverageItems.map((signal, index) => (
           <SignalCard key={index} signal={signal} index={index} />
         ))}
       </div>
@@ -156,53 +158,46 @@ export function SignalsSection() {
   )
 }
 
-function SignalCard({
-  signal,
-  index,
-}: {
-  signal: { date: string; title: string; note: string }
-  index: number
-}) {
+function SignalCard({ signal, index }: { signal: { label: string; title: string; note: string }; index: number }) {
   return (
     <article
       className={cn(
-        "group relative flex-shrink-0 w-80",
-        "transition-transform duration-500 ease-out",
-        "hover:-translate-y-2",
-      )}
-    >
+        'group relative shrink-0 w-96',
+        'transition-transform duration-500 ease-out',
+        'hover:-translate-y-2'
+      )}>
       {/* Card with paper texture effect */}
-      <div className="relative bg-card border border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8">
+      <div className='relative bg-card border border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8'>
         {/* Top torn edge effect */}
-        <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+        <div className='absolute -top-px left-0 right-0 h-px bg-linear-to-r from-transparent via-border to-transparent' />
 
         {/* Issue number - editorial style */}
-        <div className="flex items-baseline justify-between mb-8">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            No. {String(index + 1).padStart(2, "0")}
+        <div className='flex items-baseline justify-between mb-8'>
+          <span className='font-ios text-[8px] uppercase tracking-[0.3em] text-foreground/60'>
+            <span className='opacity-50 text-xs font-light capitalize'></span> {String(index + 1).padStart(2, '0')}
           </span>
-          <time className="font-mono text-[10px] text-muted-foreground/60">{signal.date}</time>
+          <span className='font-ios text-[8px] uppercase tracking-[0.2em] text-slate-500/60'>{signal.label}</span>
         </div>
 
         {/* Title */}
-        <h3 className="font-[var(--font-bebas)] text-4xl tracking-tight mb-4 group-hover:text-accent transition-colors duration-300">
+        <h3 className='font-ct text-xl tracking-wider mb-4 group-hover:text-accent transition-colors duration-300'>
           {signal.title}
         </h3>
 
         {/* Divider line */}
-        <div className="w-12 h-px bg-accent/60 mb-6 group-hover:w-full transition-all duration-500" />
+        <div className='w-12 h-px bg-accent/60 mb-6 group-hover:bg-border/60 group-hover:w-full transition-all duration-500' />
 
         {/* Description */}
-        <p className="font-mono text-xs text-muted-foreground leading-relaxed">{signal.note}</p>
+        <p className='font-cm text-xs text-foreground/45 text-balance leading-relaxed tracking-wide'>{signal.note}</p>
 
         {/* Bottom right corner fold effect */}
-        <div className="absolute bottom-0 right-0 w-6 h-6 overflow-hidden">
-          <div className="absolute bottom-0 right-0 w-8 h-8 bg-background rotate-45 translate-x-4 translate-y-4 border-t border-l border-border/30" />
+        <div className='absolute bottom-0 right-0 w-6 h-6 overflow-hidden'>
+          <div className='absolute bottom-0 right-0 w-8 h-8 bg-background rotate-45 translate-x-4 translate-y-4 border-t border-l group-hover:border-l-2 border-accent/10' />
         </div>
       </div>
 
       {/* Shadow/depth layer */}
-      <div className="absolute inset-0 -z-10 translate-x-1 translate-y-1 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className='absolute inset-0 -z-10 translate-x-px translate-y-px bg-accent/20 blur-[1.5px] rounded-ee-[23.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
     </article>
   )
 }

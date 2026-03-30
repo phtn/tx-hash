@@ -1,55 +1,59 @@
-"use client"
+'use client'
 
-import { useRef, useEffect } from "react"
-import { HighlightText } from "@/components/highlight-text"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { HighlightText } from '@/components/highlight-text'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef } from 'react'
+import { SectionHeader } from './section-header'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const principles = [
+  {
+    number: 'A',
+    titleParts: [
+      { text: 'UNIFIED ', highlight: false },
+      { text: 'PAYMENT ACCESS', highlight: true }
+    ],
+    description: 'Activate cards, crypto/Web3, e-wallets, and bank transfers from one operating layer.',
+    align: 'left'
+  },
+  {
+    number: 'B',
+    titleParts: [
+      { text: 'MULTI-PROVIDER ', highlight: false },
+      { text: 'CONNECTIVITY', highlight: true }
+    ],
+    description:
+      'Connect payment gateways and processors once, then expand or change providers with less engineering overhead.',
+    align: 'right'
+  },
+  {
+    number: 'C',
+    titleParts: [
+      { text: 'FLEXIBLE CHECKOUT ', highlight: false },
+      { text: 'ORCHESTRATION', highlight: true }
+    ],
+    description:
+      'Tailor payment options by customer preference, geography, supported currency, or transaction context.',
+    align: 'left'
+  },
+  {
+    number: 'D',
+    titleParts: [
+      { text: 'FUTURE-READY ', highlight: false },
+      { text: 'SCALABILITY', highlight: true }
+    ],
+    description:
+      'Support growth through a SaaS model built for new markets, new rails, and evolving commerce behavior.',
+    align: 'right'
+  }
+] as const
 
 export function PrinciplesSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const principlesRef = useRef<HTMLDivElement>(null)
-
-  const principles = [
-    {
-      number: "01",
-      titleParts: [
-        { text: "INTERFACE", highlight: true },
-        { text: " MINIMALISM", highlight: false },
-      ],
-      description: "Reduce until only the essential remains. Every element earns its place.",
-      align: "left",
-    },
-    {
-      number: "02",
-      titleParts: [
-        { text: "SYSTEMS", highlight: true },
-        { text: " OVER SCREENS", highlight: false },
-      ],
-      description: "Design behaviors, not just layouts. Build logic that scales.",
-      align: "right",
-    },
-    {
-      number: "03",
-      titleParts: [
-        { text: "CONTROLLED ", highlight: false },
-        { text: "TENSION", highlight: true },
-      ],
-      description: "Balance between restraint and expression. Confidence without excess.",
-      align: "left",
-    },
-    {
-      number: "04",
-      titleParts: [
-        { text: "SIGNAL ", highlight: false },
-        { text: "CLARITY", highlight: true },
-      ],
-      description: "Communication that cuts through noise. Precision in every interaction.",
-      align: "right",
-    },
-  ]
 
   useEffect(() => {
     if (!sectionRef.current || !headerRef.current || !principlesRef.current) return
@@ -60,28 +64,28 @@ export function PrinciplesSection() {
         x: -60,
         opacity: 0,
         duration: 1,
-        ease: "power3.out",
+        ease: 'power3.out',
         scrollTrigger: {
           trigger: headerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
+          start: 'top 85%',
+          toggleActions: 'play none none reverse'
+        }
       })
 
       // Each principle slides in from its aligned side
-      const articles = principlesRef.current?.querySelectorAll("article")
+      const articles = principlesRef.current?.querySelectorAll('article')
       articles?.forEach((article, index) => {
-        const isRight = principles[index].align === "right"
+        const isRight = principles[index].align === 'right'
         gsap.from(article, {
           x: isRight ? 80 : -80,
           opacity: 0,
           duration: 1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: article,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
         })
       })
     }, sectionRef)
@@ -90,46 +94,44 @@ export function PrinciplesSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="principles" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id='principles' className='relative py-32 pl-6 md:pl-28 pr-6 md:pr-12'>
       {/* Section header */}
-      <div ref={headerRef} className="mb-24">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 / Principles</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">HOW WE WORK</h2>
-      </div>
+      <SectionHeader title='Core Technologies' tag='capabilities' id='03' ref={headerRef} />
 
       {/* Staggered principles */}
-      <div ref={principlesRef} className="space-y-24 md:space-y-32">
+      <div ref={principlesRef} className='space-y-24 md:space-y-32'>
         {principles.map((principle, index) => (
           <article
             key={index}
             className={`flex flex-col ${
-              principle.align === "right" ? "items-end text-right" : "items-start text-left"
-            }`}
-          >
+              principle.align === 'right' ? 'items-end text-right' : 'items-start text-left'
+            }`}>
             {/* Annotation label */}
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
-              {principle.number} / {principle.titleParts[0].text.split(" ")[0]}
+            <span className='font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4'>
+              {principle.number} / {principle.titleParts[0].text.split(' ')[0]}
             </span>
 
-            <h3 className="font-[var(--font-bebas)] text-4xl md:text-6xl lg:text-8xl tracking-tight leading-none">
+            <h3 className='font-display font-semibold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-none'>
               {principle.titleParts.map((part, i) =>
                 part.highlight ? (
                   <HighlightText key={i} parallaxSpeed={0.6}>
                     {part.text}
                   </HighlightText>
                 ) : (
-                  <span key={i}>{part.text}</span>
-                ),
+                  <span className='' key={i}>
+                    {part.text}
+                  </span>
+                )
               )}
             </h3>
 
             {/* Description */}
-            <p className="mt-6 max-w-md font-mono text-sm text-muted-foreground leading-relaxed">
+            <p className='mt-6 max-w-md font-mono text-sm text-muted-foreground leading-relaxed'>
               {principle.description}
             </p>
 
             {/* Decorative line */}
-            <div className={`mt-8 h-[1px] bg-border w-24 md:w-48 ${principle.align === "right" ? "mr-0" : "ml-0"}`} />
+            <div className={`mt-8 h-px bg-border w-24 md:w-48 ${principle.align === 'right' ? 'mr-0' : 'ml-0'}`} />
           </article>
         ))}
       </div>

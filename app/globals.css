@@ -1,7 +1,26 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: 'CText';
+  src: url('/fonts/ct.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CMono';
+  src: url('/fonts/cm.woff2') format('woff2');
+  font-weight: 300;
+  font-style: monospace;
+}
+@font-face {
+  font-family: 'Ios';
+  src: url('/fonts/ios.woff2') format('woff2');
+  font-weight: 300;
+  font-style: monospace;
+}
 
 /* Custom editorial design tokens - monochrome with orange accent */
 :root {
@@ -17,7 +36,8 @@
   --secondary-foreground: oklch(0.85 0 0);
   --muted: oklch(0.25 0 0);
   --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.7 0.2 45);
+  /*--accent: oklch(0.7 0.2 45);*/
+  --accent: oklch(0.834 0.125 66.88);
   --accent-foreground: oklch(0.08 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -37,9 +57,12 @@
 
 @theme inline {
   /* Updated font-sans and font-mono to use IBM Plex */
-  --font-sans: "IBM Plex Sans", "IBM Plex Sans Fallback", sans-serif;
-  --font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", monospace;
-  --font-display: "Bebas Neue", "Bebas Neue Fallback", sans-serif;
+  --font-sans: 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'IBM Plex Mono Fallback', monospace;
+  --font-display: 'Bebas Neue', 'Bebas Neue Fallback', sans-serif;
+  --font-ct: 'CText', Helvetica, sans-serif;
+  --font-cm: 'CMono', Menlo, monospace;
+  --font-ios: 'Ios', Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -126,7 +149,8 @@
 
 /* Grid background pattern */
 .grid-bg {
-  background-image: linear-gradient(to right, oklch(0.2 0 0) 1px, transparent 1px),
+  background-image:
+    linear-gradient(to right, oklch(0.2 0 0) 1px, transparent 1px),
     linear-gradient(to bottom, oklch(0.2 0 0) 1px, transparent 1px);
   background-size: 60px 60px;
 }

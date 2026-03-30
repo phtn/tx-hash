@@ -1,49 +1,52 @@
-"use client"
+'use client'
 
-import { useState, useRef, useEffect } from "react"
-import { cn } from "@/lib/utils"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { cn } from '@/lib/utils'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useState } from 'react'
+import { SectionHeader } from './section-header'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const experiments = [
+const useCases = [
   {
-    title: "Project Lattice",
-    medium: "Interface Study",
-    description: "Structural framework for adaptive layouts in dynamic content systems.",
-    span: "col-span-2 row-span-2",
+    title: 'E-Commerce',
+    medium: 'Checkout Conversion',
+    description: 'Offer the payment methods customers already trust without rebuilding checkout for every provider.',
+    span: 'col-span-2 row-span-2'
   },
   {
-    title: "Signal Field",
-    medium: "Agent Orchestration",
-    description: "Autonomous coordination layer for multi-agent environments.",
-    span: "col-span-1 row-span-1",
+    title: 'Marketplaces',
+    medium: 'Multi-Sided Payments',
+    description:
+      'Support varied buyer and seller preferences across payment rails, regions, and processor relationships.',
+    span: 'col-span-1 row-span-1'
   },
   {
-    title: "Silent Agent",
-    medium: "Visual System",
-    description: "Non-intrusive interface patterns for ambient computing.",
-    span: "col-span-1 row-span-2",
+    title: 'SaaS Platforms',
+    medium: 'Recurring Revenue',
+    description: 'Support subscriptions and recurring billing with payment methods that match customer preference.',
+    span: 'col-span-1 row-span-2'
   },
   {
-    title: "Noir Grid",
-    medium: "Typography",
-    description: "High-contrast typographic system for editorial interfaces.",
-    span: "col-span-1 row-span-1",
+    title: 'Global Merchants',
+    medium: 'Regional Expansion',
+    description: 'Expand into new markets with locally relevant payment options activated from one SaaS environment.',
+    span: 'col-span-1 row-span-1'
   },
   {
-    title: "Echo Chamber",
-    medium: "Audio-Visual",
-    description: "Generative soundscapes mapped to interface interactions.",
-    span: "col-span-2 row-span-1",
+    title: 'Web3 Brands',
+    medium: 'Hybrid Commerce',
+    description:
+      'Pair crypto-enabled payments with traditional rails so digital-native commerce can meet mainstream expectations.',
+    span: 'col-span-2 row-span-1'
   },
   {
-    title: "Void Protocol",
-    medium: "Experimental",
-    description: "Negative space as primary interaction medium.",
-    span: "col-span-1 row-span-1",
-  },
+    title: 'Enterprises',
+    medium: 'Payment Optionality',
+    description: 'Reduce dependence on a single provider and add or switch processors with less operational friction.',
+    span: 'col-span-1 row-span-1'
+  }
 ]
 
 export function WorkSection() {
@@ -63,16 +66,16 @@ export function WorkSection() {
           x: 0,
           opacity: 1,
           duration: 1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: headerRef.current,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        },
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+          }
+        }
       )
 
-      const cards = gridRef.current?.querySelectorAll("article")
+      const cards = gridRef.current?.querySelectorAll('article')
       if (cards && cards.length > 0) {
         gsap.set(cards, { y: 60, opacity: 0 })
         gsap.to(cards, {
@@ -80,12 +83,12 @@ export function WorkSection() {
           opacity: 1,
           duration: 0.8,
           stagger: 0.1,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: gridRef.current,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+          }
         })
       }
     }, sectionRef)
@@ -94,24 +97,15 @@ export function WorkSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="work" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id='work' className='relative py-32 pl-6 md:pl-28 pr-6 md:pr-12'>
       {/* Section header */}
-      <div ref={headerRef} className="mb-16 flex items-end justify-between">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">02 / Experiments</span>
-          <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">SELECTED WORK</h2>
-        </div>
-        <p className="hidden md:block max-w-xs font-mono text-xs text-muted-foreground text-right leading-relaxed">
-          Studies across interface design, agent systems, and visual computation.
-        </p>
-      </div>
+      <SectionHeader title='C-Layer SDK' tag='Use Cases' id='02' ref={headerRef} />
 
       {/* Asymmetric grid */}
       <div
         ref={gridRef}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[200px]"
-      >
-        {experiments.map((experiment, index) => (
+        className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[200px]'>
+        {useCases.map((experiment, index) => (
           <WorkCard key={index} experiment={experiment} index={index} persistHover={index === 0} />
         ))}
       </div>
@@ -122,7 +116,7 @@ export function WorkSection() {
 function WorkCard({
   experiment,
   index,
-  persistHover = false,
+  persistHover = false
 }: {
   experiment: {
     title: string
@@ -143,8 +137,8 @@ function WorkCard({
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: cardRef.current,
-        start: "top 80%",
-        onEnter: () => setIsScrollActive(true),
+        start: 'top 80%',
+        onEnter: () => setIsScrollActive(true)
       })
     }, cardRef)
 
@@ -157,44 +151,41 @@ function WorkCard({
     <article
       ref={cardRef}
       className={cn(
-        "group relative border border-border/40 p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden",
+        'group relative border border-border/40 p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden',
         experiment.span,
-        isActive && "border-accent/60",
+        isActive && 'border-accent/60'
       )}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+      onMouseLeave={() => setIsHovered(false)}>
       {/* Background layer */}
       <div
         className={cn(
-          "absolute inset-0 bg-accent/5 transition-opacity duration-500",
-          isActive ? "opacity-100" : "opacity-0",
+          'absolute inset-0 bg-accent/5 transition-opacity duration-500',
+          isActive ? 'opacity-100' : 'opacity-0'
         )}
       />
 
       {/* Content */}
-      <div className="relative z-10">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+      <div className='relative z-10'>
+        <span className='font-mono text-[10px] uppercase tracking-widest text-muted-foreground'>
           {experiment.medium}
         </span>
         <h3
           className={cn(
-            "mt-3 font-[var(--font-bebas)] text-2xl md:text-4xl tracking-tight transition-colors duration-300",
-            isActive ? "text-accent" : "text-foreground",
-          )}
-        >
+            'mt-3 font-display text-2xl md:text-4xl tracking-tight transition-colors duration-300',
+            isActive ? 'text-accent' : 'text-foreground'
+          )}>
           {experiment.title}
         </h3>
       </div>
 
       {/* Description - reveals on hover */}
-      <div className="relative z-10">
+      <div className='relative z-10'>
         <p
           className={cn(
-            "font-mono text-xs text-muted-foreground leading-relaxed transition-all duration-500 max-w-[280px]",
-            isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
-          )}
-        >
+            'font-mono text-xs text-muted-foreground leading-relaxed transition-all duration-500 max-w-70',
+            isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          )}>
           {experiment.description}
         </p>
       </div>
@@ -202,22 +193,20 @@ function WorkCard({
       {/* Index marker */}
       <span
         className={cn(
-          "absolute bottom-4 right-4 font-mono text-[10px] transition-colors duration-300",
-          isActive ? "text-accent" : "text-muted-foreground/40",
-        )}
-      >
-        {String(index + 1).padStart(2, "0")}
+          'absolute bottom-4 right-4 font-mono text-[10px] transition-colors duration-300',
+          isActive ? 'text-accent' : 'text-muted-foreground/40'
+        )}>
+        {String(index + 1).padStart(2, '0')}
       </span>
 
       {/* Corner line */}
       <div
         className={cn(
-          "absolute top-0 right-0 w-12 h-12 transition-all duration-500",
-          isActive ? "opacity-100" : "opacity-0",
-        )}
-      >
-        <div className="absolute top-0 right-0 w-full h-[1px] bg-accent" />
-        <div className="absolute top-0 right-0 w-[1px] h-full bg-accent" />
+          'absolute top-0 right-0 w-12 h-12 transition-all duration-500',
+          isActive ? 'opacity-100' : 'opacity-0'
+        )}>
+        <div className='absolute top-0 right-0 w-full h-px bg-accent' />
+        <div className='absolute top-0 right-0 w-px h-full bg-accent' />
       </div>
     </article>
   )
