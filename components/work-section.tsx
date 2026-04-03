@@ -167,13 +167,13 @@ function WorkCard({
 
       {/* Content */}
       <div className='relative z-10'>
-        <span className='font-mono text-[10px] uppercase tracking-widest text-muted-foreground'>
+        <span className='font-mono text-[10px] uppercase tracking-widest text-secondary-foreground/60'>
           {experiment.medium}
         </span>
         <h3
           className={cn(
             'mt-3 font-display text-2xl md:text-4xl tracking-tight transition-colors duration-300',
-            isActive ? 'text-accent' : 'text-foreground'
+            isActive ? 'text-accent' : 'text-secondary-foreground'
           )}>
           {experiment.title}
         </h3>

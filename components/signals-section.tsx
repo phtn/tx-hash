@@ -17,24 +17,25 @@ const coverageItems = [
   },
   {
     label: 'WEB3',
-    title: 'Crypto / Web3',
+    title: 'Web3',
     note: 'Extend checkout with digital-asset payment options for customers operating in crypto-native commerce flows.'
+  },
+  {
+    label: 'Crypto Commerce',
+    title: 'Crypto Commerce',
+    note: 'Support account-based payment methods for businesses that need direct transfer and settlement flexibility.'
   },
   {
     label: 'WALLET',
     title: 'E-Wallets',
     note: 'Offer familiar wallet experiences that match customer preference and improve local conversion performance.'
-  },
-  // {
-  //   label: 'BANK',
-  //   title: 'Bank Transfers',
-  //   note: 'Support account-based payment methods for businesses that need direct transfer and settlement flexibility.'
-  // },
-  {
-    label: 'ROUTE',
-    title: 'Provider Routing',
-    note: 'Present the right payment option by geography, currency, transaction context, or business rules.'
   }
+
+  // {
+  //   label: 'ROUTE',
+  //   title: 'Provider Routing',
+  //   note: 'Present the right payment option by geography, currency, transaction context, or business rules.'
+  // }
 ]
 
 export function SignalsSection() {
@@ -167,7 +168,7 @@ function SignalCard({ signal, index }: { signal: { label: string; title: string;
         'hover:-translate-y-2'
       )}>
       {/* Card with paper texture effect */}
-      <div className='relative bg-card border border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8'>
+      <div className='relative dark:bg-card bg-white border dark:border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8'>
         {/* Top torn edge effect */}
         <div className='absolute -top-px left-0 right-0 h-px bg-linear-to-r from-transparent via-border to-transparent' />
 
@@ -176,7 +177,7 @@ function SignalCard({ signal, index }: { signal: { label: string; title: string;
           <span className='font-ios text-[8px] uppercase tracking-[0.3em] text-foreground/60'>
             <span className='opacity-50 text-xs font-light capitalize'></span> {String(index + 1).padStart(2, '0')}
           </span>
-          <span className='font-ios text-[8px] uppercase tracking-[0.2em] text-slate-500/60'>{signal.label}</span>
+          <span className='font-ios text-[8px] uppercase tracking-[0.2em] dark:text-slate-500'>{signal.label}</span>
         </div>
 
         {/* Title */}

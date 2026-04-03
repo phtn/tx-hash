@@ -74,7 +74,7 @@ export function ColophonSection() {
       id='colophon'
       className='relative py-32 pl-6 md:pl-28 pr-6 md:pr-12 border-t border-border/30'>
       {/* Section header */}
-      <SectionHeader title='Snapshot' tag='SITEMAP' id='04' ref={headerRef} />
+      <SectionHeader title='C-Layer' tag='SITEMAP' id='04' ref={headerRef} />
 
       {/* Multi-column layout */}
       <div ref={gridRef} className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-12'>
@@ -153,7 +153,9 @@ export function ColophonSection() {
 
 const ColumnHeader = ({ title }: { title: string }) => {
   return (
-    <h4 className='font-ios font-extrabold text-[9px] uppercase tracking-[0.25em] text-slate-300/35 mb-4'>{title}</h4>
+    <h4 className='font-ios font-extrabold text-[9px] uppercase tracking-[0.25em] dark:text-border text-secondary-foreground mb-4'>
+      {title}
+    </h4>
   )
 }
 

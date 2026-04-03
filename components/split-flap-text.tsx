@@ -1,9 +1,11 @@
 'use client'
 
+import { Icon, type IconName } from '@/lib/icons'
 import { Volume2, VolumeX } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTheme } from 'next-themes'
 import type React from 'react'
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 
 interface AudioContextType {
   isMuted: boolean
@@ -122,15 +124,42 @@ interface SplitFlapTextProps {
   text: string
   className?: string
   speed?: number
+  size?: string
+  gap?: string
+  iconName?: IconName
 }
 
 const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')
+const CHARSET_SET = new Set(CHARSET)
+const DEFAULT_SPLIT_FLAP_SIZE = 'clamp(2rem, 10vw, 12rem)'
+const DEFAULT_SPLIT_FLAP_GAP = '0.08em'
+const DEFAULT_SPLIT_FLAP_ICON = 're-up.ph'
 
-function SplitFlapTextInner({ text, className = '', speed = 50 }: SplitFlapTextProps) {
-  const chars = useMemo(() => text.split(''), [text])
+function getRandomSplitFlapChar() {
+  return CHARSET[Math.floor(Math.random() * CHARSET.length)]
+}
+
+function SplitFlapTextInner({
+  text,
+  className = '',
+  speed = 50,
+  size = DEFAULT_SPLIT_FLAP_SIZE,
+  gap = DEFAULT_SPLIT_FLAP_GAP,
+  iconName = DEFAULT_SPLIT_FLAP_ICON
+}: SplitFlapTextProps) {
+  const chars = useMemo(() => text.toUpperCase().split(''), [text])
   const [animationKey, setAnimationKey] = useState(0)
   const [hasInitialized, setHasInitialized] = useState(false)
   const audio = useSplitFlapAudio()
+  const containerStyle = useMemo(
+    () =>
+      ({
+        perspective: '1000px',
+        fontSize: size,
+        gap
+      }) satisfies React.CSSProperties,
+    [gap, size]
+  )
 
   const handleMouseEnter = useCallback(() => {
     setAnimationKey((prev) => prev + 1)
@@ -145,18 +174,19 @@ function SplitFlapTextInner({ text, className = '', speed = 50 }: SplitFlapTextP
 
   return (
     <div
-      className={`inline-flex gap-[0.08em] items-center cursor-pointer ${className}`}
+      className={`inline-flex items-center cursor-pointer ${className}`}
       aria-label={text}
       onMouseEnter={handleMouseEnter}
-      style={{ perspective: '1000px' }}>
+      style={containerStyle}>
       {chars.map((char, index) => (
         <SplitFlapChar
           key={index}
-          char={char.toUpperCase()}
+          char={char}
           index={index}
           animationKey={animationKey}
           skipEntrance={hasInitialized}
           speed={speed}
+          iconName={iconName}
           playClick={audio?.playClick}
         />
       ))}
@@ -174,21 +204,40 @@ interface SplitFlapCharProps {
   animationKey: number
   skipEntrance: boolean
   speed: number
+  iconName: IconName
   playClick?: () => void
 }
 
-function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playClick }: SplitFlapCharProps) {
-  const displayChar = CHARSET.includes(char) ? char : ' '
+function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, iconName, playClick }: SplitFlapCharProps) {
+  const isIcon = char === '*'
+  const displayChar = CHARSET_SET.has(char) ? char : ' '
   const isSpace = char === ' '
   const [currentChar, setCurrentChar] = useState(skipEntrance ? displayChar : ' ')
   const [isSettled, setIsSettled] = useState(skipEntrance)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const triggerClickSound = useEffectEvent(() => {
+    playClick?.()
+  })
+
+  const { theme } = useTheme()
 
   const tileDelay = 0.15 * index
 
-  const bgColor = isSettled ? 'hsl(0, 0%, 0%)' : 'rgba(249, 115, 22, 0.2)'
-  const textColor = isSettled ? '#ffffff' : '#f97316'
+  const bgColor = isSettled
+    ? theme === 'light'
+      ? 'hsl(46.66 18% 90%)'
+      : 'transparent'
+    : theme === 'light'
+      ? 'hsl(219.23, 10%, 80%)'
+      : 'hsl(219.23, 10%, 20%)'
+  const textColor = isSettled
+    ? theme === 'light'
+      ? 'hsl(7.35 100% 60%)'
+      : 'hsl(31.06 90% 69%)'
+    : theme === 'light'
+      ? 'hsl(7.35 100% 60%)'
+      : 'hsl(31.06 90% 69%)'
 
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
@@ -201,7 +250,7 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
     }
 
     setIsSettled(false)
-    setCurrentChar(CHARSET[Math.floor(Math.random() * CHARSET.length)])
+    setCurrentChar(getRandomSplitFlapChar())
 
     const baseFlips = 4
     const startDelay = skipEntrance ? tileDelay * 300 : tileDelay * 800
@@ -217,11 +266,11 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
           if (intervalRef.current) clearInterval(intervalRef.current)
           setCurrentChar(displayChar)
           setIsSettled(true)
-          if (playClick) playClick()
+          triggerClickSound()
           return
         }
-        setCurrentChar(CHARSET[Math.floor(Math.random() * CHARSET.length)])
-        if (flipIndex % 2 === 0 && playClick) playClick()
+        setCurrentChar(getRandomSplitFlapChar())
+        if (flipIndex % 2 === 0) triggerClickSound()
         flipIndex++
       }, speed)
     }, startDelay)
@@ -230,18 +279,20 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
       if (intervalRef.current) clearInterval(intervalRef.current)
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [displayChar, isSpace, tileDelay, animationKey, skipEntrance, index, speed, playClick])
+  }, [displayChar, isSpace, tileDelay, animationKey, skipEntrance, index, speed])
 
   if (isSpace) {
     return (
       <div
         style={{
           width: '0.1em',
-          fontSize: 'clamp(1rem, 10vw, 6rem)'
+          fontSize: '1em'
         }}
       />
     )
   }
+
+  const showIcon = isIcon && isSettled
 
   return (
     <motion.div
@@ -250,9 +301,9 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
       transition={{ delay: tileDelay, duration: 0.3, ease: 'easeOut' }}
       className='relative overflow-hidden flex items-center justify-center font-display'
       style={{
-        fontSize: 'clamp(2rem, 10vw, 10rem)',
+        fontSize: '1em',
         width: '0.65em',
-        height: '1.05em',
+        height: '0.90em',
         backgroundColor: bgColor,
         transformStyle: 'preserve-3d',
         transition: 'background-color 0.15s ease'
@@ -260,19 +311,27 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
       <div className='absolute inset-x-0 top-1/2 h-px bg-black/20 pointer-events-none z-10' />
 
       <div className='absolute inset-x-0 top-0 bottom-1/2 flex items-end justify-center overflow-hidden'>
-        <span
-          className='block translate-y-[0.52em] leading-none transition-colors duration-150'
-          style={{ color: textColor }}>
-          {currentChar}
-        </span>
+        {showIcon ? (
+          <SplitFlapIconFace iconName={iconName} color={textColor} position='top' />
+        ) : (
+          <span
+            className='block translate-y-[0.52em] leading-none transition-colors duration-150'
+            style={{ color: textColor }}>
+            {currentChar}
+          </span>
+        )}
       </div>
 
       <div className='absolute inset-x-0 top-1/2 bottom-0 flex items-start justify-center overflow-hidden'>
-        <span
-          className='-translate-y-[0.52em] leading-none transition-colors duration-150'
-          style={{ color: textColor }}>
-          {currentChar}
-        </span>
+        {showIcon ? (
+          <SplitFlapIconFace iconName={iconName} color={textColor} position='bottom' />
+        ) : (
+          <span
+            className='-translate-y-[0.48em] leading-none transition-colors duration-150'
+            style={{ color: textColor }}>
+            {currentChar}
+          </span>
+        )}
       </div>
 
       <motion.div
@@ -280,7 +339,7 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
         initial={{ rotateX: -90 }}
         animate={{ rotateX: 0 }}
         transition={{
-          delay: skipEntrance ? tileDelay * 0.5 : tileDelay + 0.15,
+          delay: skipEntrance ? tileDelay * 0.6 : tileDelay + 0.12,
           duration: 0.25,
           ease: [0.22, 0.61, 0.36, 1]
         }}
@@ -292,13 +351,37 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
           transition: 'background-color 0.15s ease'
         }}>
         <div className='flex h-full items-end justify-center'>
-          <span
-            className='translate-y-[0.52em] leading-none transition-colors duration-150'
-            style={{ color: textColor }}>
-            {currentChar}
-          </span>
+          {showIcon ? (
+            <SplitFlapIconFace iconName={iconName} color={textColor} position='top' />
+          ) : (
+            <span
+              className='translate-y-[0.52em] leading-none transition-colors duration-150'
+              style={{ color: textColor }}>
+              {currentChar}
+            </span>
+          )}
         </div>
       </motion.div>
     </motion.div>
+  )
+}
+
+function SplitFlapIconFace({
+  iconName,
+  color,
+  position
+}: {
+  iconName: IconName
+  color: string
+  position: 'top' | 'bottom'
+}) {
+  return (
+    <div
+      className={`flex h-[0.9em] w-full items-center justify-center ${
+        position === 'top' ? 'translate-y-[0.45em]' : '-translate-y-[0.45em]'
+      }`}
+      aria-hidden='true'>
+      <Icon name={iconName} className='size-8 text-secondary-foreground shrink-0' />
+    </div>
   )
 }

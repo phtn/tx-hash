@@ -48,7 +48,7 @@ export function HeroSection() {
       <div ref={contentRef} className='flex-1 w-full'>
         <SplitFlapAudioProvider>
           <div className='relative'>
-            <SplitFlapText text='C_LAYER' speed={64} />
+            <SplitFlapText text='C*LAYER' speed={64} size='4rem' iconName='hot' />
             <div className='mt-4'>
               <SplitFlapMuteToggle />
             </div>

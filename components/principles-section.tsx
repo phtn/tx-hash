@@ -107,11 +107,11 @@ export function PrinciplesSection() {
               principle.align === 'right' ? 'items-end text-right' : 'items-start text-left'
             }`}>
             {/* Annotation label */}
-            <span className='font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4'>
+            <span className='font-mono text-[10px] uppercase tracking-[0.3em] text-secondary-foreground/60 mb-4'>
               {principle.number} / {principle.titleParts[0].text.split(' ')[0]}
             </span>
 
-            <h3 className='font-display font-semibold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-none'>
+            <h3 className='font-display font-semibold space-x-8 text-4xl md:text-6xl lg:text-7xl tracking-tight leading-none flex items-center text-secondary-foreground'>
               {principle.titleParts.map((part, i) =>
                 part.highlight ? (
                   <HighlightText key={i} parallaxSpeed={0.6}>
@@ -126,7 +126,7 @@ export function PrinciplesSection() {
             </h3>
 
             {/* Description */}
-            <p className='mt-6 max-w-md font-mono text-sm text-muted-foreground leading-relaxed'>
+            <p className='mt-6 max-w-md font-mono text-sm text-secondary-foreground/60 leading-relaxed'>
               {principle.description}
             </p>
 

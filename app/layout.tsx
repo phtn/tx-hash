@@ -1,4 +1,5 @@
 import { SmoothScroll } from '@/components/smooth-scroll'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Bebas_Neue, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
@@ -47,12 +48,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' className='dark bg-background'>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}>
-        <div className='noise-overlay' aria-hidden='true' />
-        <SmoothScroll>{children}</SmoothScroll>
-        <Analytics />
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+          <div className='noise-overlay' aria-hidden='true' />
+          <SmoothScroll>{children}</SmoothScroll>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

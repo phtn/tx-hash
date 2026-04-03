@@ -73,20 +73,20 @@ export function HighlightText({ children, className = '', parallaxSpeed = 0.3 }:
   }, [parallaxSpeed])
 
   return (
-    <span ref={containerRef} className={`relative inline-block ${className}`}>
+    <span ref={containerRef} className={`relative flex items-center h-20 ${className}`}>
       <span
         ref={highlightRef}
-        className='absolute inset-0 bg-accent'
+        className='absolute inset-0 bg-accent '
         style={{
-          left: '-0.1em',
-          right: '-0.1em',
+          left: '-0.15em',
+          right: '-0.15em',
           top: '0.1em',
-          bottom: '0.1em',
+          bottom: '0.025em',
           transform: 'scaleX(0)',
           transformOrigin: 'left center'
         }}
       />
-      <span ref={textRef} className='relative z-10'>
+      <span ref={textRef} className='relative z-10 dark:text-background! text-background! drop-shadow-sm'>
         {children}
       </span>
     </span>
