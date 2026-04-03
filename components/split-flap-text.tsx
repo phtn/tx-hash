@@ -233,7 +233,7 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, iconNam
       : 'hsl(219.23, 10%, 20%)'
   const textColor = isSettled
     ? theme === 'light'
-      ? 'hsl(7.35 100% 60%)'
+      ? 'oklch(0.669 0.219 31.14)'
       : 'hsl(31.06 90% 69%)'
     : theme === 'light'
       ? 'hsl(7.35 100% 60%)'
@@ -355,7 +355,7 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, iconNam
             <SplitFlapIconFace iconName={iconName} color={textColor} position='top' />
           ) : (
             <span
-              className='translate-y-[0.52em] leading-none transition-colors duration-150'
+              className='translate-y-[0.52em] leading-none transition-colors duration-150 opacity-60'
               style={{ color: textColor }}>
               {currentChar}
             </span>

@@ -48,7 +48,7 @@ export function HeroSection() {
       <div ref={contentRef} className='flex-1 w-full'>
         <SplitFlapAudioProvider>
           <div className='relative'>
-            <SplitFlapText text='C*LAYER' speed={64} size='4rem' iconName='hot' />
+            <SplitFlapText text='tx*hash' speed={64} size='4rem' iconName='hot' />
             <div className='mt-4'>
               <SplitFlapMuteToggle />
             </div>
@@ -56,11 +56,13 @@ export function HeroSection() {
         </SplitFlapAudioProvider>
 
         <h2 className='_text-[clamp(1rem,3vw,2rem)] my-2'>
-          <span className='font-ct font-medium text-2xl tracking-wider'>One platform. Every payment path.</span>
+          <span className='font-ct font-medium text-2xl tracking-wider'>Continuum</span>
         </h2>
 
         <p className='mt-2 max-w-md font-mono text-sm text-muted-foreground leading-relaxed'>
-          Connect to multiple payment gateways and processors through one platform.
+          The Time–space continuum warp is a metaphysical and physiological concept developed by John Whitman Ray
+          (1931–2001), the founder of Body Electronics, a healing modality emphasizing self-regeneration through
+          techniques such as point holding and consciousness elevation.
           {/*Launch cards, crypto/Web3,
                     e-wallets, and bank transfers without stitching together separate systems.*/}
         </p>
