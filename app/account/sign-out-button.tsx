@@ -1,0 +1,47 @@
+'use client'
+
+import { signOutUser } from '@/lib/firebase/auth'
+import { clearFirebaseSession } from '@/lib/firebase/session'
+import { Button } from '@heroui/react'
+import { LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+export function SignOutButton() {
+  const router = useRouter()
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const [signOutError, setSignOutError] = useState<string | null>(null)
+
+  const handleSignOut = async () => {
+    setSignOutError(null)
+    setIsSigningOut(true)
+
+    try {
+      await clearFirebaseSession()
+      await signOutUser()
+      router.replace('/')
+    } catch (error) {
+      setSignOutError(error instanceof Error ? error.message : 'Unable to sign out right now.')
+    } finally {
+      setIsSigningOut(false)
+    }
+  }
+
+  return (
+    <div className='flex flex-col items-start'>
+      <Button
+        type='button'
+        variant='danger'
+        isPending={isSigningOut}
+        isDisabled={isSigningOut}
+        onPress={handleSignOut}
+        className='inline-flex w-full items-center justify-center gap-2'>
+        <LogOut className='size-4' />
+        Sign out
+      </Button>
+      {signOutError ? (
+        <p className='max-w-sm font-mono text-[10px] uppercase tracking-[0.24em] text-destructive'>{signOutError}</p>
+      ) : null}
+    </div>
+  )
+}

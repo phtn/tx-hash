@@ -1,18 +1,27 @@
 'use client'
 
 import { AnimatedNoise } from '@/components/animated-noise'
-import { BitmapChevron } from '@/components/bitmap-chevron'
 import { ScrambleTextOnHover } from '@/components/scramble-text'
 import { SplitFlapAudioProvider, SplitFlapMuteToggle, SplitFlapText } from '@/components/split-flap-text'
+import { signInWithGoogle, signOutUser, useFirebaseUser } from '@/lib/firebase/auth'
+import { isFirebaseConfigured } from '@/lib/firebase/config'
+import { createFirebaseSession } from '@/lib/firebase/session'
+import { Icon } from '@/lib/icons'
+import { Button } from '@heroui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+  const { isLoading, user } = useFirebaseUser()
+  const [isSigningIn, setIsSigningIn] = useState(false)
+  const [signInError, setSignInError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!sectionRef.current || !contentRef.current) return
@@ -33,9 +42,47 @@ export function HeroSection() {
     return () => ctx.revert()
   }, [])
 
+  useEffect(() => {
+    router.prefetch('/account')
+  }, [router])
+
+  const handlePrimaryAction = async () => {
+    if (user) {
+      router.push('/account')
+      return
+    }
+
+    setSignInError(null)
+    setIsSigningIn(true)
+    let didSignIn = false
+
+    try {
+      const credential = await signInWithGoogle()
+      didSignIn = true
+      await createFirebaseSession(await credential.user.getIdToken(true))
+      router.push('/account')
+    } catch (error) {
+      if (didSignIn) {
+        await signOutUser().catch(() => undefined)
+      }
+
+      setSignInError(error instanceof Error ? error.message : 'Google sign-in failed. Please try again.')
+    } finally {
+      setIsSigningIn(false)
+    }
+  }
+
+  const signInLabel = isLoading
+    ? 'Checking session...'
+    : isSigningIn
+      ? 'Connecting...'
+      : user
+        ? 'Open account'
+        : 'Sign in with Google'
+
   return (
     <section ref={sectionRef} id='hero' className='relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12'>
-      <AnimatedNoise opacity={0.02} />
+      <AnimatedNoise opacity={0.02} className='hidden' />
 
       {/* Left vertical labels */}
       <div className='absolute left-3 md:left-6 top-1/2 -translate-y-1/2'>
@@ -45,35 +92,38 @@ export function HeroSection() {
       </div>
 
       {/* Main content */}
-      <div ref={contentRef} className='flex-1 w-full'>
+      <div ref={contentRef} className='flex flex-col items-center flex-1 justify-center w-full'>
         <SplitFlapAudioProvider>
           <div className='relative'>
             <SplitFlapText text='tx*hash' speed={64} size='4rem' iconName='hot' />
-            <div className='mt-4'>
+            <div className='mt-4 hidden'>
               <SplitFlapMuteToggle />
             </div>
           </div>
         </SplitFlapAudioProvider>
 
-        <h2 className='_text-[clamp(1rem,3vw,2rem)] my-2'>
-          <span className='font-ct font-medium text-2xl tracking-wider'>Continuum</span>
-        </h2>
-
-        <p className='mt-2 max-w-md font-mono text-sm text-muted-foreground leading-relaxed'>
-          The Time–space continuum warp is a metaphysical and physiological concept developed by John Whitman Ray
-          (1931–2001), the founder of Body Electronics, a healing modality emphasizing self-regeneration through
-          techniques such as point holding and consciousness elevation.
-          {/*Launch cards, crypto/Web3,
-                    e-wallets, and bank transfers without stitching together separate systems.*/}
-        </p>
-
-        <div className='mt-16 flex items-center gap-8'>
-          <a
-            href='#work'
-            className='group inline-flex items-center gap-4 border border-foreground/20 px-6 py-3 font-mono text-xs uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200'>
-            <ScrambleTextOnHover text='Get Started' as='span' duration={0.6} />
-            <BitmapChevron className='transition-transform duration-400 size-4 ease-in-out group-hover:rotate-45' />
-          </a>
+        <div className='relative z-200 flex w-full flex-col items-center justify-center'>
+          <Button
+            type='button'
+            variant='outline'
+            isPending={isSigningIn}
+            isDisabled={!isFirebaseConfigured || isSigningIn || isLoading}
+            onPress={handlePrimaryAction}
+            className='group inline-flex w-full max-w-[24rem] items-center justify-center gap-4 border border-accent/20 px-6 py-3 font-mono bg-accent text-background transition-all duration-200 text-base uppercase tracking-widest dark:bg-white dark:hover:border-accent hover:border-foreground dark:hover:bg-foreground hover:bg-foreground hover:text-white dark:hover:text-background'>
+            <ScrambleTextOnHover text={signInLabel} as='span' duration={0.6} />
+            <Icon name='arrow-right' className='size-4' />
+            {/*<BitmapChevron className='transition-transform duration-400 size-4 ease-in-out group-hover:rotate-45' />*/}
+          </Button>
+          {!isFirebaseConfigured ? (
+            <p className='mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground'>
+              Firebase auth config is missing.
+            </p>
+          ) : null}
+          {signInError ? (
+            <p className='mt-2 max-w-sm text-center font-mono text-[10px] uppercase tracking-[0.24em] text-destructive'>
+              {signInError}
+            </p>
+          ) : null}
           {/*<a
             href='#signals'
             className='font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-200'>

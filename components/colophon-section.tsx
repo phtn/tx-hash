@@ -72,7 +72,7 @@ export function ColophonSection() {
     <section
       ref={sectionRef}
       id='colophon'
-      className='relative py-32 pl-6 md:pl-28 pr-6 md:pr-12 border-t border-border/30'>
+      className='relative pt-32 pl-6 md:pl-28 pr-6 md:pr-12 border-t border-border/30'>
       {/* Section header */}
       <SectionHeader title='C-Layer' tag='SITEMAP' id='04' ref={headerRef} />
 
