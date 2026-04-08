@@ -1,7 +1,8 @@
 'use client'
 
-import { Button } from '@heroui/react'
-import { MoonStar, SunMedium } from 'lucide-react'
+import { Icon } from '@/lib/icons'
+import { cn } from '@/lib/utils'
+import { Button } from '@base-ui/react/button'
 import { useTheme } from 'next-themes'
 import { useSyncExternalStore } from 'react'
 
@@ -20,12 +21,11 @@ export function ThemeToggle() {
   return (
     <Button
       type='button'
-      onPress={() => setTheme(isDark ? 'light' : 'dark')}
-      variant='outline'
-      className='fixed right-4 top-4 z-[1100] inline-flex items-center gap-2 border-border/70 bg-background/80 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.24em] text-foreground backdrop-blur-sm transition-colors duration-200 hover:border-accent hover:text-accent md:right-8 md:top-8'
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className='fixed right-4 top-4 z-1100 inline-flex items-center justify-center text-background font-mono text-xs uppercase tracking-[0.24em] transition-colors duration-200 hover:text-accent md:right-8 md:top-8 size-6'
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
-      {isDark ? <SunMedium className='size-4' /> : <MoonStar className='size-4' />}
-      <span>{isDark ? 'Light' : 'Dark'}</span>
+      <Icon name='hot' className={cn('text-accent size-4 m-auto', {})} />
+      {/*<span>{isDark ? 'Light' : 'Dark'}</span>*/}
     </Button>
   )
 }

@@ -1,44 +1,28 @@
-import {cn} from '@/lib/utils'
-import {
-  startTransition,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { cn } from '@/lib/utils'
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import {config} from '@/ctx/wagmi/config'
-import {useCrypto} from '@/hooks/use-crypto'
-import {Icon} from '@/lib/icons'
-import {useAppKitAccount} from '@reown/appkit/react'
-import {getBalance} from '@wagmi/core'
-import {formatUnits, isAddress} from 'viem'
-import {
-  polygon,
-  polygonAmoy,
-  sepolia,
-  zeroGGalileoTestnet,
-  zeroGMainnet,
-} from 'viem/chains'
-import {useChainId, useChains} from 'wagmi'
+import { config } from '@/ctx/wagmi/config'
+import { useCrypto } from '@/hooks/use-crypto'
+import { useAppKitAccount } from '@reown/appkit/react'
+import { getBalance } from '@wagmi/core'
+import { formatUnits, isAddress } from 'viem'
+import { polygon, polygonAmoy, sepolia, zeroGGalileoTestnet, zeroGMainnet } from 'viem/chains'
+import { useChainId, useChains } from 'wagmi'
+import { Icon } from '../icons'
 
-type AllowedNet = 'eth' | 'sepolia' | 'polygon' | 'amoy' | 'zeroG' | 'galileo'
+type AllowedNet = 'eth' | 'sepolia' | 'polygon' | 'amoy' | 'bitcoin'
 
 export const WalletComponent = () => {
-  const {address} = useAppKitAccount({namespace: 'eip155'})
+  const { address } = useAppKitAccount({ namespace: 'eip155' })
   const evmAddress = useMemo(() => {
     if (!address) return undefined
     return isAddress(address) ? address : undefined
   }, [address])
-  const {getBySymbol} = useCrypto()
+  const { getBySymbol } = useCrypto()
   const chainId = useChainId()
   const chains = useChains()
 
-  const currentChain = useMemo(
-    () => chains.find((chain) => chain.id === chainId),
-    [chains, chainId],
-  )
+  const currentChain = useMemo(() => chains.find((chain) => chain.id === chainId), [chains, chainId])
   // const networkName = useMemo(() => currentChain?.name ?? 'Unknown', [currentChain])
   const nc = currentChain?.nativeCurrency.symbol
   const chainBalId = useMemo(() => {
@@ -56,8 +40,6 @@ export const WalletComponent = () => {
     if (chainId === sepolia.id) return 'sepolia'
     if (chainId === polygon.id) return 'polygon'
     if (chainId === polygonAmoy.id) return 'amoy'
-    if (chainId === zeroGMainnet.id) return 'zeroG'
-    if (chainId === zeroGGalileoTestnet.id) return 'galileo'
     return null
   }, [chainId])
 
@@ -66,7 +48,7 @@ export const WalletComponent = () => {
 
     const balance = await getBalance(config, {
       address: evmAddress,
-      chainId: chainBalId,
+      chainId: chainBalId
     })
     // formatUnits converts wei → human-readable string
     const formattedBal = formatUnits(balance.value, balance.decimals)
@@ -83,7 +65,7 @@ export const WalletComponent = () => {
       'Balance ': balanceAsNumber,
       'USD Value': usdValue,
       symbol: balance.symbol,
-      native: nc,
+      native: nc
     })
 
     return usdValue.toLocaleString('en-US', {
@@ -92,7 +74,7 @@ export const WalletComponent = () => {
       unitDisplay: 'narrow',
       maximumFractionDigits: 2,
       minimumFractionDigits: 2,
-      currencyDisplay: 'symbol',
+      currencyDisplay: 'symbol'
     })
   }, [evmAddress, chainBalId, getBySymbol, nc])
 
@@ -134,48 +116,8 @@ export const WalletComponent = () => {
   }, [evmAddress, networkId, getBal, isFetching])
 
   return (
-    <div
-      className={cn(
-        'flex items-center space-x-1 md:space-x-4 transition-transform',
-        {
-          'portrait:translate-x-0': !isFetching,
-        },
-      )}>
-      <button className='hidden btn btn-ghost hover:bg-transparent rounded-full'>
-        {isFetching ? (
-          <Icon
-            name='spinners-ring'
-            className={cn('size-3 opacity-80 text-orange-300')}
-          />
-        ) : balance ? (
-          <label className='hidden swap swap-flip'>
-            <input type='checkbox' defaultChecked />
-            <div className='font-brk md:text-lg swap-on flex items-center'>
-              {balance}
-            </div>
-            <div className='flex items-center font-space md:text-lg swap-off'>
-              <div className='font-space opacity-60'>$</div>{' '}
-              <div className='text-2xl mt-2 pl-1'>*****</div>
-            </div>
-          </label>
-        ) : (
-          <label className='hidden swap swap-flip'>
-            <input type='checkbox' defaultChecked />
-            <div className='font-space md:text-lg swap-on flex items-center'>
-              {new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-              }).format(0)}
-            </div>
-            <div className='flex items-center font-space md:text-lg swap-off'>
-              <div className='md:text-2xl mt-2'>*****</div>
-            </div>
-          </label>
-        )}
-      </button>
-      <div className='items-center flex whitespace-nowrap justify-start text-xs w-fit rounded-full overflow-hidden'>
+    <div className={cn('flex items-center')}>
+      <div className='flex items-center justify-end whitespace-nowrap text-xs pr-2 rounded-full overflow-hidden bg-[#f2f2f3] border border-dashed dark:bg-card hover:bg-[#f2f2f3]'>
         <WalletConnector />
       </div>
     </div>
@@ -184,9 +126,12 @@ export const WalletComponent = () => {
 const WalletConnector = () => {
   return <w3m-account-button balance='hide' />
 }
+const WalletAvatar = () => {
+  return <Icon name='globe' className='text-blu size-5' />
+}
 export const chainMap = {
   sepolia: sepolia.id,
   eth: 1,
   polygon: polygon.id,
-  amoy: polygonAmoy.id,
+  amoy: polygonAmoy.id
 }

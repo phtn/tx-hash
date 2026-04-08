@@ -1,14 +1,14 @@
 'use client'
 
-import {type IconNameType, icons} from '@/lib/icons/icons'
-import type {IconData, IconProps} from '@/lib/icons/types'
-import {motion, MotionProps} from 'motion/react'
-import type {FC} from 'react'
-import {cn} from '../utils'
+import { type IconNameType, icons } from '@/lib/icons/icons'
+import type { IconData, IconProps } from '@/lib/icons/types'
+import { motion, MotionProps } from 'motion/react'
+import type { FC } from 'react'
+import { cn } from '../utils'
 
 export type IconName = IconNameType
 
-export const Icon: FC<IconProps & {motionprops?: MotionProps}> = ({
+export const Icon: FC<IconProps & { motionprops?: MotionProps }> = ({
   name,
   className,
   size = 16,
@@ -22,16 +22,12 @@ export const Icon: FC<IconProps & {motionprops?: MotionProps}> = ({
     <motion.div
       suppressHydrationWarning
       {...props.motionprops}
-      className={cn(
-        props.onClick &&
-          'cursor-pointer active:scale-92 transition-transform duration-200',
-        className,
-      )}>
+      className={cn(props.onClick && 'cursor-pointer active:scale-92 transition-transform duration-200', className)}>
       <svg
         aria-hidden
         strokeWidth='1'
         suppressHydrationWarning
-        className={cn('shrink-0', {'cursor-pointer': props.onClick}, className)}
+        className={cn('shrink-0', { 'cursor-pointer': props.onClick }, className)}
         xmlns='http://www.w3.org/2000/svg'
         viewBox={icon?.viewBox ?? '0 0 24 24'}
         width={size}
@@ -41,7 +37,7 @@ export const Icon: FC<IconProps & {motionprops?: MotionProps}> = ({
         strokeLinejoin='round'
         strokeLinecap='round'
         {...props}
-        dangerouslySetInnerHTML={{__html: icon?.symbol}}
+        dangerouslySetInnerHTML={{ __html: icon?.symbol }}
       />
     </motion.div>
   )

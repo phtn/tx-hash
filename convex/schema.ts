@@ -45,4 +45,14 @@ export default defineSchema({
   })
     .index('by_userId', ['userId'])
     .index('by_contactId', ['contactId']),
+  transactions: defineTable({
+    userId: v.id('users'),
+    contactId: v.id('contacts'),
+    walletAddressId: v.id('contact_wallet_addresses'),
+    network: v.string(),
+    address: v.string(),
+    amount: v.string(),
+    note: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index('by_userId', ['userId']),
 })

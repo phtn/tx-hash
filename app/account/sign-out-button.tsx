@@ -3,7 +3,6 @@
 import { signOutUser } from '@/lib/firebase/auth'
 import { clearFirebaseSession } from '@/lib/firebase/session'
 import { Button } from '@heroui/react'
-import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -28,15 +27,15 @@ export function SignOutButton() {
   }
 
   return (
-    <div className='flex flex-col items-start'>
+    <div className='flex w-full'>
       <Button
+        fullWidth
         type='button'
         variant='danger'
         isPending={isSigningOut}
         isDisabled={isSigningOut}
         onPress={handleSignOut}
-        className='inline-flex w-full items-center justify-center gap-2'>
-        <LogOut className='size-4' />
+        className='w-full flexitems-center justify-center gap-2'>
         Sign out
       </Button>
       {signOutError ? (

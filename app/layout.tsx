@@ -1,6 +1,7 @@
 import { ConvexClientProvider } from '@/components/convex-client-provider'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { ThemeProvider } from '@/components/theme-provider'
+import WagmiContext from '@/ctx/wagmi'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Bebas_Neue, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)'
       },
       {
-        url: '/icon-bordered-2.svg',
+        url: '/icon-bordered-3.svg',
         type: 'image/svg+xml'
       }
     ],
@@ -55,13 +56,14 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body
         className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}>
-        <ConvexClientProvider>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-            <div className='noise-overlay' aria-hidden='true' />
-            <SmoothScroll>{children}</SmoothScroll>
-            <Analytics />
-          </ThemeProvider>
-        </ConvexClientProvider>
+        <WagmiContext>
+          <ConvexClientProvider>
+            <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+              <SmoothScroll>{children}</SmoothScroll>
+              <Analytics />
+            </ThemeProvider>
+          </ConvexClientProvider>
+        </WagmiContext>
       </body>
     </html>
   )

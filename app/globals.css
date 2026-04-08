@@ -172,6 +172,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-pnk: oklch(0.8624 0.0856 352.58);
   --color-blu: oklch(0.5855 0.2258 264.12);
+  --color-neo: oklch(0.9074 0.1693 124.08);
 }
 
 @layer base {

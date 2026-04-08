@@ -3,17 +3,17 @@ import { HeroSection } from '@/components/hero-section'
 import { LastLine } from '@/components/last-line'
 import { SideNav } from '@/components/side-nav'
 import { ThemeToggle } from '@/components/theme-toggle'
-// tx-hash
+
 export default function Page() {
   return (
-    <main className='relative min-h-screen'>
+    <div className='relative'>
       <SideNav />
       <ThemeToggle />
-      <div className='relative z-10'>
+      <main className='relative z-10'>
         <HeroSection />
         <LastLine />
         <ColophonSection />
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }

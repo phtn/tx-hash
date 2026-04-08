@@ -1,5 +1,5 @@
-import type {CryptoApiResponse, CryptoQuote} from '@/app/api/crypto/types'
-import {useCallback, useEffect, useState, useTransition} from 'react'
+import type { CryptoApiResponse, CryptoQuote } from '@/app/api/crypto/types'
+import { useCallback, useEffect, useState, useTransition } from 'react'
 
 interface UseCryptoOptions {
   /** Automatically fetch on mount. Default: true */
@@ -24,7 +24,7 @@ interface UseCryptoReturn {
 }
 
 export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
-  const {autoFetch = true, pollInterval = 0} = options
+  const { autoFetch = true, pollInterval = 0 } = options
 
   const [data, setData] = useState<CryptoQuote[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -34,7 +34,7 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
   const fetchCrypto = useCallback(() => {
     startTransition(async () => {
       try {
-        const response = await fetch('/api/crypto')
+        const response = await fetch('/api/crypto/quotes')
         const result: CryptoApiResponse = await response.json()
 
         if (result.success) {
@@ -45,9 +45,7 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
           setError(result.error ?? 'Failed to fetch cryptocurrency data')
         }
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'An unexpected error occurred',
-        )
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred')
       }
     })
   }, [])
@@ -55,12 +53,9 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
   const getBySymbol = useCallback(
     (symbol: string): CryptoQuote | null => {
       const upperSymbol = symbol.toUpperCase()
-      return (
-        data.find((crypto) => crypto.symbol.toUpperCase() === upperSymbol) ??
-        null
-      )
+      return data.find((crypto) => crypto.symbol.toUpperCase() === upperSymbol) ?? null
     },
-    [data],
+    [data]
   )
 
   // Auto-fetch on mount
@@ -84,6 +79,6 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
     error,
     lastUpdated,
     refetch: fetchCrypto,
-    getBySymbol,
+    getBySymbol
   }
 }

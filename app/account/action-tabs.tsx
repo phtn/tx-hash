@@ -1,11 +1,12 @@
 'use client'
 
 import { AddressBook } from '@/app/account/address-book'
+import { SendPanel } from '@/app/account/send-panel'
 import { Icon } from '@/lib/icons'
 import { IconName } from '@/lib/icons/types'
 import { cn } from '@/lib/utils'
 import { Tabs } from '@base-ui/react/tabs'
-import { ReactNode, useMemo } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 
 interface ActionTab {
   id: string
@@ -17,6 +18,8 @@ interface ActionTab {
 }
 
 export const ActionTabs = () => {
+  const [activeTab, setActiveTab] = useState('')
+  const handleTabChange = (tab: string) => setActiveTab(tab)
   const tabs = useMemo(
     () =>
       [
@@ -25,21 +28,16 @@ export const ActionTabs = () => {
           label: 'Receive',
           icon: 'money-receive-circle',
           tone: 'bg-emerald-100/1 backdrop-blur-xl text-slate-800',
-          iconTone: 'bg-white/0'
-        },
-        {
-          id: 'swap',
-          label: 'Swap',
-          icon: 'money-send',
-          tone: 'bg-slate-100/1 backdrop-blur-xl text-slate-800',
-          iconTone: 'bg-white/0'
+          iconTone: 'bg-white/0',
+          panel: <div className='h-96 w-full bg-neo rounded-[16.01px]' />
         },
         {
           id: 'send',
           label: 'Send',
           icon: 'money-send-square',
           tone: 'bg-blue-100/1 backdrop-blur-xl dark:text-accent text-slate-800',
-          iconTone: 'bg-white/0'
+          iconTone: 'bg-white/0',
+          panel: <SendPanel />
         },
         {
           id: 'contacts',
@@ -60,24 +58,31 @@ export const ActionTabs = () => {
     []
   )
   return (
-    <Tabs.Root className='relative flex min-w-0 w-full max-w-full flex-col gap-4 sm:gap-0 z-10'>
-      <div className='w-full overflow-x-auto md:px-3 sm:mx-0 sm:px-0'>
-        <Tabs.List
-          aria-label='action-bar'
-          className='relative z-0 flex w-max min-w-full flex-nowrap gap-4 overflow-visible p-2 md:gap-4 md:px-0'>
+    <Tabs.Root value={activeTab} onValueChange={handleTabChange} className='relative flex min-w-0 w-full flex-col'>
+      <div className='w-full flex items-center'>
+        <Tabs.List aria-label='action-bar' className='relative z-0 flex flex-col overflow-visible w-full'>
           {tabs.map((tab) => (
             <Tabs.Tab
               key={tab.id}
               value={tab.id}
-              className={cn('flex h-16 w-18 flex-col items-center justify-center rounded-[10px] px-4', tab.tone)}>
-              <Icon name={tab.icon} className='size-6' />
+              className={cn('flex items-center space-x-4 w-full px-5 py-3', tab.tone)}>
+              <div className='h-16 w-18 rounded-lg flex items-center'>
+                <Icon name={tab.icon} className='size-8' />
+              </div>
+              <span className={cn('font-semibold text-foreground', { 'text-accent': tab.id === activeTab })}>
+                {tab.label}
+              </span>
             </Tabs.Tab>
           ))}
-          <Tabs.Indicator className='absolute top-1/2 z-[-1] h-14 w-14 _w-(--active-tab-width) translate-x-(--active-tab-left) -translate-y-1/2 bg-linear-to-r from-foreground/10 via-foreground/15 to-foreground/10 dark:via-slate-600 dark:to-dark-table transition-all duration-350 ease-out rounded-full blur-[2px]' />
+          <Tabs.Indicator
+            className={cn(
+              'absolute z-[-1] h-4 w-64 _w-(--active-tab-width) translate-y-(--active-tab-top) left-4 top-8 bg-linear-to-r from-foreground/10 via-foreground/15 to-foreground/10 dark:via-slate-600 dark:to-dark-table transition-all duration-200 ease-out rounded-full blur-xs opacity-40'
+            )}
+          />
         </Tabs.List>
       </div>
       {tabs.map((tab) => (
-        <Tabs.Panel className='pt-4' key={tab.id} value={tab.id}>
+        <Tabs.Panel className='md:pt-4' key={tab.id} value={tab.id}>
           {tab.panel ?? <p>{tab.label}</p>}
         </Tabs.Panel>
       ))}

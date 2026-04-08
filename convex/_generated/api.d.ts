@@ -10,6 +10,7 @@
 
 import type * as admin_q from "../admin/q.js";
 import type * as contacts from "../contacts.js";
+import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
 
 import type {
@@ -21,6 +22,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   "admin/q": typeof admin_q;
   contacts: typeof contacts;
+  transactions: typeof transactions;
   users: typeof users;
 }>;
 
