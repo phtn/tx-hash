@@ -48,10 +48,10 @@ function toOptionalString(value: string) {
 
 function LoadingCard() {
   return (
-    <Card className='overflow-hidden rounded-[30px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
+    <Card className='overflow-hidden border-white/70 bg-[#f6f2eb]'>
       <CardHeader className='space-y-3 border-b border-black/5 p-6 sm:p-7'>
         <div className='flex items-center gap-3'>
-          <Skeleton className='h-10 w-10 rounded-2xl' />
+          <Skeleton className='h-10 w-10' />
           <div className='space-y-2'>
             <Skeleton className='h-4 w-40' />
             <Skeleton className='h-3 w-64' />
@@ -257,7 +257,7 @@ function AddressBookContent() {
   }
 
   return (
-    <div className='grid gap-6 xl:grid-cols-[0.78fr_1.22fr]'>
+    <div className='grid gap-6 _xl:grid-cols-[0.78fr_1.22fr]'>
       <Card className='overflow-hidden rounded-[30px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
         <CardHeader className='space-y-3 border-b border-black/5 p-6 sm:p-7'>
           <div className='flex items-start justify-between gap-4'>

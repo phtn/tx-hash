@@ -12,7 +12,7 @@ import { Icon } from '../icons'
 
 type AllowedNet = 'eth' | 'sepolia' | 'polygon' | 'amoy' | 'bitcoin'
 
-export const WalletComponent = () => {
+export const Wallet = () => {
   const { address } = useAppKitAccount({ namespace: 'eip155' })
   const evmAddress = useMemo(() => {
     if (!address) return undefined
@@ -117,7 +117,7 @@ export const WalletComponent = () => {
 
   return (
     <div className={cn('flex items-center')}>
-      <div className='flex items-center justify-end whitespace-nowrap text-xs pr-2 rounded-full overflow-hidden bg-[#f2f2f3] border border-dashed dark:bg-card hover:bg-[#f2f2f3]'>
+      <div className='flex items-center justify-end whitespace-nowrap text-xs pr-2 rounded-full overflow-hidden bg-[#252525] border border-accent/50'>
         <WalletConnector />
       </div>
     </div>

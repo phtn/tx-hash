@@ -22,10 +22,16 @@ export function ThemeToggle() {
     <Button
       type='button'
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className='fixed right-4 top-4 z-1100 inline-flex items-center justify-center text-background font-mono text-xs uppercase tracking-[0.24em] transition-colors duration-200 hover:text-accent md:right-8 md:top-8 size-6'
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
       <Icon name='hot' className={cn('text-accent size-4 m-auto', {})} />
-      {/*<span>{isDark ? 'Light' : 'Dark'}</span>*/}
     </Button>
+  )
+}
+
+export const HomeThemeToggle = () => {
+  return (
+    <div className='fixed right-4 top-4 z-1100 inline-flex items-center justify-center text-background font-mono text-xs uppercase tracking-[0.24em] transition-colors duration-200 hover:text-accent md:right-8 md:top-8 size-6'>
+      <ThemeToggle />
+    </div>
   )
 }

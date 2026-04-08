@@ -2,6 +2,7 @@
 
 import { signOutUser } from '@/lib/firebase/auth'
 import { clearFirebaseSession } from '@/lib/firebase/session'
+import { Icon } from '@/lib/icons'
 import { Button } from '@heroui/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -31,12 +32,12 @@ export function SignOutButton() {
       <Button
         fullWidth
         type='button'
-        variant='danger'
+        variant='ghost'
         isPending={isSigningOut}
         isDisabled={isSigningOut}
         onPress={handleSignOut}
-        className='w-full flexitems-center justify-center gap-2'>
-        Sign out
+        className='w-full flexitems-center justify-center'>
+        <Icon name='logout' />
       </Button>
       {signOutError ? (
         <p className='max-w-sm font-mono text-[10px] uppercase tracking-[0.24em] text-destructive'>{signOutError}</p>

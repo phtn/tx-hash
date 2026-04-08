@@ -1,9 +1,8 @@
-import { getInitials } from '@/lib/utils'
-import { Card } from '@heroui/react'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { CurrentUserAvatar } from '@/components/user-avatar'
 import { ActionTabs } from './action-tabs'
 import { SignOutButton } from './sign-out-button'
 import { Topbar } from './topbar'
-import { WalletContent } from './wallet-content'
 
 export interface AccountProfile {
   displayName: string
@@ -38,22 +37,25 @@ function StatusRow({ label, value }: { label: string; value: string }) {
 }
 
 export const AccountContent = ({ profile }: AccountContentProps) => {
-  const initials = getInitials(profile.displayName, profile.email)
-
   return (
     <div className='relative min-h-screen overflow-hidden bg-card'>
-      <Topbar profile={profile} initials={initials} />
+      <Topbar />
       <main className='border-t grid grid-cols-5'>
-        <div className='border-r col-span-1'>
-          <div className='h-40 p-5 border-b bg-orange-500/1'>
-            <p className='m-auto'>Check</p>
-          </div>
+        <div className='border-r border-b col-span-5 h-[calc(100vh-61px)]'>
           <ActionTabs />
-          <div className='fixed bottom-0'>
+          <div className='fixed bottom-0 flex items-center px-6 space-x-4 h-20'>
+            <CurrentUserAvatar profile={profile} />
             <SignOutButton />
+            <ThemeToggle />
           </div>
         </div>
-        <div className='col-span-4 grid grid-cols-2'>
+      </main>
+    </div>
+  )
+}
+
+/*
+<div className='col-span-4 grid grid-cols-2'>
           <WalletContent profile={profile} />
           <Card className='overflow-hidden border-l  text-white'>
             <Card.Header className='p-6 sm:p-7'>
@@ -74,12 +76,6 @@ export const AccountContent = ({ profile }: AccountContentProps) => {
             </div>
           </Card>
         </div>
-      </main>
-    </div>
-  )
-}
-
-/*
 <div className='relative mx-auto hidden _flex min-h-screen w-full max-w-6xl flex-col items-center gap-8'>
             <section className='grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr]'>
               <Card className='overflow-hidden rounded-[36px] border border-white/70 bg-[#f6f1e8] shadow-[0_30px_90px_rgba(63,42,20,0.15)]'>

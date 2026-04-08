@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getInitials(displayName: string, email: string | null) {
+export function getInitials(displayName: string | null, email: string | null) {
   const source = displayName || email || 'U'
   return source
     .split(/\s+/)
