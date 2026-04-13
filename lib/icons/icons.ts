@@ -149,6 +149,12 @@ export const icons = {
       '<g fill="currentColor" fill-rule="evenodd"><path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16s-7.163 16-16 16m7.994-15.781L16.498 4L9 16.22l7.498 4.353zM24 17.616l-7.502 4.351L9 17.617l7.498 10.378z"/><g fill-rule="nonzero"><path fill-opacity=".298" d="M16.498 4v8.87l7.497 3.35zm0 17.968v6.027L24 17.616z"/><path fill-opacity=".801" d="m16.498 20.573l7.497-4.353l-7.497-3.348z"/><path fill-opacity=".298" d="m9 16.22l7.498 4.353v-7.701z"/></g></g>',
     viewBox: '0 0 32 32',
     set: 'cryptocurrency'
+  },
+  dashboard: {
+    symbol:
+      '<g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.5 6.75a3.75 3.75 0 1 0-7.5 0a3.75 3.75 0 0 0 7.5 0ZM21 17.25a3.75 3.75 0 1 0-7.5 0a3.75 3.75 0 0 0 7.5 0Zm-10.5 0a3.75 3.75 0 1 0-7.5 0a3.75 3.75 0 0 0 7.5 0Z"/><path stroke-linejoin="round" d="m20.689 3.934l-.623-.623a1.063 1.063 0 0 0-1.503 0l-3.349 3.35a3.2 3.2 0 0 0-.872 1.628L14 10l1.71-.342a3.2 3.2 0 0 0 1.63-.872l3.349-3.349a1.063 1.063 0 0 0 0-1.503Z"/></g>',
+    viewBox: '0 0 24 24',
+    set: 'hugeicons'
   }
 }
 /*

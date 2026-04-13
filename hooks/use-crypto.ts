@@ -1,9 +1,13 @@
-import type { CryptoApiResponse, CryptoQuote } from '@/app/api/crypto/types'
+import type { CryptoApiResponse, CryptoQuote } from '@/lib/cmc/types'
 import { useCallback, useEffect, useState, useTransition } from 'react'
 
 interface UseCryptoOptions {
   /** Automatically fetch on mount. Default: true */
   autoFetch?: boolean
+  /** Number of ranked assets to fetch from CoinMarketCap. Default: 25 */
+  limit?: number
+  /** Append wallet network tokens such as MATIC/POL when missing. Default: true */
+  includeNetworkTokens?: boolean
   /** Polling interval in ms. Set to 0 to disable. Default: 0 */
   pollInterval?: number
 }
@@ -24,7 +28,7 @@ interface UseCryptoReturn {
 }
 
 export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
-  const { autoFetch = true, pollInterval = 0 } = options
+  const { autoFetch = true, includeNetworkTokens = true, limit = 25, pollInterval = 0 } = options
 
   const [data, setData] = useState<CryptoQuote[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -34,7 +38,11 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
   const fetchCrypto = useCallback(() => {
     startTransition(async () => {
       try {
-        const response = await fetch('/api/crypto/quotes')
+        const params = new URLSearchParams({
+          includeNetworkTokens: String(includeNetworkTokens),
+          limit: String(limit)
+        })
+        const response = await fetch(`/api/crypto/quotes?${params}`)
         const result: CryptoApiResponse = await response.json()
 
         if (result.success) {
@@ -48,7 +56,7 @@ export function useCrypto(options: UseCryptoOptions = {}): UseCryptoReturn {
         setError(err instanceof Error ? err.message : 'An unexpected error occurred')
       }
     })
-  }, [])
+  }, [includeNetworkTokens, limit])
 
   const getBySymbol = useCallback(
     (symbol: string): CryptoQuote | null => {

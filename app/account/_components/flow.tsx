@@ -35,7 +35,7 @@ export const FlowListColumn = ({
   return (
     <section
       className={cn(
-        'flex h-full w-120 min-w-120 flex-col border-r border-white bg-white/60 dark:border-background/50 dark:bg-transparent xl:w-140 xl:min-w-140',
+        'flex h-full w-120 min-w-120 flex-col border-r border-white bg-linear-to-t from-card via-card/20 to-white dark:from-background/5 dark:via-background/10 dark:to-background/25 dark:border-background/50 xl:w-140 xl:min-w-140',
         {
           'xl:w-125 xl:min-w-125': level === 0,
           'xl:w-80 xl:min-w-80': level === 1

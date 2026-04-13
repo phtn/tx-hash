@@ -5,6 +5,7 @@ import { DetailStory } from './detail-story'
 import { EmbeddedDetail } from './embedded-detail'
 import { type FlowNode } from './flow'
 import { SendPanel } from './send-panel'
+import { TopMarketQuotes } from './top-market-quotes'
 
 export interface ActionTab {
   id: string
@@ -18,7 +19,7 @@ export const ACTION_TABS: ActionTab[] = [
   {
     id: 'overview',
     label: 'Dashboard',
-    icon: 'wallet-add',
+    icon: 'dashboard',
     description: 'Start at the account overview, then drill into the controls that change how the workspace behaves.',
     summary: (
       <DetailStory
@@ -302,34 +303,18 @@ export const ACTION_TABS: ActionTab[] = [
         ]
       },
       {
-        id: 'connected-services',
-        label: 'Services',
-        eyebrow: 'Integrations',
-        description: 'See which external rails and services are active.',
-        badge: '3 linked',
+        id: 'quotes',
+        label: 'Quotes',
+        eyebrow: 'Cryptocurrency',
+        description: 'Top 10 assets by market cap from CoinMarketCap.',
+        badge: 'live',
         content: (
-          <DetailStory
-            eyebrow='Integrations'
-            title='Connected services'
-            description='Keep linked rails, wallets, and upstream services in a single pane so account operators can inspect the current operating surface quickly.'
-            metrics={[
-              { label: 'Rail count', value: '3 linked' },
-              { label: 'Primary', value: 'Stable' },
-              { label: 'Fallback', value: 'Ready' }
-            ]}
-            points={[
-              {
-                title: 'Primary stack',
-                description: 'The main services are active and aligned with the preferred funding and send routes.'
-              },
-              {
-                title: 'Dependency review',
-                description:
-                  'This pane can later host provider-specific controls without collapsing the overall dashboard context.'
-              }
-            ]}
-            note='Terminal panes like this still benefit from the X-style flow because the source section remains visible on the left.'
-          />
+          <EmbeddedDetail
+            eyebrow='Cryptocurrency'
+            title='Market quotes'
+            description='Live cryptocurrency quotes from CoinMarketCap, fetched server-side with the configured API key.'>
+            <TopMarketQuotes />
+          </EmbeddedDetail>
         )
       }
     ]

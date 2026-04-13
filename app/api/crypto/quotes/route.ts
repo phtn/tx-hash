@@ -1,8 +1,11 @@
 import type { CMCCryptocurrency, CMCListingsResponse, CryptoApiResponse, CryptoQuote } from '@/lib/cmc/types'
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 const CMC_LISTINGS_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 const CMC_QUOTES_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+const DEFAULT_LIMIT = 25
+const MAX_LIMIT = 100
 
 function mapCmcToQuote(c: CMCCryptocurrency): CryptoQuote {
   return {
@@ -24,8 +27,17 @@ function mapCmcToQuote(c: CMCCryptocurrency): CryptoQuote {
   }
 }
 
-export async function GET(): Promise<NextResponse<CryptoApiResponse>> {
+function getLimit(value: string | null) {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed)) return DEFAULT_LIMIT
+  return Math.min(Math.max(Math.trunc(parsed), 1), MAX_LIMIT)
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse<CryptoApiResponse>> {
   const apiKey = process.env.CMC_API_KEY
+  const { searchParams } = request.nextUrl
+  const limit = getLimit(searchParams.get('limit'))
+  const includeNetworkTokens = searchParams.get('includeNetworkTokens') !== 'false'
 
   if (!apiKey) {
     return NextResponse.json(
@@ -40,7 +52,15 @@ export async function GET(): Promise<NextResponse<CryptoApiResponse>> {
   }
 
   try {
-    const response = await fetch(`${CMC_LISTINGS_URL}?start=1&limit=25&convert=USD`, {
+    const listingsParams = new URLSearchParams({
+      start: '1',
+      limit: String(limit),
+      convert: 'USD',
+      sort: 'market_cap',
+      sort_dir: 'desc'
+    })
+
+    const response = await fetch(`${CMC_LISTINGS_URL}?${listingsParams}`, {
       headers: {
         'X-CMC_PRO_API_KEY': apiKey,
         Accept: 'application/json'
@@ -83,7 +103,7 @@ export async function GET(): Promise<NextResponse<CryptoApiResponse>> {
 
     // If MATIC is not in the top listings (e.g. for Polygon/Amoy native token USD value),
     // fetch MATIC and POL via quotes/latest and append.
-    if (!haveSymbols.has('MATIC')) {
+    if (includeNetworkTokens && !haveSymbols.has('MATIC')) {
       try {
         const quotesRes = await fetch(`${CMC_QUOTES_URL}?symbol=MATIC,POL&convert=USD`, {
           headers: {

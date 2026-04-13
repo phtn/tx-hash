@@ -88,14 +88,14 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
         onValueChange={handleTabChange}
         className='relative grid min-h-screen w-full sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(220px,1fr)]'>
         <Tabs.List>
-          <aside className='sticky top-0 hidden h-screen border-r border-black/10 bg-[#fbf7ef]/90 px-4 py-4 dark:border-background dark:bg-card md:flex md:flex-col md:justify-between'>
-            <div className='space-y-4 w-full'>
+          <aside className='sticky top-0 hidden h-screen border-r border-foreground/20 dark:border-background bg-card/90 px-4 py-0 dark:bg-card md:flex md:flex-col md:justify-between'>
+            <div className='space-y-0 w-full'>
               <button
                 aria-label='Go home'
-                className='size-12 flex items-center justify-center translate-x-3 rounded-[18px] text-accent outline-accent'>
+                className='size-14 flex items-center justify-center translate-x-3 rounded-[18px] text-accent outline-accent'>
                 <Icon name='hot' className='size-7' />
               </button>
-              <nav className='space-y-2 pt-6 w-full'>
+              <nav className='space-y-1 w-full'>
                 {ACTION_TABS.map((item) => (
                   <Tabs.Tab key={item.id} value={item.id} className='rounded-full outline-accent'>
                     <SidebarItem key={item.label} {...item} active={activeTab === item.id} />
