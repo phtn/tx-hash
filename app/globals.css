@@ -132,9 +132,9 @@
 
 @theme inline {
   /* Updated font-sans and font-mono to use IBM Plex */
-  --font-sans: 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'IBM Plex Mono Fallback', monospace;
-  --font-display: 'Bebas Neue', 'Bebas Neue Fallback', sans-serif;
+  --font-sans: 'CText', Helvetica, sans-serif;
+  --font-mono: 'CMono', Menlo, monospace;
+  --font-display: 'CText', Helvetica, sans-serif;
   --font-ct: 'CText', Helvetica, sans-serif;
   --font-cm: 'CMono', Menlo, monospace;
   --font-ios: 'Ios', Menlo, monospace;
@@ -230,6 +230,6 @@
 
 /* Custom selection color */
 ::selection {
-  background: var(--selection-background);
-  color: var(--selection-foreground);
+  background: var(--selection-accent);
+  color: var(--selection-background);
 }

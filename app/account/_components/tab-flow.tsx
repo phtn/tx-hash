@@ -55,9 +55,9 @@ export const ActionTabFlow = ({ tab, path, onSelect }: ActionTabFlowProps) => {
   const compactContent = selectedNode?.content ?? tab.summary
 
   return (
-    <div className='flex h-full min-w-0 bg-[#efe7da] dark:bg-[#010101]'>
+    <div className='flex h-full min-w-0 bg-white/50 dark:bg-card/60'>
       <div className='flex min-w-0 flex-1 xl:hidden'>
-        <section className='flex min-w-0 flex-1 flex-col bg-[#fbf7ef] dark:bg-[#050505]'>
+        <section className='flex min-w-0 flex-1 flex-col bg-white dark:bg-[#050505]'>
           <div className='border-b border-black/8 px-5 py-4 dark:border-white/10'>
             <p className='font-mono text-[10px] uppercase tracking-[0.34em] text-[#7f7368] dark:text-white/34'>
               Workspace

@@ -52,7 +52,7 @@ export const ACTION_TABS: ActionTab[] = [
     nodes: [
       {
         id: 'wallet-overview',
-        label: 'Wallet overview',
+        label: 'Wallet',
         eyebrow: 'Snapshot',
         description: 'Balances, route health, and current operating posture.',
         badge: 'Live',
@@ -178,7 +178,7 @@ export const ACTION_TABS: ActionTab[] = [
       },
       {
         id: 'workspace-preferences',
-        label: 'Workspace preferences',
+        label: 'Preferences',
         eyebrow: 'Controls',
         description: 'Appearance, alerts, and session visibility.',
         content: (
@@ -303,7 +303,7 @@ export const ACTION_TABS: ActionTab[] = [
       },
       {
         id: 'connected-services',
-        label: 'Connected services',
+        label: 'Services',
         eyebrow: 'Integrations',
         description: 'See which external rails and services are active.',
         badge: '3 linked',
@@ -585,11 +585,11 @@ export const ACTION_TABS: ActionTab[] = [
     ),
     nodes: [
       {
-        id: 'transfer-workflow',
-        label: 'Transfer workflow',
+        id: 'network',
+        label: 'Network',
         eyebrow: 'Workflow',
         description: 'Start a transfer or inspect approval rules.',
-        badge: 'Primary',
+        // badge: 'Primary',
         content: (
           <DetailStory
             eyebrow='Workflow'
@@ -615,55 +615,66 @@ export const ACTION_TABS: ActionTab[] = [
         ),
         children: [
           {
-            id: 'compose-transfer',
-            label: 'Compose transfer',
+            id: 'btc',
+            icon: 'btc',
+            label: 'Bitcoin',
             eyebrow: 'Action',
             description: 'Open the current send form.',
             content: (
               <EmbeddedDetail
                 eyebrow='Action'
-                title='Compose transfer'
+                title='Bitcoin Transfer'
                 description='This is the existing send experience, now mounted as the terminal pane in a cascading workflow.'>
-                <SendPanel />
+                <SendPanel network='btc' />
               </EmbeddedDetail>
             )
           },
           {
-            id: 'approval-rules',
-            label: 'Approval rules',
+            id: 'eth',
+            label: 'Ethereum',
+            icon: 'eth',
             eyebrow: 'Policy',
             description: 'Who needs to review high-risk movement.',
             content: (
-              <DetailStory
-                eyebrow='Policy'
-                title='Approval rules'
-                description='Approval policy belongs adjacent to the transfer workflow so operators can understand why a send did or did not proceed.'
-                metrics={[
-                  { label: 'Auto-approve', value: '< $5k' },
-                  { label: 'Manual review', value: '$5k+' },
-                  { label: 'Escalation', value: 'Trusted recipients bypass' }
-                ]}
-                points={[
-                  {
-                    title: 'Threshold reviews',
-                    description:
-                      'High-value movement should explain which threshold was crossed and what additional review is required.'
-                  },
-                  {
-                    title: 'Recipient context',
-                    description:
-                      'Trusted recipients may follow a different policy path, which is why this view should stay close to the send workspace.'
-                  }
-                ]}
-                note='This pane is where approval logic becomes legible instead of implicit.'
-              />
+              <EmbeddedDetail
+                eyebrow='Action'
+                title='Ethereum Transfer'
+                description='This is the existing send experience, now mounted as the terminal pane in a cascading workflow.'>
+                <SendPanel network='eth' />
+              </EmbeddedDetail>
             )
+            // content: (
+            //   <DetailStory
+            //     eyebrow='Policy'
+            //     title='Approval rules'
+            //     description='Approval policy belongs adjacent to the transfer workflow so operators can understand why a send did or did not proceed.'
+            //     metrics={[
+            //       { label: 'Auto-approve', value: '< $5k' },
+            //       { label: 'Manual review', value: '$5k+' },
+            //       { label: 'Escalation', value: 'Trusted recipients bypass' }
+            //     ]}
+            //     points={[
+            //       {
+            //         title: 'Threshold reviews',
+            //         description:
+            //           'High-value movement should explain which threshold was crossed and what additional review is required.'
+            //       },
+            //       {
+            //         title: 'Recipient context',
+            //         description:
+            //           'Trusted recipients may follow a different policy path, which is why this view should stay close to the send workspace.'
+            //       }
+            //     ]}
+            //     note='This pane is where approval logic becomes legible instead of implicit.'
+            //   />
+            // )
           },
           {
             id: 'send-limits',
             label: 'Send limits',
+            icon: 'globe',
             eyebrow: 'Limits',
-            description: 'Transaction caps and route-specific thresholds.',
+            description: 'Txn caps and route-specific thresholds.',
             content: (
               <DetailStory
                 eyebrow='Limits'
@@ -694,7 +705,7 @@ export const ACTION_TABS: ActionTab[] = [
       },
       {
         id: 'recipient-readiness',
-        label: 'Recipient readiness',
+        label: 'Recipient',
         eyebrow: 'Recipients',
         description: 'Verification, wallet quality, and trust state.',
         content: (
@@ -725,7 +736,7 @@ export const ACTION_TABS: ActionTab[] = [
       },
       {
         id: 'send-policies',
-        label: 'Send policies',
+        label: 'Settings',
         eyebrow: 'Governance',
         description: 'Global send rules and enforcement posture.',
         content: (

@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/convex/_generated/api'
 import type { Id } from '@/convex/_generated/dataModel'
+import { Icon, IconName } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 
 function truncateAddress(address: string) {
@@ -58,7 +59,7 @@ function SignedOutCard() {
   )
 }
 
-function SendPanelContent() {
+const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
   const contacts = useQuery(api.contacts.list)
   const createTransaction = useMutation(api.transactions.createTransaction)
 
@@ -71,12 +72,12 @@ function SendPanelContent() {
 
   const selectedContact = useMemo(
     () => contacts?.find((c) => c.id === selectedContactId) ?? null,
-    [contacts, selectedContactId],
+    [contacts, selectedContactId]
   )
 
   const selectedWallet = useMemo(
     () => selectedContact?.walletAddresses.find((w) => w.id === selectedWalletId) ?? null,
-    [selectedContact, selectedWalletId],
+    [selectedContact, selectedWalletId]
   )
 
   const canSend = selectedContactId !== null && selectedWalletId !== null && amount.trim().length > 0
@@ -97,7 +98,7 @@ function SendPanelContent() {
         network: selectedWallet.network,
         address: selectedWallet.address,
         amount: amount.trim(),
-        note: note.trim() || undefined,
+        note: note.trim() || undefined
       })
       setDidSend(true)
       setSelectedContactId(null)
@@ -115,23 +116,23 @@ function SendPanelContent() {
   }
 
   return (
-    <Card className='overflow-hidden rounded-[30px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
-      <CardHeader className='space-y-2 border-b border-black/5 p-6 sm:p-7'>
+    <Card className='overflow-hidden rounded-[24px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
+      <CardHeader className='border-b border-black/5 px-6'>
         <CardTitle className='flex items-center gap-3 text-[1.35rem] tracking-[-0.04em] text-[#18120f]'>
-          <ArrowUpRight className='size-5 text-[#7f7368]' />
-          Send
+          <Icon name={network as IconName} className='size-6 text-indigo-500' />
+          Send {network}
         </CardTitle>
-        <CardDescription className='max-w-xl text-sm leading-6 text-[#675d53]'>
+        <CardDescription className='hidden max-w-xl text-sm leading-6 text-[#675d53]'>
           Pick a contact and wallet address, enter an amount, and send.
         </CardDescription>
       </CardHeader>
 
-      <CardContent className='space-y-6 p-6 sm:p-7'>
+      <CardContent className='space-y-6 px-6'>
         {/* Recipient */}
         <div className='space-y-3'>
           <label className='text-[10px] font-medium uppercase tracking-[0.28em] text-[#7f7368]'>Recipient</label>
           {contacts.length === 0 ? (
-            <div className='rounded-[24px] border border-dashed border-black/10 bg-white/65 p-5 text-sm leading-6 text-[#675d53]'>
+            <div className='rounded-[8px] border border-dashed border-black/15 bg-white/65 dark:bg-card/10 p-4 text-sm leading-6 text-[#675d53]'>
               No contacts yet. Add one in the Contacts tab first.
             </div>
           ) : (
@@ -149,7 +150,7 @@ function SendPanelContent() {
                         'w-full rounded-[22px] border px-4 py-3 text-left transition-all duration-200',
                         isSelected
                           ? 'border-[#18120f] bg-[#18120f] text-white shadow-[0_16px_40px_rgba(24,18,15,0.18)]'
-                          : 'border-black/8 bg-white/75 text-[#18120f] hover:-translate-y-0.5 hover:border-black/15 hover:bg-white',
+                          : 'border-black/8 bg-white/75 text-[#18120f] hover:-translate-y-0.5 hover:border-black/15 hover:bg-white'
                       )}>
                       <div className='flex items-center justify-between gap-4'>
                         <div>
@@ -166,7 +167,7 @@ function SendPanelContent() {
                             'rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.24em]',
                             isSelected
                               ? 'border-white/20 bg-white/10 text-white'
-                              : 'border-black/10 bg-white text-[#675d53]',
+                              : 'border-black/10 bg-white text-[#675d53]'
                           )}>
                           {contact.walletAddresses.length}w
                         </Badge>
@@ -182,7 +183,6 @@ function SendPanelContent() {
         {/* Wallet address picker */}
         {selectedContact ? (
           <>
-            <Separator className='bg-black/8' />
             <div className='space-y-3'>
               <label className='text-[10px] font-medium uppercase tracking-[0.28em] text-[#7f7368]'>
                 Wallet address
@@ -205,7 +205,7 @@ function SendPanelContent() {
                           'w-full rounded-[22px] border px-4 py-3 text-left transition-all duration-200',
                           isSelected
                             ? 'border-[#18120f] bg-[#18120f] text-white shadow-[0_16px_40px_rgba(24,18,15,0.18)]'
-                            : 'border-black/8 bg-white/75 text-[#18120f] hover:-translate-y-0.5 hover:border-black/15 hover:bg-white',
+                            : 'border-black/8 bg-white/75 text-[#18120f] hover:-translate-y-0.5 hover:border-black/15 hover:bg-white'
                         )}>
                         <div className='flex items-start justify-between gap-4'>
                           <div className='space-y-1.5'>
@@ -216,7 +216,7 @@ function SendPanelContent() {
                                   'rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-[0.24em]',
                                   isSelected
                                     ? 'border-white/20 bg-white/10 text-white'
-                                    : 'border-black/10 bg-white text-[#675d53]',
+                                    : 'border-black/10 bg-white text-[#675d53]'
                                 )}>
                                 {wallet.network}
                               </Badge>
@@ -224,7 +224,7 @@ function SendPanelContent() {
                                 <span
                                   className={cn(
                                     'text-[0.74rem] uppercase tracking-[0.2em]',
-                                    isSelected ? 'text-white/60' : 'text-[#8b7c6e]',
+                                    isSelected ? 'text-white/60' : 'text-[#8b7c6e]'
                                   )}>
                                   {wallet.label}
                                 </span>
@@ -233,7 +233,7 @@ function SendPanelContent() {
                             <p
                               className={cn(
                                 'font-mono text-[0.8rem] leading-5',
-                                isSelected ? 'text-white/85' : 'text-[#18120f]',
+                                isSelected ? 'text-white/85' : 'text-[#18120f]'
                               )}>
                               {truncateAddress(wallet.address)}
                             </p>
@@ -257,7 +257,7 @@ function SendPanelContent() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder='0.00'
-              className='h-11 rounded-2xl border-black/10 bg-white/80 font-mono text-[0.9rem] shadow-[0_8px_24px_rgba(63,42,20,0.05)]'
+              className='h-14 rounded-[8px] border-black/10 bg-white/80 font-mono text-[16px]!'
             />
           </div>
 
@@ -269,7 +269,7 @@ function SendPanelContent() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder='Payment for...'
-              className='min-h-20 rounded-[22px] border-black/10 bg-white/80 shadow-[0_8px_24px_rgba(63,42,20,0.05)]'
+              className='min-h-20 rounded-[8px] border-black/10 bg-white/80 shadow-[0_8px_24px_rgba(63,42,20,0.05)]'
             />
           </div>
 
@@ -277,12 +277,8 @@ function SendPanelContent() {
             type='button'
             onClick={() => void handleSend()}
             disabled={!canSend || isSending}
-            className='h-11 w-full gap-2 rounded-full bg-[#18120f] text-white hover:bg-[#28201c] disabled:opacity-40'>
-            {isSending ? (
-              <Loader2 className='size-4 animate-spin' />
-            ) : (
-              <ArrowUpRight className='size-4' />
-            )}
+            className='h-14 w-full gap-2 rounded-[8px] bg-accent text-white hover:bg-[#28201c] disabled:opacity-40'>
+            {isSending ? <Loader2 className='size-4 animate-spin' /> : <ArrowUpRight className='size-4' />}
             {isSending ? 'Sending…' : 'Send'}
           </Button>
         </div>
@@ -301,7 +297,11 @@ function SendPanelContent() {
   )
 }
 
-export function SendPanel() {
+interface SendPanelProps {
+  network: 'eth' | 'sol' | 'btc'
+}
+
+export const SendPanel = ({ network }: SendPanelProps) => {
   return (
     <>
       <AuthLoading>
@@ -311,7 +311,7 @@ export function SendPanel() {
         <SignedOutCard />
       </Unauthenticated>
       <Authenticated>
-        <SendPanelContent />
+        <SendPanelContent network={network} />
       </Authenticated>
     </>
   )

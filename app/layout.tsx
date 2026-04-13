@@ -4,21 +4,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 import WagmiContext from '@/ctx/wagmi'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
-import { Bebas_Neue, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
 import type React from 'react'
 import './globals.css'
-
-const ibmPlexSans = IBM_Plex_Sans({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-ibm-plex-sans'
-})
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ['400', '500'],
-  subsets: ['latin'],
-  variable: '--font-ibm-plex-mono'
-})
-const bebasNeue = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--font-bebas' })
 
 export const metadata: Metadata = {
   title: {
@@ -54,8 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}>
+      <body className={`font-sans antialiased overflow-x-hidden`}>
         <WagmiContext>
           <ConvexClientProvider>
             <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>

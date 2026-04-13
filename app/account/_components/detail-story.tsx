@@ -31,7 +31,7 @@ function DetailStat({ label, value }: DetailMetric) {
 export const DetailStory = ({ eyebrow, title, description, metrics = [], points = [], note }: DetailStoryProps) => {
   return (
     <section className='flex h-full min-w-screen flex-1 flex-col bg-[#fbf7ef] dark:bg-[#050505] lg:min-w-120'>
-      <div className='border-b border-black/8 px-6 py-5 dark:border-white/10'>
+      <div className='border-b border-black/8 px-6 py-5 dark:border-background'>
         <p className='font-mono text-[10px] uppercase tracking-[0.32em] text-[#7f7368] dark:text-white/38'>{eyebrow}</p>
         <h2 className='mt-3 font-ct text-[2rem] leading-none tracking-[-0.06em] text-[#18120f] dark:text-white'>
           {title}

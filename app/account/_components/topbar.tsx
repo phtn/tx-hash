@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 export const Topbar = () => {
   const router = useRouter()
   return (
-    <header className='relative z-10 flex items-center justify-between border-b border-black/8 bg-white/65 px-4 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-white/3 sm:px-6'>
+    <header className='relative z-10 flex items-center justify-between border-b border-black/8 bg-white/65 px-4 py-3 backdrop-blur-xl dark:border-background dark:bg-white/3 sm:px-6'>
       <button
         type='button'
         onClick={() => router.push('/')}

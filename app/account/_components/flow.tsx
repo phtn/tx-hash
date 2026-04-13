@@ -1,4 +1,4 @@
-import { Icon } from '@/lib/icons'
+import { Icon, IconName } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { ReactNode } from 'react'
 
@@ -9,6 +9,7 @@ export interface FlowNode {
   description: string
   badge?: string
   content?: ReactNode
+  icon?: IconName
   children?: FlowNode[]
 }
 
@@ -34,16 +35,16 @@ export const FlowListColumn = ({
   return (
     <section
       className={cn(
-        'flex h-full w-120 min-w-120 flex-col border-r border-black/8 bg-[#f7f1e7]/92 dark:border-background dark:bg-[#020202] xl:w-140 xl:min-w-140',
+        'flex h-full w-120 min-w-120 flex-col border-r border-white bg-white/60 dark:border-background/50 dark:bg-transparent xl:w-140 xl:min-w-140',
         {
           'xl:w-125 xl:min-w-125': level === 0,
-          'xl:w-125  xl:min-w-125': level === 1
+          'xl:w-80 xl:min-w-80': level === 1
         }
       )}>
       <div
         className={cn('flex items-center justify-between border-b border-black/8 px-6 h-10 dark:border-background', {
           'bg-accent': level === 0,
-          'bg-accent/70': level === 1
+          'bg-accent/90 dark:bg-accent/60': level === 1
         })}>
         <p
           className={cn(
@@ -58,7 +59,7 @@ export const FlowListColumn = ({
         <Icon
           onClick={() => onSelect(level, '')}
           name='information-circle'
-          className={cn('size-4 dark:text-background', { 'dark:text-white': level === 1 })}
+          className={cn('size-4 text-white dark:text-background', { 'dark:text-white': level === 1 })}
         />
       </div>
 
@@ -73,49 +74,54 @@ export const FlowListColumn = ({
                 type='button'
                 onClick={() => onSelect(level, item.id)}
                 className={cn(
-                  'group flex w-full items-start justify-between gap-4 px-4 py-4 text-left border-px',
+                  'group flex w-full items-center justify-between gap-4 pl-6 py-4 text-left border-y first:border-t-0 first:border-b-0 last:border-t-0 border-white dark:border-background outline-accent',
                   isActive
-                    ? 'border-black dark:border-background bg-[#18120f] text-white shadow-[0_16px_40px_rgba(24,18,15,0.18)] dark:bg-white/8 dark:shadow-none'
-                    : 'border-black/8 bg-white/74 text-[#18120f] hover:border-black/15 hover:bg-white dark:border-white/10 dark:bg-white/3 dark:text-white/88 dark:hover:border-white/16 dark:hover:bg-white/6'
+                    ? ' text-foreground bg-foreground/8 dark:bg-white/8 shadow-none'
+                    : 'bg-white/50 text-[#18120f] hover:bg-foreground/2 dark:bg-white/3 dark:text-white/88 dark:hover:bg-white/6'
                 )}>
-                <div className='min-w-0 space-y-2'>
-                  <div className='flex flex-wrap items-center gap-2'>
-                    <span
+                <div className={cn('flex items-center min-w-0', { 'gap-x-3': item.icon })}>
+                  <div className='flex items-center'>
+                    <div
                       className={cn(
-                        'font-mono text-[10px] uppercase tracking-[0.28em]',
-                        isActive ? 'text-white/54' : 'text-[#8b7c6e] dark:text-white/38'
+                        'flex items-center font-semibold text-[10px]',
+                        isActive ? 'text-foreground' : 'text-foreground/80 dark:text-white/38'
                       )}>
-                      {level === 0 ? item.eyebrow : item.label}
-                    </span>
-                    {item.badge ? (
-                      <span
-                        className={cn(
-                          'rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.24em]',
-                          isActive
-                            ? 'border-white/20 bg-white/10 text-white/86'
-                            : 'border-black/10 bg-white text-[#675d53] dark:border-white/10 dark:bg-white/4 dark:text-white/56'
-                        )}>
-                        {item.badge}
-                      </span>
-                    ) : null}
+                      <span>{item.icon && <Icon name={item.icon} className='size-5' />}</span>
+                      <span>{level === 0 || level === 1 ? null : item.label}</span>
+                    </div>
                   </div>
 
                   <div>
-                    <p className={cn('text-[1rem] font-medium tracking-[-0.03em] hidden', { flex: level === 0 })}>
-                      {item.label}
-                    </p>
+                    <div
+                      className={cn('items-center space-x-2 font-ct font-semibold text-base md:text-lg hidden', {
+                        flex: level === 0 || level === 1
+                      })}>
+                      <span>{item.label}</span>
+                      {item.badge ? (
+                        <span
+                          className={cn(
+                            'rounded-[4.01px] border border-accent/80 px-2 h-5.5 flex items-center text-[9px] text-accent uppercase tracking-widest',
+                            isActive ? 'bg-white/10' : 'bg-white dark:bg-white/4 dark:text-white/56'
+                          )}>
+                          {item.badge}
+                        </span>
+                      ) : null}
+                    </div>
                     <p
                       className={cn(
-                        'mt-1 text-sm leading-6',
-                        isActive ? 'text-white/64' : 'text-[#675d53] dark:text-white/54'
+                        'hidden mt-1 text-sm leading-6',
+                        isActive ? 'text-foreground/80' : 'text-foreground/60 dark:text-white/54'
                       )}>
-                      {item.description}
+                      {level === 1 ? null : item.description}
                     </p>
                   </div>
                 </div>
 
                 <div className='flex shrink-0 items-center justify-center rounded-full'>
-                  <Icon name='chevron-right-light' className={cn('size-10', { 'text-accent': isActive })} />
+                  <Icon
+                    name='chevron-right-light'
+                    className={cn('size-10 opacity-60', { 'text-accent opacity-100': isActive })}
+                  />
                 </div>
               </button>
             )
