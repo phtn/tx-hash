@@ -9,8 +9,8 @@ import { useState } from 'react'
 import { ACTION_TABS } from '../account/_components/action-tabs'
 import { SidebarItem } from '../account/_components/sidebar-items'
 import { ActionTabFlow } from '../account/_components/tab-flow'
-import { Topbar } from '../account/topbar'
 import type { AccountProfile } from '../account/types'
+import { Topbar } from './_components/topbar'
 
 export type { AccountProfile } from '../account/types'
 

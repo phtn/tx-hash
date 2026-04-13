@@ -1,9 +1,9 @@
 import { ThemeToggle } from '@/components/theme-toggle'
 import { CurrentUserAvatar } from '@/components/user-avatar'
-import { SignOutButton } from '../sign-out-button'
 import { AccountProfile } from '../types'
 import { FeatureCard } from './feature-card'
 import { MetricPill } from './metric-pill'
+import { SignOutButton } from './sign-out-button'
 
 interface OverviewProps {
   profile: AccountProfile

@@ -18,7 +18,7 @@ export const AccountBalance = () => {
 
       <div className='hidden _flex items-end justify-between w-full h-16'>
         <div className='w-full' />
-        <div className='flex items-center justify-center w-fit whitespace-nowrap text-[0.78rem] font-semibold text-[#18200f] shadow-[0_8px_20px_rgba(164,217,77,0.3)] p-1 rounded-[4px]'>
+        <div className='flex items-center justify-center w-fit whitespace-nowrap text-[0.78rem] font-semibold text-[#18200f] shadow-[0_8px_20px_rgba(164,217,77,0.3)] p-1 rounded-lg'>
           <Icon name='add-user' className='size-5 text-ring ' />
         </div>
       </div>
