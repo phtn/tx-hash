@@ -1,129 +1,91 @@
+'use client'
+
 import { ThemeToggle } from '@/components/theme-toggle'
 import { CurrentUserAvatar } from '@/components/user-avatar'
-import { ActionTabs } from './action-tabs'
-import { SignOutButton } from './sign-out-button'
-import { Topbar } from './topbar'
+import { Icon } from '@/lib/icons'
+import { Tabs } from '@base-ui/react/tabs'
+import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { ACTION_TABS } from '../account/_components/action-tabs'
+import { SidebarItem } from '../account/_components/sidebar-items'
+import { ActionTabFlow } from '../account/_components/tab-flow'
+import { Topbar } from '../account/topbar'
+import type { AccountProfile } from '../account/types'
 
-export interface AccountProfile {
-  displayName: string
-  email: string | null
-  photoURL: string | null
-  uid: string
-  provider: string
-  authTime: string
-  emailVerified: boolean
-}
+export type { AccountProfile } from '../account/types'
 
 interface AccountContentProps {
   profile: AccountProfile
 }
 
-function InfoTile({ label, value }: { label: string; value: string }) {
-  return (
-    <div className='rounded-[22px] border border-black/5 bg-white/60 p-4 shadow-[0_10px_30px_rgba(63,42,20,0.06)]'>
-      <p className='font-mono text-[9px] uppercase tracking-[0.32em] text-[#7f7368]'>{label}</p>
-      <p className='mt-2 text-sm leading-6 tracking-[-0.02em] text-[#191412]'>{value}</p>
-    </div>
-  )
-}
-
-function StatusRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className='flex items-center justify-between gap-4 rounded-[20px] border border-white/10 bg-white/5 px-4 py-3'>
-      <span className='font-mono text-[9px] uppercase tracking-[0.32em] text-white/55'>{label}</span>
-      <span className='text-right text-sm leading-5 tracking-[-0.02em] text-white'>{value}</span>
-    </div>
-  )
-}
-
 export const AccountContent = ({ profile }: AccountContentProps) => {
+  const pathname = usePathname()
+  const route = pathname.split('/').pop()
+
+  const [activeTab, setActiveTab] = useState(ACTION_TABS[0]?.id ?? '')
+  const [pathsByTab, setPathsByTab] = useState<Record<string, string[]>>({})
+
+  const handleFlowSelect = (tabId: string, level: number, nodeId: string) => {
+    setPathsByTab((current) => {
+      const currentPath = current[tabId] ?? []
+      const isActiveSelection = currentPath[level] === nodeId
+      const nextPath = isActiveSelection ? currentPath.slice(0, level) : [...currentPath.slice(0, level), nodeId]
+
+      return {
+        ...current,
+        [tabId]: nextPath
+      }
+    })
+  }
   return (
-    <div className='relative min-h-screen overflow-hidden bg-card'>
-      <Topbar />
-      <main className='border-t grid grid-cols-5'>
-        <div className='border-r border-b col-span-5 h-[calc(100vh-61px)]'>
-          <ActionTabs />
-          <div className='fixed bottom-0 flex items-center px-6 space-x-4 h-20'>
-            <CurrentUserAvatar profile={profile} />
-            <SignOutButton />
-            <ThemeToggle />
-          </div>
-        </div>
-      </main>
+    <div className='relative min-h-screen w-screen overflow-hidden bg-[#f7f1e7] text-[#18120f] dark:bg-[#050505] dark:text-white'>
+      <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,124,51,0.18),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(24,18,15,0.08),transparent_22%),linear-gradient(to_bottom,rgba(24,18,15,0.05)_1px,transparent_1px)] bg-size:auto,auto,100%_100% opacity-100 dark:bg-[radial-gradient(circle_at_top_left,rgba(255,124,51,0.14),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(255,255,255,0.08),transparent_22%),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]' />
+      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(24,18,15,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(24,18,15,0.06)_1px,transparent_1px)] bg-size:72px_72px opacity-25 mask-[linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]' />
+
+      <Tabs.Root
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className='relative grid min-h-screen w-full sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(220px,1fr)]'>
+        <Tabs.List>
+          <aside className='sticky top-0 hidden h-screen border-r border-black/10 bg-[#fbf7ef]/86 px-4 py-4 dark:border-white/10 dark:bg-card md:flex md:flex-col md:justify-between'>
+            <div className='space-y-4 w-full'>
+              <button
+                aria-label='Go home'
+                className='size-12 flex items-center justify-center translate-x-3 rounded-[18px] text-accent outline-accent'>
+                <Icon name='hot' className='size-7' />
+              </button>
+              <nav className='space-y-2 pt-6 w-full'>
+                {ACTION_TABS.map((item) => (
+                  <Tabs.Tab key={item.id} value={item.id} className='rounded-full outline-accent outine-1'>
+                    <SidebarItem key={item.label} {...item} active={activeTab === item.id} />
+                  </Tabs.Tab>
+                ))}
+              </nav>
+            </div>
+
+            <div className='space-x-4 flex items-center w-full h-20'>
+              <div className='size-16 rounded-full border border-accent bg-white/70 dark:border-white/10 dark:bg-white/3'>
+                <CurrentUserAvatar profile={profile} className='h-full w-auto aspect-square' />
+              </div>
+              <ThemeToggle className='size-10 rounded-full border border-black/10 bg-white/70 dark:border-white/10 dark:bg-white/3' />
+            </div>
+          </aside>
+        </Tabs.List>
+        {ACTION_TABS.map((tab) => (
+          <Tabs.Panel key={tab.id} value={tab.id} className='w-full overflow-hidden'>
+            <main className='min-w-0 flex-1'>
+              <Topbar />
+              <div className='w-full space-y-6'>
+                <ActionTabFlow
+                  tab={tab}
+                  path={pathsByTab[tab.id] ?? []}
+                  onSelect={(level, nodeId) => handleFlowSelect(tab.id, level, nodeId)}
+                />
+              </div>
+            </main>
+          </Tabs.Panel>
+        ))}
+      </Tabs.Root>
     </div>
   )
 }
-
-/*
-<div className='col-span-4 grid grid-cols-2'>
-          <WalletContent profile={profile} />
-          <Card className='overflow-hidden border-l  text-white'>
-            <Card.Header className='p-6 sm:p-7'>
-              <p className='font-mono text-[10px] uppercase tracking-[0.35em] text-white/55'>Session</p>
-              <Card.Title className='mt-3 text-[1.75rem] leading-tight tracking-[-0.05em]'>
-                Server-verified access
-              </Card.Title>
-              <Card.Description className='mt-3 text-sm leading-6 text-white/72'>
-                This page only renders after Firebase Admin verifies the session cookie on the server.
-              </Card.Description>
-            </Card.Header>
-
-            <div className='grid gap-3 px-6 pb-6 sm:px-7'>
-              <StatusRow label='Cookie' value='txhash-session' />
-              <StatusRow label='Check' value='verifySessionCookie(..., true)' />
-              <StatusRow label='Provider' value='Google only' />
-              <StatusRow label='Boundary' value='HTTP-only and server enforced' />
-            </div>
-          </Card>
-        </div>
-<div className='relative mx-auto hidden _flex min-h-screen w-full max-w-6xl flex-col items-center gap-8'>
-            <section className='grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr]'>
-              <Card className='overflow-hidden rounded-[36px] border border-white/70 bg-[#f6f1e8] shadow-[0_30px_90px_rgba(63,42,20,0.15)]'>
-                <Card.Header className='flex items-start justify-between gap-4 border-b border-black/5 p-6 sm:p-7'>
-                  <div>
-                    <p className='font-mono text-[10px] uppercase tracking-[0.35em] text-[#8b7c6e]'>Authenticated</p>
-                    <Card.Title className='font-ct mt-3 text-[2rem] leading-none tracking-[-0.06em] text-[#18120f] sm:text-[2.35rem]'>
-                      Hello, {profile.displayName}
-                    </Card.Title>
-                    <Card.Description className='mt-3 max-w-xl text-sm leading-6 text-[#675d53]'>
-                      Your account is protected by a Firebase session cookie created after Google sign-in.
-                    </Card.Description>
-                  </div>
-
-                  <Avatar className='size-16 overflow-hidden rounded-full border border-white/80 bg-[#cab9f7] shadow-sm'>
-                    {profile.photoURL ? <Avatar.Image alt={profile.displayName} src={profile.photoURL} /> : null}
-                    <Avatar.Fallback>
-                      <div className='grid size-full place-items-center bg-gradient-to-br from-[#c9b9f7] to-[#8f78ef] text-sm font-semibold text-white'>
-                        {initials}
-                      </div>
-                    </Avatar.Fallback>
-                  </Avatar>
-                </Card.Header>
-
-                <div className='grid gap-4 p-6 sm:grid-cols-2 sm:p-7'>
-                  <InfoTile label='Email' value={profile.email ?? 'Not provided'} />
-                  <InfoTile label='Provider' value={profile.provider} />
-                  <InfoTile label='UID' value={profile.uid} />
-                  <InfoTile label='Verified' value={profile.emailVerified ? 'Email verified' : 'Email not verified'} />
-                </div>
-
-                <Card.Footer className='flex flex-col gap-4 border-t border-black/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7'>
-                  <div>
-                    <p className='text-sm font-medium tracking-[-0.02em] text-[#18120f]'>
-                      Signed in since {profile.authTime}
-                    </p>
-                    <p className='mt-1 text-sm text-[#675d53]'>Only Google sign-in is enabled for now.</p>
-                  </div>
-
-                  <div className='flex items-center gap-3'>
-                    <Link
-                      href='/'
-                      className='inline-flex h-11 items-center justify-center rounded-full border border-black/10 bg-white/70 px-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#4b4139] shadow-sm transition-transform duration-200 hover:-translate-y-0.5'>
-                      Home
-                    </Link>
-                  </div>
-                </Card.Footer>
-              </Card>
-            </section>
-          </div>
-*/

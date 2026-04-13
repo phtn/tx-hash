@@ -32,15 +32,15 @@ export function SignOutButton() {
       <Button
         fullWidth
         type='button'
-        variant='ghost'
+        variant='bordered'
         isPending={isSigningOut}
         isDisabled={isSigningOut}
         onPress={handleSignOut}
-        className='w-full flexitems-center justify-center'>
+        className='w-full flex items-center justify-center rounded-[18px] border-white/10 bg-white/[0.03] text-white transition-colors hover:bg-white/[0.06]'>
         <Icon name='logout' />
       </Button>
       {signOutError ? (
-        <p className='max-w-sm font-mono text-[10px] uppercase tracking-[0.24em] text-destructive'>{signOutError}</p>
+        <p className='max-w-sm font-mono text-[10px] uppercase tracking-[0.24em] text-[#ff7d33]'>{signOutError}</p>
       ) : null}
     </div>
   )

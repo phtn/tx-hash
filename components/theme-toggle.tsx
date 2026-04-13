@@ -1,12 +1,17 @@
 'use client'
 
+import { ClassName } from '@/app/types'
 import { Icon } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@base-ui/react/button'
 import { useTheme } from 'next-themes'
 import { useSyncExternalStore } from 'react'
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: ClassName
+}
+
+export const ThemeToggle = ({ className }: ThemeToggleProps) => {
   const { resolvedTheme, setTheme } = useTheme()
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -14,16 +19,16 @@ export function ThemeToggle() {
     () => false
   )
 
-  if (!mounted) return null
-
   const isDark = resolvedTheme === 'dark'
+  if (!mounted) return null
 
   return (
     <Button
       type='button'
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
-      <Icon name='hot' className={cn('text-accent size-4 m-auto', {})} />
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className={cn('inline-flex items-center justify-center outline-accent transition-colors', className)}>
+      <Icon name='theme' className='m-auto size-4 text-accent' />
     </Button>
   )
 }

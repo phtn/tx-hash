@@ -7,7 +7,7 @@ import { SectionHeader } from './section-header'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function ColophonSection() {
+export const LinksSection = () => {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)

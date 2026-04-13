@@ -2,7 +2,7 @@
 
 import { ScrambleTextOnHover } from '@/components/scramble-text'
 import { SplitFlapAudioProvider, SplitFlapMuteToggle, SplitFlapText } from '@/components/split-flap-text'
-import { signInWithGoogle, signOutUser, useFirebaseUser } from '@/lib/firebase/auth'
+import { signInWithGoogle, useFirebaseUser } from '@/lib/firebase/auth'
 import { isFirebaseConfigured } from '@/lib/firebase/config'
 import { createFirebaseSession } from '@/lib/firebase/session'
 import { Icon } from '@/lib/icons'
@@ -46,25 +46,20 @@ export function HeroSection() {
   }, [router])
 
   const handlePrimaryAction = async () => {
-    if (user) {
-      router.push('/account')
-      return
-    }
-
     setSignInError(null)
     setIsSigningIn(true)
-    let didSignIn = false
 
     try {
+      if (user) {
+        await createFirebaseSession(await user.getIdToken(true))
+        router.push('/account')
+        return
+      }
+
       const credential = await signInWithGoogle()
-      didSignIn = true
       await createFirebaseSession(await credential.user.getIdToken(true))
       router.push('/account')
     } catch (error) {
-      if (didSignIn) {
-        await signOutUser().catch(() => undefined)
-      }
-
       setSignInError(error instanceof Error ? error.message : 'Google sign-in failed. Please try again.')
     } finally {
       setIsSigningIn(false)

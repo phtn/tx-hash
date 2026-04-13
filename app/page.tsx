@@ -1,6 +1,6 @@
-import { ColophonSection } from '@/components/colophon-section'
 import { HeroSection } from '@/components/hero-section'
 import { LastLine } from '@/components/last-line'
+import { LinksSection } from '@/components/links-sections'
 import { SideNav } from '@/components/side-nav'
 import { HomeThemeToggle } from '@/components/theme-toggle'
 
@@ -12,7 +12,7 @@ export default function Page() {
       <main className='relative z-10'>
         <HeroSection />
         <LastLine />
-        <ColophonSection />
+        <LinksSection />
       </main>
     </div>
   )

@@ -291,7 +291,7 @@ function AddressBookContent() {
         </CardHeader>
 
         <CardContent className='p-0'>
-          <ScrollArea className='h-[26rem]'>
+          <ScrollArea className='h-104'>
             <div className='space-y-2 p-4 sm:p-5'>
               {filteredContacts.length > 0 ? (
                 filteredContacts.map((contact) => {

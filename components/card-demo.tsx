@@ -7,8 +7,8 @@ export function WithImages() {
     <div className='flex w-full items-center justify-center'>
       <div className='grid w-full max-w-2xl grid-cols-12 gap-4 p-4'>
         {/* Row 1: Large Product Card - Available Soon */}
-        <Card className='col-span-12 flex h-auto min-h-[152px] flex-col sm:flex-row'>
-          <div className='relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]'>
+        <Card className='col-span-12 flex h-auto min-h-38 flex-col sm:flex-row'>
+          <div className='relative h-35 w-full shrink-0 overflow-hidden rounded-2xl sm:h-30 sm:w-30'>
             <Image
               fill
               priority
@@ -67,7 +67,7 @@ export function WithImages() {
               {/* Left Card */}
               <Card className='col-span-12 gap-2 sm:col-span-6'>
                 <Card.Header>
-                  <Avatar className='size-[56px] rounded-xl'>
+                  <Avatar className='size-14 rounded-xl'>
                     <Avatar.Image
                       alt='Demo 1'
                       src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg'
@@ -93,7 +93,7 @@ export function WithImages() {
               {/* Right Card */}
               <Card className='col-span-12 gap-2 sm:col-span-6'>
                 <Card.Header>
-                  <Avatar className='size-[56px] rounded-xl'>
+                  <Avatar className='size-14 rounded-xl'>
                     <Avatar.Image
                       alt='Demo 2'
                       src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg'
@@ -119,10 +119,12 @@ export function WithImages() {
             </div>
           </div>
           {/* Right Column */}
-          <Card className='col-span-12 min-h-[200px] overflow-hidden rounded-3xl lg:col-span-6'>
+          <Card className='col-span-12 min-h-50 overflow-hidden rounded-3xl lg:col-span-6'>
             {/* Background image */}
-            <img
+            <Image
               alt='NEO Home Robot'
+              width={640}
+              height={480}
               aria-hidden='true'
               className='absolute inset-0 h-full w-full object-cover'
               src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo2.jpeg'
@@ -150,9 +152,11 @@ export function WithImages() {
         {/* Row 3 */}
         <div className='col-span-12 grid grid-cols-12 gap-4'>
           {/* Left Column: Card */}
-          <Card className='relative col-span-12 h-[250px] sm:h-[300px] md:col-span-8 md:h-[350px]'>
-            <img
+          <Card className='relative col-span-12 h-62.5 sm:h-75 md:col-span-8 md:h-87.5'>
+            <Image
               alt='NEO Home Robot'
+              width={640}
+              height={480}
               aria-hidden='true'
               className='absolute inset-0 h-full w-full object-cover'
               src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo1.jpeg'
@@ -173,8 +177,10 @@ export function WithImages() {
           <div className='col-span-12 flex flex-col gap-2 md:col-span-4 md:justify-between md:gap-0 md:py-2'>
             {/* 1 */}
             <Card className='flex flex-row gap-3 p-1' variant='transparent'>
-              <img
+              <Image
                 alt='Futuristic Robot'
+                width={640}
+                height={480}
                 className='aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20'
                 loading='lazy'
                 src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg'
@@ -186,8 +192,10 @@ export function WithImages() {
             </Card>
             {/* 2 */}
             <Card className='flex flex-row gap-3 p-1' variant='transparent'>
-              <img
+              <Image
                 alt='Avocado'
+                width={640}
+                height={480}
                 className='aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20'
                 loading='lazy'
                 src='https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg'
@@ -199,7 +207,7 @@ export function WithImages() {
             </Card>
             {/* 3 */}
             <Card className='flex flex-row gap-3 p-1' variant='transparent'>
-              <img
+              <Image
                 alt='Sound Electro event'
                 className='aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20'
                 loading='lazy'

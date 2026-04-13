@@ -25,6 +25,6 @@ export const UserAvatar = ({ profile, className }: UserAvatarProps) => {
   )
 }
 
-export const CurrentUserAvatar = ({ profile }: { profile: AccountProfile }) => {
-  return <UserAvatar profile={profile} className='size-7' />
+export const CurrentUserAvatar = ({ profile, className }: { profile: AccountProfile; className?: ClassName }) => {
+  return <UserAvatar profile={profile} className={cn('size-7', className)} />
 }

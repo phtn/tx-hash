@@ -119,6 +119,24 @@ export const icons = {
       '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.5 8.04c-.041-1.16-.178-1.885-.636-2.453c-.653-.812-1.77-1.066-4.004-1.576l-1-.228c-3.395-.774-5.092-1.161-6.226-.27C2.5 4.405 2.5 6.126 2.5 9.568v4.864c0 3.442 0 5.164 1.134 6.055s2.83.504 6.225-.27l1.002-.228c2.233-.51 3.35-.764 4.003-1.576c.458-.567.595-1.293.636-2.453m3-6.948s3 2.21 3 3s-3 3-3 3m2.5-3H8.5"/>',
     viewBox: '0 0 24 24',
     set: 'hugeicons'
+  },
+  'information-circle': {
+    symbol:
+      '<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m.125-3.75H12m.25 0a.25.25 0 1 0-.5 0a.25.25 0 0 0 .5 0"/></g>',
+    viewBox: '0 0 24 24',
+    set: 'hugeicons'
+  },
+  theme: {
+    symbol:
+      '<g fill="none"><path fill="currentColor" d="M2.75 12A9.25 9.25 0 0 0 12 21.25V2.75A9.25 9.25 0 0 0 2.75 12"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21.25a9.25 9.25 0 0 0 0-18.5m0 18.5a9.25 9.25 0 0 1 0-18.5m0 18.5V2.75"/></g>',
+    viewBox: '0 0 24 24',
+    set: 'proicons,'
+  },
+  'chevron-right-light': {
+    symbol:
+      '<path fill="currentColor" d="M10.376 9.176a.6.6 0 0 1 .849 0l2.4 2.4a.6.6 0 0 1 0 .848l-2.4 2.4a.6.6 0 0 1-.85-.848L12.353 12l-1.976-1.976a.6.6 0 0 1 0-.848"/>',
+    viewBox: '0 0 24 24',
+    set: 'stash'
   }
 }
 /*
