@@ -112,20 +112,22 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
             </div>
           </aside>
         </Tabs.List>
-        {ACTION_TABS.map((tab) => (
-          <Tabs.Panel key={tab.id} value={tab.id} className='w-full overflow-hidden outline-none'>
-            <main className='min-w-0 w-full flex-1'>
-              <Topbar />
-              <div className='w-full space-y-6 h-[calc(100vh-56px)]'>
-                <ActionTabFlow
-                  tab={tab}
-                  path={tab.id === activeTab ? activePath : []}
-                  onSelect={(level, nodeId) => handleFlowSelect(tab.id, level, nodeId)}
-                />
-              </div>
-            </main>
-          </Tabs.Panel>
-        ))}
+        <div className='min-w-0 w-full overflow-hidden'>
+          <Topbar />
+          {ACTION_TABS.map((tab) => (
+            <Tabs.Panel key={tab.id} value={tab.id} className='w-full overflow-hidden outline-none'>
+              <main className='min-w-0 w-full flex-1'>
+                <div className='w-full space-y-6 h-[calc(100vh-56px)]'>
+                  <ActionTabFlow
+                    tab={tab}
+                    path={tab.id === activeTab ? activePath : []}
+                    onSelect={(level, nodeId) => handleFlowSelect(tab.id, level, nodeId)}
+                  />
+                </div>
+              </main>
+            </Tabs.Panel>
+          ))}
+        </div>
       </Tabs.Root>
     </div>
   )

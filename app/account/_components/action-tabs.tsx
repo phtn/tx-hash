@@ -6,6 +6,7 @@ import { EmbeddedDetail } from './embedded-detail'
 import { type FlowNode } from './flow'
 import { SendPanel } from './send-panel'
 import { TopMarketQuotes } from './top-market-quotes'
+import { WalletAddresses } from './wallet-addresses'
 
 export interface ActionTab {
   id: string
@@ -17,9 +18,9 @@ export interface ActionTab {
 }
 export const ACTION_TABS: ActionTab[] = [
   {
-    id: 'overview',
-    label: 'Dashboard',
-    icon: 'dashboard',
+    id: 'account',
+    label: 'Account',
+    icon: 'wallet',
     description: 'Start at the account overview, then drill into the controls that change how the workspace behaves.',
     summary: (
       <DetailStory
@@ -52,11 +53,11 @@ export const ACTION_TABS: ActionTab[] = [
     ),
     nodes: [
       {
-        id: 'wallet-overview',
+        id: 'wallet',
         label: 'Wallet',
-        eyebrow: 'Snapshot',
-        description: 'Balances, route health, and current operating posture.',
-        badge: 'Live',
+        eyebrow: 'wallet',
+        description: 'Crypto wallets.',
+        badge: 'web3',
         content: (
           <DetailStory
             eyebrow='Snapshot'
@@ -69,20 +70,35 @@ export const ACTION_TABS: ActionTab[] = [
             ]}
             points={[
               {
+                title: 'Addresses',
+                description:
+                  'Check whether your preferred inbound and outbound rails are usable before you initiate movement.'
+              },
+              {
                 title: 'Holdings',
                 description:
                   'Inspect the current balance mix and quickly see what is liquid enough for outbound transfers.'
-              },
-              {
-                title: 'Routing health',
-                description:
-                  'Check whether your preferred inbound and outbound rails are usable before you initiate movement.'
               }
             ]}
             note='This preview pane stays open until you choose a more specific view from the adjacent column.'
           />
         ),
         children: [
+          {
+            id: 'addresses',
+            label: 'Addresses',
+            eyebrow: 'crypto',
+            description: 'My Crypto Addresses.',
+            content: (
+              <EmbeddedDetail
+                eyebrow='Crypto'
+                title='Wallet addresses'
+                description='Saved chain-aware wallet addresses for this account.'
+                bodyClassName='p-0'>
+                <WalletAddresses />
+              </EmbeddedDetail>
+            )
+          },
           {
             id: 'holdings',
             label: 'Holdings',
@@ -110,37 +126,6 @@ export const ACTION_TABS: ActionTab[] = [
                   }
                 ]}
                 note='If this becomes real data later, the current pane is already structured for balances, buckets, and warnings.'
-              />
-            )
-          },
-          {
-            id: 'routing-health',
-            label: 'Routing health',
-            eyebrow: 'Rails',
-            description: 'Inbound and outbound route readiness.',
-            content: (
-              <DetailStory
-                eyebrow='Rails'
-                title='Routing health'
-                description='Use this view to confirm that the preferred movement paths are available before you push volume through them.'
-                metrics={[
-                  { label: 'Onchain', value: 'Healthy' },
-                  { label: 'Fiat rail', value: 'Warm' },
-                  { label: 'Fallbacks', value: '2 ready' }
-                ]}
-                points={[
-                  {
-                    title: 'Primary routes',
-                    description:
-                      'Preferred routes are healthy and can absorb regular movement without manual intervention.'
-                  },
-                  {
-                    title: 'Fallback posture',
-                    description:
-                      'At least two alternatives remain available if a funding route goes soft or a settlement path slows down.'
-                  }
-                ]}
-                note='Routing state is the kind of information that benefits from this layout because the parent section remains visible while you inspect route-specific detail.'
               />
             )
           },
@@ -176,6 +161,14 @@ export const ACTION_TABS: ActionTab[] = [
             )
           }
         ]
+      },
+      {
+        id: 'quotes',
+        label: 'Quotes',
+        eyebrow: 'Cryptocurrency',
+        description: 'Top 10 assets by market cap from CoinMarketCap.',
+        badge: 'live',
+        content: <TopMarketQuotes />
       },
       {
         id: 'workspace-preferences',
@@ -301,14 +294,6 @@ export const ACTION_TABS: ActionTab[] = [
             )
           }
         ]
-      },
-      {
-        id: 'quotes',
-        label: 'Quotes',
-        eyebrow: 'Cryptocurrency',
-        description: 'Top 10 assets by market cap from CoinMarketCap.',
-        badge: 'live',
-        content: <TopMarketQuotes />
       }
     ]
   },

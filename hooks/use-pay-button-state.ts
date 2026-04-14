@@ -1,4 +1,4 @@
-import type {Token} from '@/components/appkit/token-coaster'
+import type {Token} from '@/lib/appkit/token-coaster'
 import {useEffect, useMemo} from 'react'
 
 export interface UsePayButtonStateParams {

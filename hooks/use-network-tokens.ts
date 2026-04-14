@@ -1,6 +1,6 @@
 'use client'
 
-import type {Token} from '@/components/appkit/token-coaster'
+import type {Token} from '@/lib/appkit/token-coaster'
 import {config} from '@/ctx/wagmi/config'
 import {
   ERC20_BALANCE_ABI,

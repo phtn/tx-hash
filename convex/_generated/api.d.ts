@@ -11,6 +11,7 @@
 import type * as admin_q from "../admin/q.js";
 import type * as contacts from "../contacts.js";
 import type * as transactions from "../transactions.js";
+import type * as userCryptoWallets from "../userCryptoWallets.js";
 import type * as users from "../users.js";
 
 import type {
@@ -23,6 +24,7 @@ declare const fullApi: ApiFromModules<{
   "admin/q": typeof admin_q;
   contacts: typeof contacts;
   transactions: typeof transactions;
+  userCryptoWallets: typeof userCryptoWallets;
   users: typeof users;
 }>;
 

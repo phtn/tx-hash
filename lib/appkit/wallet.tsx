@@ -117,7 +117,7 @@ export const Wallet = () => {
 
   return (
     <div className={cn('flex items-center')}>
-      <div className='flex items-center justify-end whitespace-nowrap text-xs pr-2 rounded-full overflow-hidden bg-[#252525] border border-accent/50'>
+      <div className='flex items-center justify-end whitespace-nowrap text-xs pr-2 rounded-full overflow-hidden bg-[#252525] border border-accent/80 text-accent!'>
         <WalletConnector />
       </div>
     </div>
