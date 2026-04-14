@@ -73,7 +73,7 @@ export const ActionTabFlow = ({ tab, path, onSelect }: ActionTabFlowProps) => {
       </div>
 
       <div className='hidden min-w-0 flex-1 xl:flex'>
-        <div className='flex h-full min-w-0 overflow-x-auto scroll-smooth'>
+        <div className='flex h-full min-w-0 flex-1 overflow-x-auto scroll-smooth'>
           {columns.map((column) => (
             <FlowListColumn
               key={`${tab.id}-${column.level}-${column.title}`}

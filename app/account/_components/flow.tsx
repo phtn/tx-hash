@@ -37,8 +37,8 @@ export const FlowListColumn = ({
       className={cn(
         'flex h-full w-120 min-w-120 flex-col border-r border-white bg-linear-to-t from-card via-card/20 to-white dark:from-background/5 dark:via-background/10 dark:to-background/25 dark:border-background/50 xl:w-140 xl:min-w-140',
         {
-          'xl:w-125 xl:min-w-125': level === 0,
-          'xl:w-80 xl:min-w-80': level === 1
+          'xl:w-125 xl:min-w-110': level === 0,
+          'xl:w-80 xl:min-w-95': level === 1
         }
       )}>
       <div
@@ -74,7 +74,7 @@ export const FlowListColumn = ({
                 type='button'
                 onClick={() => onSelect(level, item.id)}
                 className={cn(
-                  'group flex w-full items-center justify-between gap-4 pl-6 py-4 text-left border-y first:border-t-0 first:border-b-0 last:border-t-0 border-white dark:border-background outline-accent',
+                  'group h-18! overflow-hidden flex w-full items-center justify-between gap-4 pl-6 text-left border-y first:border-t-0 first:border-b-0 last:border-t-0 border-white dark:border-background outline-accent',
                   isActive
                     ? ' text-foreground bg-foreground/8 dark:bg-white/8 shadow-none'
                     : 'bg-white/50 text-[#18120f] hover:bg-foreground/2 dark:bg-white/3 dark:text-white/88 dark:hover:bg-white/6'
@@ -100,7 +100,7 @@ export const FlowListColumn = ({
                       {item.badge ? (
                         <span
                           className={cn(
-                            'rounded-[4.01px] border border-accent/80 px-2 h-5.5 flex items-center text-[9px] text-accent uppercase tracking-widest',
+                            'rounded-[4.01px] border border-accent/80 px-1.5 h-5 flex items-center text-[9px] text-accent uppercase tracking-widest',
                             isActive ? 'bg-white/10' : 'bg-white dark:bg-white/4 dark:text-white/56'
                           )}>
                           {item.badge}

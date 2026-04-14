@@ -308,14 +308,7 @@ export const ACTION_TABS: ActionTab[] = [
         eyebrow: 'Cryptocurrency',
         description: 'Top 10 assets by market cap from CoinMarketCap.',
         badge: 'live',
-        content: (
-          <EmbeddedDetail
-            eyebrow='Cryptocurrency'
-            title='Market quotes'
-            description='Live cryptocurrency quotes from CoinMarketCap, fetched server-side with the configured API key.'>
-            <TopMarketQuotes />
-          </EmbeddedDetail>
-        )
+        content: <TopMarketQuotes />
       }
     ]
   },
