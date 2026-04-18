@@ -35,10 +35,10 @@ export const FlowListColumn = ({
   return (
     <section
       className={cn(
-        'flex h-full w-120 min-w-120 flex-col border-r border-white bg-linear-to-t from-card via-card/20 to-white dark:from-background/5 dark:via-background/10 dark:to-background/25 dark:border-background/50 xl:w-140 xl:min-w-140',
+        'flex h-full min-h-0 w-120 min-w-120 flex-col overflow-hidden border-r border-white bg-linear-to-t from-card via-card/20 to-white dark:from-background/5 dark:via-background/10 dark:to-background/25 dark:border-background/50 xl:w-140 xl:min-w-140',
         {
-          'xl:w-125 xl:min-w-110': level === 0,
-          'xl:w-80 xl:min-w-95': level === 1
+          'xl:w-56 xl:min-w-56': level === 0,
+          'xl:w-64 xl:min-w-64': level === 1
         }
       )}>
       <div
@@ -48,7 +48,7 @@ export const FlowListColumn = ({
         })}>
         <p
           className={cn(
-            'font-mono font-medium text-[10px] uppercase tracking-[0.32em] text-[#7f7368] dark:text-white/38',
+            'font-poly font-medium text-[8px] uppercase tracking-[0.32em] text-[#7f7368] dark:text-white/38',
             {
               'text-white dark:text-background': level === 0,
               'text-white dark:text-white opacity-100': level === 1
@@ -63,7 +63,7 @@ export const FlowListColumn = ({
         />
       </div>
 
-      <div className='flex-1 overflow-y-auto w-full'>
+      <div className='min-h-0 flex-1 overflow-y-auto w-full'>
         <div className=''>
           {items.map((item) => {
             const isActive = activeId === item.id
@@ -83,8 +83,8 @@ export const FlowListColumn = ({
                   <div className='flex items-center'>
                     <div
                       className={cn(
-                        'flex items-center font-semibold text-[10px]',
-                        isActive ? 'text-foreground' : 'text-foreground/80 dark:text-white/38'
+                        'flex items-center font-poly font-medium text-[10px]',
+                        isActive ? 'text-foreground' : 'text-foreground/90 dark:text-white/38'
                       )}>
                       <span>{item.icon && <Icon name={item.icon} className='size-5' />}</span>
                       <span>{level === 0 || level === 1 ? null : item.label}</span>
@@ -93,15 +93,17 @@ export const FlowListColumn = ({
 
                   <div>
                     <div
-                      className={cn('items-center space-x-2 font-ct font-semibold text-base md:text-lg hidden', {
+                      className={cn('items-center space-x-2 font-okx text-base hidden', {
                         flex: level === 0 || level === 1
                       })}>
                       <span>{item.label}</span>
                       {item.badge ? (
                         <span
                           className={cn(
-                            'rounded-[4.01px] border border-accent/80 px-1.5 h-5 flex items-center text-[9px] text-accent uppercase tracking-widest',
-                            isActive ? 'bg-white/10' : 'bg-white dark:bg-white/4 dark:text-white/56'
+                            'rounded-[3.5px] border border-accent bg-accent px-0.5 h-4.5 flex items-center text-[9px] text-white uppercase tracking-widest',
+                            isActive
+                              ? 'border-accent '
+                              : 'border-foreground/10 bg-foreground/5 dark:bg-white/4 dark:text-white/56 text-accent'
                           )}>
                           {item.badge}
                         </span>

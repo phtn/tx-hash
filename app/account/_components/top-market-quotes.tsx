@@ -179,7 +179,7 @@ export function TopMarketQuotes() {
       <section className='flex min-h-112 w-full flex-col border-r border-black/8 xl:h-full xl:w-105 xl:min-w-105'>
         <div className='flex items-center justify-between gap-4 border-black/8 dark:border-background'>
           <div className='w-full flex items-center justify-between border-b border-black/8 px-6 h-10 dark:border-background bg-accent/90 dark:bg-accent/60'>
-            <p className='font-mono text-[10px] uppercase tracking-[0.28em] dark:text-white'>Top 10</p>
+            <p className='font-poly text-[10px] uppercase tracking-[0.28em] dark:text-white'>Top 10</p>
             <Icon
               onClick={refetch}
               name={isPending ? 'spinner-ring' : 'rotate'}
@@ -224,7 +224,9 @@ export function TopMarketQuotes() {
                   </div>
                   <div className='min-w-0'>
                     <div className='flex items-center gap-1.5'>
-                      <p className='truncate text-base font-semibold text-[#18120f] dark:text-white'>{quote.name}</p>
+                      <p className='truncate text-base font-poly font-semibold text-[#18120f] dark:text-white'>
+                        {quote.name}
+                      </p>
                       <span className='font-okx text-[10px] uppercase text-[#7f7368] dark:text-white/38'>
                         {quote.symbol}
                       </span>

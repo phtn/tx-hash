@@ -9,7 +9,7 @@ interface SidebarItemProps {
 
 export const SidebarItem = ({ label, icon, active = false }: SidebarItemProps) => {
   return (
-    <div onClick={undefined} className={cn('group flex w-full items-center gap-3 px-3 py-3 text-left')}>
+    <div onClick={undefined} className={cn('group flex w-full items-center gap-3 px-3 py-2 text-left')}>
       <div
         className={cn(
           'flex items-center gap-3 rounded-full py-1.5 pl-1.5 pr-6 group-hover:bg-black/5 dark:group-hover:bg-white/5',
@@ -24,7 +24,7 @@ export const SidebarItem = ({ label, icon, active = false }: SidebarItemProps) =
           )}>
           <Icon name={icon} className='size-6' />
         </span>
-        <span className='hidden xl:block font-okx font-semibold text-xl tracking-widest'>{label}</span>
+        <span className='hidden xl:block font-poly font-semibold text-xl'>{label}</span>
       </div>
     </div>
   )

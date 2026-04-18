@@ -1,9 +1,10 @@
-import { type IconName } from '@/lib/icons'
+import { Icon, type IconName } from '@/lib/icons'
 import { type ReactNode } from 'react'
-import { AddressBook } from './address-book'
 import { DetailStory } from './detail-story'
+import { EdgeContainer } from './edge-container'
 import { EmbeddedDetail } from './embedded-detail'
 import { type FlowNode } from './flow'
+import { PolymarketMarkets } from './polymarket-markets'
 import { SendPanel } from './send-panel'
 import { TopMarketQuotes } from './top-market-quotes'
 import { WalletAddresses } from './wallet-addresses'
@@ -91,8 +92,8 @@ export const ACTION_TABS: ActionTab[] = [
             description: 'My Crypto Addresses.',
             content: (
               <EmbeddedDetail
-                eyebrow='Crypto'
-                title='Wallet addresses'
+                eyebrow='Addresses'
+                title='Crypto Addresses'
                 description='Saved chain-aware wallet addresses for this account.'
                 bodyClassName='p-0'>
                 <WalletAddresses />
@@ -130,14 +131,14 @@ export const ACTION_TABS: ActionTab[] = [
             )
           },
           {
-            id: 'risk-posture',
-            label: 'Risk posture',
-            eyebrow: 'Guardrails',
+            id: 'Analytics',
+            label: 'Analytics',
+            eyebrow: 'performance',
             description: 'Exposure bands and operating constraints.',
             content: (
               <DetailStory
-                eyebrow='Guardrails'
-                title='Risk posture'
+                eyebrow='Analytics'
+                title='Performance Optimizations'
                 description='Keep risk constraints close to balance and routing context so operational decisions are made with the right frame of reference.'
                 metrics={[
                   { label: 'Exposure', value: 'Moderate' },
@@ -298,20 +299,19 @@ export const ACTION_TABS: ActionTab[] = [
     ]
   },
   {
-    id: 'funding',
-    label: 'Funding',
+    id: 'earn',
+    label: 'Earn',
     icon: 'money-receive-circle',
     description:
       'Model inbound routes as drill-down topics so deposit methods, limits, and reconciliation all live in the same flow.',
     summary: (
       <DetailStory
-        eyebrow='Funding'
-        title='Inbound rails'
+        eyebrow='Earn'
+        title='Stake'
         description='Use the list to move from high-level funding topics into route-specific detail. This keeps onboarding, limits, and settlement context visible while you drill down.'
         metrics={[
-          { label: 'Routes', value: '4 total' },
-          { label: 'Default', value: 'Onchain' },
-          { label: 'Queue', value: 'Clear' }
+          { label: '', value: 'Stable Coins' },
+          { label: '', value: 'Stake' }
         ]}
         points={[
           {
@@ -517,7 +517,7 @@ export const ACTION_TABS: ActionTab[] = [
   },
   {
     id: 'send',
-    label: 'Send Crypto',
+    label: 'Send',
     icon: 'money-send-square',
     description:
       'Compose transfers, inspect limits, and review recipient readiness without leaving the send workspace.',
@@ -730,20 +730,18 @@ export const ACTION_TABS: ActionTab[] = [
     ]
   },
   {
-    id: 'contacts',
-    label: 'Contacts',
-    icon: 'address-book',
-    description:
-      'Treat the recipient book as a navigable workspace where directory, trust, and enrichment all sit in adjacent columns.',
+    id: 'bets',
+    label: 'Bets',
+    icon: 'add-money-circle',
+    description: 'Bets are a way to place bets on the recipient network.',
     summary: (
       <DetailStory
-        eyebrow='Contacts'
-        title='Recipient network'
-        description='The contact area now works like a settings workspace instead of a single destination. Choose a topic, then move into the detail pane that matters.'
+        eyebrow='Bets'
+        title='Bets'
+        description='Bet.'
         metrics={[
-          { label: 'Contacts', value: 'Growing' },
-          { label: 'Wallets', value: 'Tracked' },
-          { label: 'Trust', value: 'Layered' }
+          { label: 'Games', value: 'Casino' },
+          { label: 'Markets', value: 'Predictions' }
         ]}
         points={[
           {
@@ -762,29 +760,28 @@ export const ACTION_TABS: ActionTab[] = [
     ),
     nodes: [
       {
-        id: 'directory',
-        label: 'Directory',
+        id: 'games',
+        label: 'Games',
         eyebrow: 'Book',
-        description: 'Manage saved contacts and wallet destinations.',
-        badge: 'Primary',
+        description: 'Casino games.',
+        badge: '+10%',
         content: (
           <DetailStory
-            eyebrow='Book'
-            title='Directory'
+            eyebrow='Games'
+            title='Casino'
             description='Use the next column to jump into the full address book or inspect trust controls that shape how recipients are treated.'
             metrics={[
-              { label: 'Primary view', value: 'Address book' },
-              { label: 'Trust checks', value: 'Available' },
-              { label: 'Notes', value: 'Scoped' }
+              { label: '', value: 'Roulette' },
+              { label: '', value: 'Limbo' }
             ]}
             points={[
               {
-                title: 'Address storage',
+                title: 'Roulette',
                 description:
                   'Keep the concrete list of recipients and wallets one step deeper so the parent topic remains visible.'
               },
               {
-                title: 'Recipient trust',
+                title: 'Limbo',
                 description: 'Pair the contact directory with trust and enrichment controls in the same flow.'
               }
             ]}
@@ -793,56 +790,45 @@ export const ACTION_TABS: ActionTab[] = [
         ),
         children: [
           {
-            id: 'address-book',
-            label: 'Address book',
-            eyebrow: 'Directory',
-            description: 'Open the full contact manager.',
+            id: 'games',
+            label: 'Roulette',
+            icon: 'roulette',
+            eyebrow: 'games',
+            description: 'Roulette Casino games.',
             content: (
-              <EmbeddedDetail
-                eyebrow='Directory'
-                title='Address book'
-                description='This is the existing contact management experience, mounted as the terminal pane in the cascading account flow.'>
-                <AddressBook />
+              <EmbeddedDetail eyebrow='Roulette' title='Roulette' description='Roulette games.'>
+                <EdgeContainer>
+                  <div className='flex items-center space-x-4'>
+                    <Icon name='roulette' className='animate-spin' />
+                    <span>Roulette</span>
+                  </div>
+                </EdgeContainer>
               </EmbeddedDetail>
             )
           },
           {
-            id: 'trust-settings',
-            label: 'Trust settings',
-            eyebrow: 'Trust',
-            description: 'Verification and recipient confidence rules.',
+            id: 'limbo',
+            label: 'Limbo',
+            icon: 'sunglasses',
+            eyebrow: 'limbo',
+            description: 'Limbo games.',
             content: (
-              <DetailStory
-                eyebrow='Trust'
-                title='Trust settings'
-                description='Use a dedicated detail pane for recipient verification rules, freshness checks, and how trusted status changes transfer behavior.'
-                metrics={[
-                  { label: 'Verified', value: '8 recipients' },
-                  { label: 'Pending', value: '2' },
-                  { label: 'Expiry', value: '90 days' }
-                ]}
-                points={[
-                  {
-                    title: 'Verification rules',
-                    description:
-                      'Define what makes a recipient trusted and when that status should expire or require reconfirmation.'
-                  },
-                  {
-                    title: 'Transfer impact',
-                    description:
-                      'Trusted status should influence send approvals, which is why this belongs near the address book rather than in isolation.'
-                  }
-                ]}
-                note='This view turns trust from an implicit property into something the operator can actually inspect.'
-              />
+              <EmbeddedDetail eyebrow='Limbo' title='Limbo' description='Limbo games.'>
+                <EdgeContainer>
+                  <div className='flex items-center space-x-4'>
+                    <Icon name='sunglasses' className='size-8' />
+                    <span>Limbo</span>
+                  </div>
+                </EdgeContainer>
+              </EmbeddedDetail>
             )
           }
         ]
       },
       {
-        id: 'enrichment',
-        label: 'Enrichment',
-        eyebrow: 'Context',
+        id: 'markets',
+        label: 'Markets',
+        eyebrow: 'markets',
         description: 'Labels, notes, and internal recipient context.',
         content: (
           <DetailStory
@@ -868,13 +854,40 @@ export const ACTION_TABS: ActionTab[] = [
             ]}
             note='If you later add tags or recipient cohorts, this pane is the right expansion point.'
           />
-        )
+        ),
+        children: [
+          {
+            id: 'polymarket',
+            label: 'Polymarket',
+            icon: 'polymarket',
+            eyebrow: 'predictions',
+            description: 'Live prediction markets.',
+            content: <PolymarketMarkets />
+          },
+          {
+            id: 'kalshi',
+            label: 'Kalshi',
+            icon: 'kalshi',
+            eyebrow: 'Predictions',
+            description: 'Kalshi predictions.',
+            content: (
+              <EmbeddedDetail eyebrow='Kalshi' title='Kalshi Predictions' description='Limbo games.'>
+                <EdgeContainer>
+                  <div className='flex items-center space-x-4'>
+                    <Icon name='kalshi' className='size-5' />
+                    <span>Kalshi</span>
+                  </div>
+                </EdgeContainer>
+              </EmbeddedDetail>
+            )
+          }
+        ]
       },
       {
-        id: 'sharing',
-        label: 'Sharing rules',
-        eyebrow: 'Access',
-        description: 'How contact data is exposed across the account.',
+        id: 'dex',
+        label: 'DEX',
+        eyebrow: 'finance',
+        description: 'DEX.',
         content: (
           <DetailStory
             eyebrow='Access'

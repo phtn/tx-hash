@@ -79,14 +79,14 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
   }
 
   return (
-    <div className='relative min-h-screen w-screen overflow-hidden text-[#18120f] dark:bg-card/50 dark:text-white'>
+    <div className='relative h-dvh min-h-0 w-screen overflow-hidden text-[#18120f] dark:bg-card/50 dark:text-white'>
       <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,124,51,0.18),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(24,18,15,0.08),transparent_22%),linear-gradient(to_bottom,rgba(24,18,15,0.05)_1px,transparent_1px)] bg-size-[auto,auto,100%_100%] opacity-100 dark:bg-[radial-gradient(circle_at_top_left,rgba(255,124,51,0.14),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(255,255,255,0.08),transparent_22%),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]' />
       <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(24,18,15,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(24,18,15,0.06)_1px,transparent_1px)] bg-size-[72px_72px] opacity-25 mask-[linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]' />
 
       <Tabs.Root
         value={activeTab}
         onValueChange={handleTabChange}
-        className='relative grid min-h-screen w-full sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(220px,1fr)]'>
+        className='relative grid h-full min-h-0 w-full overflow-hidden sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(220px,1fr)]'>
         <Tabs.List>
           <aside className='sticky top-0 hidden h-screen border-r border-foreground/20 dark:border-background bg-card/90 px-4 py-0 dark:bg-card md:flex md:flex-col md:justify-between'>
             <div className='space-y-0 w-full'>
@@ -112,12 +112,12 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
             </div>
           </aside>
         </Tabs.List>
-        <div className='min-w-0 w-full overflow-hidden'>
+        <div className='min-h-0 min-w-0 w-full overflow-hidden'>
           <Topbar />
           {ACTION_TABS.map((tab) => (
-            <Tabs.Panel key={tab.id} value={tab.id} className='w-full overflow-hidden outline-none'>
-              <main className='min-w-0 w-full flex-1'>
-                <div className='w-full space-y-6 h-[calc(100vh-56px)]'>
+            <Tabs.Panel key={tab.id} value={tab.id} className='min-h-0 w-full overflow-hidden outline-none'>
+              <main className='min-h-0 min-w-0 w-full flex-1 overflow-hidden'>
+                <div className='h-[calc(100dvh-56px)] min-h-0 w-full overflow-hidden'>
                   <ActionTabFlow
                     tab={tab}
                     path={tab.id === activeTab ? activePath : []}

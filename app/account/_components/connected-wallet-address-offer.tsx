@@ -42,6 +42,7 @@ export function ConnectedWalletAddressOffer({
         aria-label={isSaved ? 'Connected wallet is already saved' : 'Add connected wallet to saved addresses'}
         className={cn(
           'flex h-10 shrink-0 items-center gap-2 rounded-[8px] border border-accent/35 bg-accent/12 px-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#18120f] outline-accent transition-colors hover:bg-accent/18 disabled:cursor-default disabled:opacity-70 dark:border-accent/40 dark:bg-accent/18 dark:text-white dark:hover:bg-accent/24',
+          { hidden: variant === 'topbar' && isSaved },
           isSaved && 'border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
           className
         )}>

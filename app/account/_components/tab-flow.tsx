@@ -55,10 +55,10 @@ export const ActionTabFlow = ({ tab, path, onSelect }: ActionTabFlowProps) => {
   const compactContent = selectedNode?.content ?? tab.summary
 
   return (
-    <div className='flex h-full min-w-0 bg-white/50 dark:bg-card/60'>
-      <div className='flex min-w-0 flex-1 xl:hidden'>
-        <section className='flex min-w-0 flex-1 flex-col bg-white dark:bg-[#050505]'>
-          <div className='border-b border-black/8 px-5 py-4 dark:border-white/10'>
+    <div className='flex h-full min-h-0 min-w-0 overflow-hidden bg-white/50 dark:bg-card/60'>
+      <div className='flex min-h-0 min-w-0 flex-1 xl:hidden'>
+        <section className='flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white dark:bg-[#050505]'>
+          <div className='shrink-0 border-b border-black/8 px-5 py-4 dark:border-white/10'>
             <p className='font-mono text-[10px] uppercase tracking-[0.34em] text-[#7f7368] dark:text-white/34'>
               Workspace
             </p>
@@ -68,12 +68,12 @@ export const ActionTabFlow = ({ tab, path, onSelect }: ActionTabFlowProps) => {
             <p className='mt-3 text-sm leading-6 text-[#675d53] dark:text-white/54'>{tab.description}</p>
           </div>
 
-          <div className='flex-1 overflow-y-auto p-4'>{compactContent}</div>
+          <div className='min-h-0 flex-1 overflow-y-auto p-4'>{compactContent}</div>
         </section>
       </div>
 
-      <div className='hidden min-w-0 flex-1 xl:flex'>
-        <div className='flex h-full min-w-0 flex-1 overflow-x-auto scroll-smooth'>
+      <div className='hidden min-h-0 min-w-0 flex-1 overflow-hidden xl:flex'>
+        <div className='flex h-full min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-hidden scroll-smooth'>
           {columns.map((column) => (
             <FlowListColumn
               key={`${tab.id}-${column.level}-${column.title}`}
