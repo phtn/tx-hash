@@ -916,13 +916,13 @@ export const ACTION_TABS: ActionTab[] = [
     ]
   },
   {
-    id: 'tx',
-    label: 'Transactions',
+    id: 'txn',
+    label: 'Txn',
     icon: 'transaction-history',
     description: 'Review activity through nested ledger topics instead of a single flat history page.',
     summary: (
       <DetailStory
-        eyebrow='Transactions'
+        eyebrow='Transaction History'
         title='Ledger workspace'
         description='This area now follows the same cascading model as the rest of the account. Pick an activity topic, then move into the narrow detail you actually need.'
         metrics={[

@@ -116,7 +116,7 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
   }
 
   return (
-    <Card className='overflow-hidden rounded-[24px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
+    <Card className='overflow-hidden rounded-[24.01px] border-white/70 bg-[#f6f2eb] shadow-[0_22px_72px_rgba(63,42,20,0.12)]'>
       <CardHeader className='border-b border-black/5 px-6'>
         <CardTitle className='flex items-center gap-3 text-[1.35rem] tracking-[-0.04em] text-[#18120f]'>
           <Icon name={network as IconName} className='size-6 text-indigo-500' />
@@ -130,9 +130,9 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
       <CardContent className='space-y-6 px-6'>
         {/* Recipient */}
         <div className='space-y-3'>
-          <label className='text-[10px] font-medium uppercase tracking-[0.28em] text-[#7f7368]'>Recipient</label>
+          <label className='text-[10px] font-medium uppercase tracking-[0.28em] text-foreground'>Recipient</label>
           {contacts.length === 0 ? (
-            <div className='rounded-[8px] border border-dashed border-black/15 bg-white/65 dark:bg-card/10 p-4 text-sm leading-6 text-[#675d53]'>
+            <div className='rounded-xl border border-dashed border-black/15 bg-white/65 dark:bg-card/10 p-4 text-sm leading-6 text-[#675d53]'>
               No contacts yet. Add one in the Contacts tab first.
             </div>
           ) : (
@@ -188,7 +188,7 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
                 Wallet address
               </label>
               {selectedContact.walletAddresses.length === 0 ? (
-                <div className='rounded-[24px] border border-dashed border-black/10 bg-white/65 p-5 text-sm leading-6 text-[#675d53]'>
+                <div className='rounded-3xl border border-dashed border-black/10 bg-white/65 p-5 text-sm leading-6 text-[#675d53]'>
                   This contact has no wallet addresses saved.
                 </div>
               ) : (
@@ -257,7 +257,7 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder='0.00'
-              className='h-14 rounded-[8px] border-black/10 bg-white/80 font-mono text-[16px]!'
+              className='h-14 rounded-xl border-black/10 bg-white/80 font-mono text-[16px]!'
             />
           </div>
 
@@ -269,7 +269,7 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder='Payment for...'
-              className='min-h-20 rounded-[8px] border-black/10 bg-white/80 shadow-[0_8px_24px_rgba(63,42,20,0.05)]'
+              className='min-h-20 rounded-xl border-black/10 bg-white/80 shadow-[0_8px_24px_rgba(63,42,20,0.05)]'
             />
           </div>
 
@@ -277,7 +277,7 @@ const SendPanelContent = ({ network }: { network: 'eth' | 'sol' | 'btc' }) => {
             type='button'
             onClick={() => void handleSend()}
             disabled={!canSend || isSending}
-            className='h-14 w-full gap-2 rounded-[8px] bg-accent text-white hover:bg-[#28201c] disabled:opacity-40'>
+            className='h-14 w-full gap-2 rounded-xl bg-accent text-white hover:bg-[#28201c] disabled:opacity-40'>
             {isSending ? <Loader2 className='size-4 animate-spin' /> : <ArrowUpRight className='size-4' />}
             {isSending ? 'Sending…' : 'Send'}
           </Button>

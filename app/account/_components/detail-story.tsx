@@ -34,7 +34,7 @@ export const DetailStory = ({ eyebrow, title, children, metrics = [], points = [
   return (
     <section className='flex h-full min-w-screen flex-1 flex-col bg-card dark:bg-card/80 lg:min-w-100'>
       <div className='border-b border-black/8 dark:border-background'>
-        <p className='font-poly text-[8px] px-6 flex items-center border-b h-10 uppercase tracking-[0.30em] text-[#7f7368] dark:text-white dark:bg-accent/40'>
+        <p className='font-poly font-medium text-[8px] px-6 flex items-center border-b h-10 uppercase tracking-[0.30em] text-[#7f7368] dark:text-background dark:bg-accent'>
           {eyebrow}
         </p>
 

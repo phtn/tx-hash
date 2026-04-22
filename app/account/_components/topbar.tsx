@@ -1,5 +1,6 @@
 'use client'
 
+import { ScrambleText } from '@/components/scramble-text'
 import { useBitcoinBalance } from '@/hooks/use-bitcoin-balance'
 import { useCrypto } from '@/hooks/use-crypto'
 import { useNetworkTokens, type TokenBalance } from '@/hooks/use-network-tokens'
@@ -71,20 +72,22 @@ function getAssetFromTokenBalance(
 
 function AssetPill({ asset, showBalance }: { asset: TopbarAsset; showBalance: boolean }) {
   return (
-    <div className='flex shrink-0 items-center gap-2 rounded-[8px] bg-white/70 py-1 pl-1 pr-3 dark:border-white/10 dark:bg-white/4'>
+    <div className='flex shrink-0 items-center gap-2 py-1 pl-1 pr-3'>
       <TokenCoaster size='sm' token={asset.token} />
       <div className='min-w-0'>
         <div className='flex items-baseline gap-1.5'>
-          <span className='font-okx text-sm font-semibold leading-none text-[#18120f] dark:text-white'>
-            {showBalance ? tokenAmountFormatter.format(asset.balance) : '****'}
+          <span className='font-poly text-sm font-semibold leading-none text-[#18120f] dark:text-white'>
+            {showBalance ? tokenAmountFormatter.format(asset.balance) : '------'}
           </span>
-          <span className='font-mono text-base tracking-wide uppercase text-[#7f7368] dark:text-white/42'>
-            {asset.symbol}
-          </span>
+          <span className='font-poly text-sm tracking-wide uppercase text-foreground/70'>{asset.symbol}</span>
         </div>
-        <p className='mt-0.5 font-mono text-xs text-[#7f7368] dark:text-white/60 uppercase tracking-wide'>
-          {showBalance && asset.usdValue !== null ? usdFormatter.format(asset.usdValue) : 'Private'}
-        </p>
+        <div className='mt-0 font-okx text-sm text-foreground/80 uppercase tracking-wide leading-3.5'>
+          {showBalance && asset.usdValue !== null ? (
+            <span>{usdFormatter.format(asset.usdValue)}</span>
+          ) : (
+            <ScrambleText text='---------' />
+          )}
+        </div>
       </div>
     </div>
   )
@@ -96,8 +99,8 @@ export const Topbar = memo(function Topbar() {
   const { caipNetwork } = useAppKitNetwork()
   const { tokens, isLoading: isLoadingTokens } = useNetworkTokens()
   const {
+    address: bitcoinAddress,
     balanceBtc,
-    balanceSats,
     isLoading: isLoadingBitcoin
   } = useBitcoinBalance(caipNetwork?.chainNamespace === 'bip122')
   const { getBySymbol } = useCrypto()
@@ -109,35 +112,40 @@ export const Topbar = memo(function Topbar() {
   const isBitcoinNetwork = caipNetwork?.chainNamespace === 'bip122'
   const isLoading = isBitcoinNetwork ? isLoadingBitcoin : isLoadingTokens
 
+  const bitcoinAsset = useMemo<TopbarAsset | null>(() => {
+    if (!isBitcoinNetwork || !bitcoinAddress || (isLoadingBitcoin && balanceBtc === '0')) {
+      return null
+    }
+
+    const balance = Number.parseFloat(balanceBtc)
+
+    return {
+      balance,
+      id: 'bitcoin-BTC',
+      price: bitcoinPrice,
+      symbol: 'BTC',
+      token: 'bitcoin',
+      usdValue: bitcoinPrice === null ? null : balance * bitcoinPrice
+    }
+  }, [balanceBtc, bitcoinAddress, bitcoinPrice, isBitcoinNetwork, isLoadingBitcoin])
+
   const assets = useMemo<TopbarAsset[]>(() => {
     if (isBitcoinNetwork) {
-      if (balanceSats <= BigInt(0)) return []
-
-      const balance = Number.parseFloat(balanceBtc)
-      return [
-        {
-          balance,
-          id: 'bitcoin-BTC',
-          price: bitcoinPrice,
-          symbol: 'BTC',
-          token: 'bitcoin',
-          usdValue: bitcoinPrice === null ? null : balance * bitcoinPrice
-        }
-      ]
+      return bitcoinAsset ? [bitcoinAsset] : []
     }
 
     return tokens.map((tokenBalance) => getAssetFromTokenBalance(tokenBalance, nativeSymbol, nativePrice, bitcoinPrice))
-  }, [balanceBtc, balanceSats, bitcoinPrice, isBitcoinNetwork, nativePrice, nativeSymbol, tokens])
+  }, [bitcoinAsset, bitcoinPrice, isBitcoinNetwork, nativePrice, nativeSymbol, tokens])
 
   return (
-    <header className='relative z-10 flex items-center justify-between gap-4 border-b border-black/8 bg-white/65 px-4 py-3 backdrop-blur-xl dark:border-background dark:bg-white/3 sm:px-6'>
-      <div className='flex min-w-0 flex-1 items-center gap-3'>
+    <header className='h-14 relative z-10 flex items-center justify-between gap-4 border-b border-black/8 bg-white/65 px-4 py-0 backdrop-blur-xl dark:border-background dark:bg-white/3 sm:ps-3 sm:pe-2'>
+      <div className='flex min-w-0 flex-1 items-center gap-2'>
         <button
           type='button'
           onClick={toggle}
           aria-label={showBalances ? 'Hide asset balances' : 'Show asset balances'}
-          className='grid size-10 shrink-0 place-items-center rounded-full border border-black/8 bg-white/70 outline-accent dark:border-white/10 dark:bg-white/4'>
-          <Icon name={showBalances ? 'eyeglasses' : 'sunglasses'} className='size-7' />
+          className='grid size-7 shrink-0 place-items-center rounded-full bg-white/70 outline-accent dark:border-white/10 dark:bg-white/4'>
+          <Icon name={showBalances ? 'visibile' : 'hide'} className='size-5' />
         </button>
 
         <div className='flex min-w-0 flex-1 items-center gap-2 overflow-x-auto'>

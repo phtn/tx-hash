@@ -23,6 +23,18 @@ const DEFAULT_BALANCE_BTC = '0'
 const BITCOIN_ADDRESS_PATTERN =
   /^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/i
 
+function normalizeBitcoinAddress(value: string | null | undefined) {
+  const candidate = value?.trim()
+
+  if (!candidate) {
+    return null
+  }
+
+  const address = candidate.includes(':') ? candidate.split(':').at(-1) : candidate
+
+  return address && BITCOIN_ADDRESS_PATTERN.test(address) ? address : null
+}
+
 export function useBitcoinBalance(
   enabled: boolean,
   addressOverride?: string | null,
@@ -33,10 +45,8 @@ export function useBitcoinBalance(
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const address =
-    walletAddress ??
-    (addressOverride && BITCOIN_ADDRESS_PATTERN.test(addressOverride)
-      ? addressOverride
-      : null)
+    normalizeBitcoinAddress(walletAddress) ??
+    normalizeBitcoinAddress(addressOverride)
 
   const refetch = useCallback(async () => {
     if (!enabled || !address) {

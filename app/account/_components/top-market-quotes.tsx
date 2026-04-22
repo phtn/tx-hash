@@ -107,7 +107,7 @@ function CryptoAssetDetail({ quote }: { quote: CryptoQuote }) {
             <p className='truncate font-okx text-3xl leading-none text-[#18120f] dark:text-white'>
               {priceFormatter.format(quote.price)}
             </p>
-            <p className='mt-1 font-mono text-[10px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
+            <p className='mt-1 font-mono text-[10px] uppercase tracking-[0.24em] text-foreground/70'>
               {quote.symbol} / USD
             </p>
           </div>
@@ -178,12 +178,12 @@ export function TopMarketQuotes() {
     <div className='flex h-full min-w-0 flex-1 flex-col xl:flex-row'>
       <section className='flex min-h-112 w-full flex-col border-r border-black/8 xl:h-full xl:w-105 xl:min-w-105'>
         <div className='flex items-center justify-between gap-4 border-black/8 dark:border-background'>
-          <div className='w-full flex items-center justify-between border-b border-black/8 px-6 h-10 dark:border-background bg-accent/90 dark:bg-accent/60'>
-            <p className='font-poly text-[10px] uppercase tracking-[0.28em] dark:text-white'>Top 10</p>
+          <div className='w-full flex items-center justify-between border-b border-black/8 px-6 h-10 dark:border-background bg-accent/90 dark:bg-accent'>
+            <p className='font-poly dark:text-background text-[10px] uppercase tracking-widest'>Top 10</p>
             <Icon
               onClick={refetch}
               name={isPending ? 'spinner-ring' : 'rotate'}
-              className={cn('size-4 text-white dark:text-white')}
+              className={cn('size-4 dark:text-background')}
             />
           </div>
         </div>
@@ -222,26 +222,24 @@ export function TopMarketQuotes() {
                   <div className='grid size-9 place-items-center'>
                     <Icon name={getQuoteIconName(quote.symbol)} className='size-9' />
                   </div>
-                  <div className='min-w-0'>
+                  <div className='min-w-0 -space-y-0.5'>
                     <div className='flex items-center gap-1.5'>
-                      <p className='truncate text-base font-poly font-semibold text-[#18120f] dark:text-white'>
-                        {quote.name}
-                      </p>
-                      <span className='font-okx text-[10px] uppercase text-[#7f7368] dark:text-white/38'>
+                      <p className='truncate text-base font-poly font-semibold text-foreground'>{quote.name}</p>
+                      <span className='font-poly text-[10px] uppercase text-foreground/70 tracking-wide'>
                         {quote.symbol}
                       </span>
                     </div>
-                    <p className='mt-1 font-okx text-[10px] uppercase text-[#7f7368] dark:text-white/38'>
+                    <p className='mt-0 font-okx text-sm uppercase text-foreground/80'>
                       {compactUsdFormatter.format(quote.marketCap)}
                     </p>
                   </div>
                   <div className='text-right'>
-                    <p className='font-okx text-sm font-semibold text-[#18120f] dark:text-white'>
+                    <p className='font-okx text-base font-medium text-[#18120f] dark:text-white'>
                       {priceFormatter.format(quote.price)}
                     </p>
                     <p
                       className={cn(
-                        'mt-1 font-cm text-[10px] uppercase',
+                        'mt-0 font-cm text-xs uppercase',
                         changeIsPositive ? 'text-emerald-600 dark:text-emerald-300' : 'text-red-600 dark:text-red-300'
                       )}>
                       {formatPercent(quote.percentChange24h)}
