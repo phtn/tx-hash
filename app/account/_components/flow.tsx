@@ -44,13 +44,13 @@ export const FlowListColumn = ({
       <div
         className={cn('flex items-center justify-between border-b border-black/8 px-6 h-10 dark:border-background', {
           'bg-accent': level === 0,
-          'bg-accent/90 dark:bg-accent/60': level === 1
+          'bg-accent dark:bg-accent': level === 1
         })}>
-        <p className={cn('font-poly dark:text-background text-[10px] uppercase tracking-widest')}>{title}</p>
+        <p className={cn('font-poly text-background text-[10px] uppercase tracking-wider')}>{title}</p>
         <Icon
           onClick={() => onSelect(level, '')}
           name='information-circle'
-          className={cn('size-4 dark:text-background', { 'dark:text-white': level === 1 })}
+          className={cn('size-4 dark:text-background', { '': level === 1 })}
         />
       </div>
 
@@ -91,7 +91,7 @@ export const FlowListColumn = ({
                       {item.badge ? (
                         <span
                           className={cn(
-                            'rounded-[2px] border bg-emerald-600 px-0.5 h-4 flex items-center font-poly font-bold text-[8px] text-white drop-shadow-2xs uppercase tracking-widest',
+                            'rounded-[2px] border bg-emerald-600 px-0.5 h-4 flex items-center font-poly font-semibold text-[8px] text-white drop-shadow-2xs uppercase tracking-widest',
                             isActive
                               ? 'border-emerald-500  '
                               : 'border-foreground/10 bg-foreground/5 dark:bg-white/4 dark:text-white/56 text-accent'

@@ -24,7 +24,7 @@ interface PendingAction {
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   day: '2-digit',
   month: 'short',
-  year: 'numeric',
+  year: 'numeric'
 })
 
 const walletTypeLabels: Record<WalletType, string> = {
@@ -33,7 +33,7 @@ const walletTypeLabels: Record<WalletType, string> = {
   hardware: 'Hardware',
   self_custody: 'Self custody',
   smart_contract: 'Smart contract',
-  watch_only: 'Watch only',
+  watch_only: 'Watch only'
 }
 
 const addressTypeLabels: Record<AddressType, string> = {
@@ -42,21 +42,21 @@ const addressTypeLabels: Record<AddressType, string> = {
   multisig: 'Multisig',
   personal: 'Personal',
   unknown: 'Unknown',
-  withdrawal: 'Withdrawal',
+  withdrawal: 'Withdrawal'
 }
 
 const sourceLabels: Record<SourceType, string> = {
   imported: 'Imported',
   manual: 'Manual',
   system: 'System',
-  wallet_connect: 'Wallet connect',
+  wallet_connect: 'Wallet connect'
 }
 
 const namespaceLabels: Record<ChainNamespace, string> = {
   bip122: 'Bitcoin',
   eip155: 'EVM',
   other: 'Other',
-  solana: 'Solana',
+  solana: 'Solana'
 }
 
 function truncateAddress(address: string) {
@@ -133,9 +133,9 @@ function EmptyWalletAddresses({ className }: { className?: string } = {}) {
 
 function DetailStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className='border-b border-black/8 px-5 py-4 last:border-b-0 dark:border-background'>
-      <p className='font-mono text-[10px] uppercase tracking-[0.26em] text-[#7f7368] dark:text-white/38'>{label}</p>
-      <p className='mt-2 break-words font-okx text-base text-[#18120f] dark:text-white'>{value}</p>
+    <div className='border-b border-black/8 px-5 py-2 last:border-b-0 dark:border-background'>
+      <p className='font-mono text-[8px] uppercase tracking-[0.26em] text-[#7f7368] dark:text-white/38'>{label}</p>
+      <p className='mt-2 wrap-break-word font-okx text-base text-[#18120f] dark:text-white'>{value}</p>
     </div>
   )
 }
@@ -146,7 +146,7 @@ function WalletAddressDetail({
   onCopy,
   onSetPrimary,
   pendingAction,
-  wallet,
+  wallet
 }: {
   copiedWalletId: Id<'user_crypto_wallets'> | null
   onArchive: (wallet: SavedWalletAddress) => void
@@ -165,24 +165,24 @@ function WalletAddressDetail({
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div className='min-w-0'>
             <div className='flex flex-wrap items-center gap-2'>
-              <span className='border border-black/10 bg-white/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7f7368] dark:border-white/10 dark:bg-white/4 dark:text-white/48'>
+              <span className='border border-black/10 bg-white/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-[#7f7368] dark:border-white/10 dark:bg-white/4 dark:text-white/48'>
                 {wallet.networkName}
               </span>
               {wallet.isPrimary ? (
-                <span className='bg-accent px-2 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white'>
+                <span className='bg-accent/20 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-white'>
                   Primary
                 </span>
               ) : null}
               {wallet.isVerified ? (
-                <span className='border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-emerald-700 dark:text-emerald-300'>
+                <span className='border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-emerald-700 dark:text-emerald-300'>
                   Verified
                 </span>
               ) : null}
             </div>
-            <h3 className='mt-4 truncate font-ct text-4xl leading-none text-[#18120f] dark:text-white'>
+            <h3 className='mt-4 truncate font-ct text-xl leading-none text-[#18120f] dark:text-white'>
               {wallet.walletName}
             </h3>
-            <p className='mt-4 max-w-2xl break-all font-mono text-sm leading-6 text-[#675d53] dark:text-white/58'>
+            <p className='mt-2 max-w-2xl break-all font-mono text-sm leading-6 text-[#675d53] dark:text-white/58'>
               {wallet.address}
             </p>
           </div>
@@ -191,21 +191,21 @@ function WalletAddressDetail({
             <button
               type='button'
               onClick={() => onCopy(wallet)}
-              className='h-10 border border-black/10 bg-white/70 px-4 font-mono text-[10px] uppercase tracking-[0.22em] text-[#18120f] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white dark:hover:bg-white/8'>
+              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white dark:hover:bg-white/8'>
               {copiedWalletId === wallet.id ? 'Copied' : 'Copy'}
             </button>
             <button
               type='button'
               onClick={() => onSetPrimary(wallet)}
               disabled={wallet.isPrimary || isSettingPrimary}
-              className='h-10 border border-black/10 bg-white/70 px-4 font-mono text-[10px] uppercase tracking-[0.22em] text-[#18120f] outline-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-45 dark:border-white/10 dark:bg-white/4 dark:text-white dark:hover:bg-white/8'>
+              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-accent text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:hover:bg-white/8'>
               {isSettingPrimary ? 'Saving' : 'Set primary'}
             </button>
             <button
               type='button'
               onClick={() => onArchive(wallet)}
               disabled={isArchiving}
-              className='h-10 border border-red-500/20 bg-red-500/8 px-4 font-mono text-[10px] uppercase tracking-[0.22em] text-red-700 outline-accent hover:bg-red-500/12 disabled:cursor-not-allowed disabled:opacity-45 dark:text-red-300'>
+              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white/50 dark:hover:bg-white/8'>
               {isArchiving ? 'Archiving' : 'Archive'}
             </button>
           </div>
@@ -330,7 +330,7 @@ function WalletAddressesContent() {
   const networkCount = new Set(wallets.map((wallet) => wallet.networkKey)).size
   const enabledAssetCount = wallets.reduce(
     (total, wallet) => total + wallet.assets.filter((asset) => asset.enabled).length,
-    0,
+    0
   )
 
   const handleCopy = async (wallet: SavedWalletAddress) => {
@@ -355,7 +355,7 @@ function WalletAddressesContent() {
     try {
       await updateWallet({
         walletId: wallet.id,
-        isArchived: true,
+        isArchived: true
       })
       if (selectedWalletId === wallet.id) {
         setSelectedWalletId(null)
@@ -375,23 +375,23 @@ function WalletAddressesContent() {
             <Icon name='wallet' className='size-4 text-white' />
           </div>
           <div className='grid grid-cols-3 divide-x divide-black/8 dark:divide-background'>
-            <div className='px-5 py-4'>
-              <p className='font-mono text-[10px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
+            <div className='px-4 py-2'>
+              <p className='font-mono text-[8px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
                 Wallets
               </p>
-              <p className='mt-2 font-okx text-2xl text-[#18120f] dark:text-white'>{wallets.length}</p>
+              <p className='mt-1 font-okx text-base text-[#18120f] dark:text-white'>{wallets.length}</p>
             </div>
-            <div className='px-5 py-4'>
-              <p className='font-mono text-[10px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
+            <div className='px-4 py-2'>
+              <p className='font-mono text-[8px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
                 Networks
               </p>
-              <p className='mt-2 font-okx text-2xl text-[#18120f] dark:text-white'>{networkCount}</p>
+              <p className='mt-1 font-okx text-base text-[#18120f] dark:text-white'>{networkCount}</p>
             </div>
-            <div className='px-5 py-4'>
-              <p className='font-mono text-[10px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
+            <div className='px-4 py-2'>
+              <p className='font-mono text-[8px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
                 Assets
               </p>
-              <p className='mt-2 font-okx text-2xl text-[#18120f] dark:text-white'>{enabledAssetCount}</p>
+              <p className='mt-1 font-okx text-base text-[#18120f] dark:text-white'>{enabledAssetCount}</p>
             </div>
           </div>
         </div>
@@ -409,7 +409,7 @@ function WalletAddressesContent() {
                   'grid w-full grid-cols-[3rem_minmax(0,1fr)] gap-3 border-b border-black/8 px-5 py-4 text-left outline-accent transition-colors last:border-b-0 dark:border-background',
                   isSelected
                     ? 'bg-foreground/8 dark:bg-white/8'
-                    : 'bg-white/40 hover:bg-card dark:bg-white/3 dark:hover:bg-white/6',
+                    : 'bg-white/40 hover:bg-card dark:bg-white/3 dark:hover:bg-white/6'
                 )}>
                 <div className='grid size-10 place-items-center rounded-full bg-white dark:bg-white/4'>
                   <Icon name={getNetworkIcon(wallet)} className='size-8' />
@@ -417,17 +417,18 @@ function WalletAddressesContent() {
                 <div className='min-w-0'>
                   <div className='flex min-w-0 items-center gap-2'>
                     <p className='truncate text-sm font-semibold text-[#18120f] dark:text-white'>{wallet.walletName}</p>
+                    <p className='font-mono text-[8px] uppercase tracking-[0.18em] text-foreground/50'>
+                      {wallet.networkName}
+                    </p>
                     {wallet.isPrimary ? (
-                      <span className='shrink-0 bg-accent px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-white'>
+                      <span className='shrink-0 px-1.5 py-0.5 font-mono text-accent text-[8px] uppercase tracking-[0.18em]'>
                         Primary
                       </span>
                     ) : null}
                   </div>
-                  <p className='mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#7f7368] dark:text-white/38'>
-                    {wallet.networkName} / {walletTypeLabels[wallet.walletType]}
-                  </p>
+
                   <p className='mt-2 truncate font-mono text-xs text-[#675d53] dark:text-white/54'>
-                    {truncateAddress(wallet.address)}
+                    {truncateAddress(wallet.address)} | {walletTypeLabels[wallet.walletType]}
                   </p>
                 </div>
               </button>

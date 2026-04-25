@@ -86,14 +86,14 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
       <Tabs.Root
         value={activeTab}
         onValueChange={handleTabChange}
-        className='relative grid h-full min-h-0 w-full overflow-hidden sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(220px,1fr)]'>
+        className='relative grid h-full min-h-0 w-full overflow-hidden sm:grid-cols-[72px_minmax(0,1fr)] lg:grid-cols-[160px_minmax(160px,1fr)]'>
         <Tabs.List>
           <aside className='sticky top-0 hidden h-screen border-r border-foreground/20 dark:border-background bg-card/90 px-4 py-0 dark:bg-card md:flex md:flex-col md:justify-between'>
             <div className='space-y-0 w-full'>
               <button
                 aria-label='Go home'
-                className='size-14 flex items-center justify-center translate-x-3 rounded-[18px] text-accent outline-accent'>
-                <Icon name='hot' className='size-7' />
+                className='size-10 flex items-center justify-center translate-x-3 rounded-[18px] text-accent outline-accent'>
+                <Icon name='hot' className='size-5' />
               </button>
               <nav className='space-y-1 w-full'>
                 {ACTION_TABS.map((item) => (
@@ -105,9 +105,7 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
             </div>
 
             <div className='space-x-4 flex items-center w-full h-20'>
-              <div className='size-16 rounded-full border border-accent bg-white/70 dark:border-white/10 dark:bg-white/3'>
-                <CurrentUserAvatar profile={profile} className='h-full w-auto aspect-square' />
-              </div>
+              <CurrentUserAvatar profile={profile} className='aspect-square' />
               <ThemeToggle className='size-10 rounded-full border border-black/10 bg-white/70 dark:border-white/10 dark:bg-white/3' />
             </div>
           </aside>

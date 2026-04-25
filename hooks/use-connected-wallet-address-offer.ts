@@ -191,7 +191,7 @@ export function useConnectedWalletAddressOffer(options: UseConnectedWalletAddres
         ? 'Restoring'
         : 'Saving'
       : isSaved
-        ? 'Wallet saved'
+        ? 'saved'
         : isArchived
           ? 'Restore wallet'
           : 'Wallet'

@@ -329,8 +329,8 @@ export const ACTION_TABS: ActionTab[] = [
     ),
     nodes: [
       {
-        id: 'deposit-routes',
-        label: 'Deposit routes',
+        id: 'stake',
+        label: 'Stake',
         eyebrow: 'Inbound',
         description: 'Choose how funds enter the account.',
         badge: 'Primary',
@@ -452,9 +452,9 @@ export const ACTION_TABS: ActionTab[] = [
         ]
       },
       {
-        id: 'settlement-controls',
-        label: 'Settlement controls',
-        eyebrow: 'Treasury',
+        id: 'time',
+        label: 'Time',
+        eyebrow: 'Deposit',
         description: 'Manage sweep behavior and reconciliation.',
         content: (
           <DetailStory
@@ -483,11 +483,11 @@ export const ACTION_TABS: ActionTab[] = [
         )
       },
       {
-        id: 'funding-history',
-        label: 'Funding history',
+        id: 'funding',
+        label: 'Funding',
         eyebrow: 'History',
         description: 'Recent inbound events and exceptions.',
-        badge: 'Queue clear',
+        badge: '',
         content: (
           <DetailStory
             eyebrow='History'
