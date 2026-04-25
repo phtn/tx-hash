@@ -104,8 +104,8 @@ export default defineSchema({
     .index('by_user_walletType', ['userId', 'walletType']),
   transactions: defineTable({
     userId: v.id('users'),
-    contactId: v.id('contacts'),
-    walletAddressId: v.id('contact_wallet_addresses'),
+    contactId: v.optional(v.id('contacts')),
+    walletAddressId: v.optional(v.id('contact_wallet_addresses')),
     network: v.string(),
     address: v.string(),
     amount: v.string(),

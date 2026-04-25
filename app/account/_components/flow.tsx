@@ -65,7 +65,7 @@ export const FlowListColumn = ({
                 type='button'
                 onClick={() => onSelect(level, item.id)}
                 className={cn(
-                  'group h-18! overflow-hidden flex w-full items-center justify-between gap-4 pl-6 text-left border-y first:border-t-0 first:border-b-0 last:border-t-0 border-white dark:border-background outline-accent',
+                  'group h-18! overflow-hidden flex w-full items-center justify-between gap-4 pl-6 text-left border-b border-white dark:border-background outline-accent',
                   isActive
                     ? ' text-foreground bg-foreground/8 dark:bg-white/8 shadow-none'
                     : 'bg-white/50 text-[#18120f] hover:bg-foreground/2 dark:bg-white/3 dark:text-white/88 dark:hover:bg-white/6'

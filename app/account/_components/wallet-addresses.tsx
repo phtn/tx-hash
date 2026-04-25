@@ -18,7 +18,7 @@ type WalletType = SavedWalletAddress['walletType']
 
 interface PendingAction {
   id: Id<'user_crypto_wallets'>
-  type: 'archive' | 'primary'
+  type: 'archive' | 'primary' | 'rename'
 }
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -144,6 +144,7 @@ function WalletAddressDetail({
   copiedWalletId,
   onArchive,
   onCopy,
+  onRename,
   onSetPrimary,
   pendingAction,
   wallet
@@ -151,13 +152,39 @@ function WalletAddressDetail({
   copiedWalletId: Id<'user_crypto_wallets'> | null
   onArchive: (wallet: SavedWalletAddress) => void
   onCopy: (wallet: SavedWalletAddress) => void
+  onRename: (wallet: SavedWalletAddress, walletName: string) => Promise<void>
   onSetPrimary: (wallet: SavedWalletAddress) => void
   pendingAction: PendingAction | null
   wallet: SavedWalletAddress
 }) {
   const enabledAssets = wallet.assets.filter((asset) => asset.enabled)
   const isArchiving = pendingAction?.id === wallet.id && pendingAction.type === 'archive'
+  const isRenaming = pendingAction?.id === wallet.id && pendingAction.type === 'rename'
   const isSettingPrimary = pendingAction?.id === wallet.id && pendingAction.type === 'primary'
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [walletNameDraft, setWalletNameDraft] = useState(wallet.walletName)
+
+  const trimmedWalletName = walletNameDraft.trim()
+  const hasWalletNameChanged = trimmedWalletName !== wallet.walletName
+
+  const handleCancelEditingName = () => {
+    setWalletNameDraft(wallet.walletName)
+    setIsEditingName(false)
+  }
+
+  const handleSaveWalletName = async () => {
+    if (!trimmedWalletName) {
+      return
+    }
+
+    if (!hasWalletNameChanged) {
+      setIsEditingName(false)
+      return
+    }
+
+    await onRename(wallet, trimmedWalletName)
+    setIsEditingName(false)
+  }
 
   return (
     <section className='flex min-w-0 flex-1 flex-col bg-card dark:bg-background/30'>
@@ -179,9 +206,58 @@ function WalletAddressDetail({
                 </span>
               ) : null}
             </div>
-            <h3 className='mt-4 truncate font-ct text-xl leading-none text-[#18120f] dark:text-white'>
-              {wallet.walletName}
-            </h3>
+            {isEditingName ? (
+              <form
+                className='mt-4 flex flex-wrap items-center gap-2'
+                onSubmit={async (event) => {
+                  event.preventDefault()
+                  await handleSaveWalletName()
+                }}>
+                <input
+                  autoFocus
+                  type='text'
+                  value={walletNameDraft}
+                  onChange={(event) => setWalletNameDraft(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape') {
+                      event.preventDefault()
+                      handleCancelEditingName()
+                    }
+                  }}
+                  placeholder='Wallet name'
+                  className='h-10 min-w-0 flex-1 rounded-2xl border border-black/10 bg-white/80 px-3 font-ct text-xl leading-none text-[#18120f] outline-accent dark:border-white/10 dark:bg-white/6 dark:text-white'
+                />
+                <button
+                  type='submit'
+                  disabled={isRenaming || !trimmedWalletName}
+                  className='h-10 border border-black/10 bg-white/70 px-3 font-mono text-[8px] uppercase tracking-[0.22em] text-accent outline-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/10 dark:bg-white/4 dark:hover:bg-white/8'>
+                  {isRenaming ? 'Saving' : 'Save'}
+                </button>
+                <button
+                  type='button'
+                  onClick={handleCancelEditingName}
+                  disabled={isRenaming}
+                  className='h-10 border border-black/10 bg-white/70 px-3 font-mono text-[8px] uppercase tracking-[0.22em] text-[#18120f] outline-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/10 dark:bg-white/4 dark:text-white/70 dark:hover:bg-white/8'>
+                  Cancel
+                </button>
+              </form>
+            ) : (
+              <div className='mt-4 flex items-center gap-3'>
+                <h3 className='truncate font-ct text-xl leading-none text-[#18120f] dark:text-white'>
+                  {wallet.walletName}
+                </h3>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setWalletNameDraft(wallet.walletName)
+                    setIsEditingName(true)
+                  }}
+                  className='grid size-8 place-items-center rounded-full border border-black/10 bg-white/70 text-[#18120f] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white'
+                  aria-label='Edit wallet name'>
+                  <Icon id='edit-wallet-name' name='cf-pen' className='size-4' />
+                </button>
+              </div>
+            )}
             <p className='mt-2 max-w-2xl break-all font-mono text-sm leading-6 text-[#675d53] dark:text-white/58'>
               {wallet.address}
             </p>
@@ -212,7 +288,7 @@ function WalletAddressDetail({
         </div>
       </div>
 
-      <div className='grid border-b border-black/8 dark:border-background md:grid-cols-3'>
+      <div className='grid md:grid-cols-3'>
         <DetailStat label='Network' value={wallet.networkName} />
         <DetailStat label='Namespace' value={namespaceLabels[wallet.chainNamespace]} />
         <DetailStat label='Wallet type' value={walletTypeLabels[wallet.walletType]} />
@@ -224,11 +300,9 @@ function WalletAddressDetail({
       <div className='grid flex-1 gap-6 overflow-y-auto p-6 xl:grid-cols-[minmax(0,1fr)_20rem]'>
         <div className='space-y-6'>
           <div>
-            <p className='font-mono text-[10px] uppercase tracking-[0.28em] text-[#7f7368] dark:text-white/38'>
-              Supported assets
-            </p>
+            <p className='font-mono text-[8px] uppercase tracking-[0.28em] text-foreground/50'>Supported assets</p>
             {enabledAssets.length > 0 ? (
-              <div className='mt-4 grid gap-2 sm:grid-cols-2'>
+              <div className='mt-2'>
                 {enabledAssets.map((asset) => (
                   <div
                     key={asset.assetKey}
@@ -261,16 +335,14 @@ function WalletAddressDetail({
 
           {wallet.description ? (
             <div>
-              <p className='font-mono text-[10px] uppercase tracking-[0.28em] text-[#7f7368] dark:text-white/38'>
-                Notes
-              </p>
-              <p className='mt-4 text-sm leading-6 text-[#675d53] dark:text-white/58'>{wallet.description}</p>
+              <p className='font-mono text-[8px] uppercase tracking-[0.28em] text-foreground/50'>Notes</p>
+              <p className='mt-1 text-sm leading-6 text-[#675d53] dark:text-white/58'>{wallet.description}</p>
             </div>
           ) : null}
         </div>
 
         <aside className='space-y-4'>
-          <div className='border border-black/8 bg-white/70 p-5 dark:border-white/10 dark:bg-white/4'>
+          <div className='border border-black/8 bg-white/70 p-4 dark:border-white/10 dark:bg-white/4'>
             <p className='font-mono text-[10px] uppercase tracking-[0.28em] text-[#7f7368] dark:text-white/38'>
               Chain metadata
             </p>
@@ -365,15 +437,28 @@ function WalletAddressesContent() {
     }
   }
 
+  const handleRename = async (wallet: SavedWalletAddress, walletName: string) => {
+    const trimmedWalletName = walletName.trim()
+    if (!trimmedWalletName || trimmedWalletName === wallet.walletName) {
+      return
+    }
+
+    setPendingAction({ id: wallet.id, type: 'rename' })
+    try {
+      await updateWallet({
+        walletId: wallet.id,
+        walletName: trimmedWalletName
+      })
+    } finally {
+      setPendingAction(null)
+    }
+  }
+
   return (
     <div className='flex h-full min-h-112 min-w-0 flex-col bg-white/55 dark:bg-card/30 xl:flex-row'>
       <section className='flex min-h-112 w-full flex-col border-r border-black/8 dark:border-background xl:h-full xl:w-105 xl:min-w-105'>
         <ConnectedWalletAddressOffer savedWallets={allWallets} />
         <div className='border-b border-black/8 dark:border-background'>
-          <div className='flex h-10 items-center justify-between bg-accent/90 px-6 dark:bg-accent/60'>
-            <p className='font-mono text-[10px] uppercase tracking-[0.28em] text-white'>Saved addresses</p>
-            <Icon name='wallet' className='size-4 text-white' />
-          </div>
           <div className='grid grid-cols-3 divide-x divide-black/8 dark:divide-background'>
             <div className='px-4 py-2'>
               <p className='font-mono text-[8px] uppercase tracking-[0.24em] text-[#7f7368] dark:text-white/38'>
@@ -438,9 +523,11 @@ function WalletAddressesContent() {
       </section>
 
       <WalletAddressDetail
+        key={selectedWallet.id}
         copiedWalletId={copiedWalletId}
         onArchive={handleArchive}
         onCopy={handleCopy}
+        onRename={handleRename}
         onSetPrimary={handleSetPrimary}
         pendingAction={pendingAction}
         wallet={selectedWallet}

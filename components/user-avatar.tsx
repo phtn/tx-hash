@@ -14,7 +14,9 @@ export const UserAvatar = ({ profile, className }: UserAvatarProps) => {
   const initials = getInitials(profile.displayName, profile.email)
   return (
     <Avatar className={cn('size-8 rounded-full bg-accent', className)}>
-      {profile.photoURL ? <Avatar.Image alt={profile.displayName ?? initials} src={profile.photoURL} /> : null}
+      {profile.photoURL ? (
+        <Avatar.Image alt={profile.displayName ?? initials} src={profile.photoURL} className='rounded-full' />
+      ) : null}
       <Avatar.Fallback className='flex items-center justify-center size-8 font-bold text-background text-sm'>
         {initials}
       </Avatar.Fallback>

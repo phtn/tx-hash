@@ -4,6 +4,7 @@ import { DetailStory } from './detail-story'
 import { EdgeContainer } from './edge-container'
 import { EmbeddedDetail } from './embedded-detail'
 import { type FlowNode } from './flow'
+import { ManualCryptoWalletForm } from './manual-crypto-wallet-form'
 import { PolymarketMarkets } from './polymarket-markets'
 import { SendPanel } from './send-panel'
 import { TopMarketQuotes } from './top-market-quotes'
@@ -93,8 +94,10 @@ export const ACTION_TABS: ActionTab[] = [
             content: (
               <EmbeddedDetail
                 eyebrow='Addresses'
-                title='Crypto Addresses'
+                title='Crypto Wallets'
                 description='Saved chain-aware wallet addresses for this account.'
+                action={'Add Crypto Wallet'}
+                actionBody={<ManualCryptoWalletForm />}
                 bodyClassName='p-0'>
                 <WalletAddresses />
               </EmbeddedDetail>
@@ -559,7 +562,7 @@ export const ACTION_TABS: ActionTab[] = [
             title='Transfer workflow'
             description='This branch groups the actual transfer composer with the policy and approval views that shape whether a send can proceed.'
             metrics={[
-              { label: 'Composer', value: 'Ready' },
+              { label: 'Select', value: 'Ready' },
               { label: 'Approvals', value: 'Required on high-value' },
               { label: 'Limits', value: 'Active' }
             ]}
@@ -584,10 +587,7 @@ export const ACTION_TABS: ActionTab[] = [
             eyebrow: 'Action',
             description: 'Open the current send form.',
             content: (
-              <EmbeddedDetail
-                eyebrow='Action'
-                title='Bitcoin Transfer'
-                description='This is the existing send experience, now mounted as the terminal pane in a cascading workflow.'>
+              <EmbeddedDetail eyebrow='Action' title='Bitcoin Transfer' description='..'>
                 <SendPanel network='btc' />
               </EmbeddedDetail>
             )
@@ -599,38 +599,34 @@ export const ACTION_TABS: ActionTab[] = [
             eyebrow: 'Policy',
             description: 'Who needs to review high-risk movement.',
             content: (
-              <EmbeddedDetail
-                eyebrow='Action'
-                title='Ethereum Transfer'
-                description='This is the existing send experience, now mounted as the terminal pane in a cascading workflow.'>
+              <EmbeddedDetail eyebrow='Action' title='Ethereum Transfer' description=''>
                 <SendPanel network='eth' />
               </EmbeddedDetail>
             )
-            // content: (
-            //   <DetailStory
-            //     eyebrow='Policy'
-            //     title='Approval rules'
-            //     description='Approval policy belongs adjacent to the transfer workflow so operators can understand why a send did or did not proceed.'
-            //     metrics={[
-            //       { label: 'Auto-approve', value: '< $5k' },
-            //       { label: 'Manual review', value: '$5k+' },
-            //       { label: 'Escalation', value: 'Trusted recipients bypass' }
-            //     ]}
-            //     points={[
-            //       {
-            //         title: 'Threshold reviews',
-            //         description:
-            //           'High-value movement should explain which threshold was crossed and what additional review is required.'
-            //       },
-            //       {
-            //         title: 'Recipient context',
-            //         description:
-            //           'Trusted recipients may follow a different policy path, which is why this view should stay close to the send workspace.'
-            //       }
-            //     ]}
-            //     note='This pane is where approval logic becomes legible instead of implicit.'
-            //   />
-            // )
+          },
+          {
+            id: 'sepolia',
+            label: 'Sepolia',
+            icon: 'eth',
+            eyebrow: 'Testnet',
+            description: 'Send USDC or USDT on Ethereum Sepolia.',
+            content: (
+              <EmbeddedDetail eyebrow='Action' title='Sepolia Transfer' description=''>
+                <SendPanel network='sepolia' />
+              </EmbeddedDetail>
+            )
+          },
+          {
+            id: 'pol',
+            label: 'Polygon',
+            icon: 'pol',
+            eyebrow: 'Polygon',
+            description: 'Send assets on Polygon.',
+            content: (
+              <EmbeddedDetail eyebrow='transfer' title='Polygon Transfer' description='.'>
+                <SendPanel network='pol' />
+              </EmbeddedDetail>
+            )
           },
           {
             id: 'send-limits',
