@@ -188,20 +188,20 @@ function WalletAddressDetail({
 
   return (
     <section className='flex min-w-0 flex-1 flex-col bg-card dark:bg-background/30'>
-      <div className='border-b border-black/8 p-6 dark:border-background'>
+      <div className='border-b border-black/8 dark:border-background'>
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div className='min-w-0'>
-            <div className='flex flex-wrap items-center gap-2'>
-              <span className='border border-black/10 bg-white/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-[#7f7368] dark:border-white/10 dark:bg-white/4 dark:text-white/48'>
+            <div className='flex flex-wrap items-center h-9'>
+              <span className='h-full flex items-center bg-white/70 px-2 font-mono text-[8px] uppercase tracking-[0.22em] text-[#7f7368] dark:border-white/10 dark:bg-white/4 dark:text-white/48'>
                 {wallet.networkName}
               </span>
               {wallet.isPrimary ? (
-                <span className='bg-accent/20 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-white'>
+                <span className='h-full flex items-center bg-white/4 px-2 font-mono text-accent text-[8px] tracking-[0.22em] uppercase'>
                   Primary
                 </span>
               ) : null}
               {wallet.isVerified ? (
-                <span className='border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.22em] text-emerald-700 dark:text-emerald-300'>
+                <span className='h-full flex items-center bg-emerald-500/10 px-2 font-mono text-[8px] uppercase tracking-[0.22em] text-emerald-700 dark:text-emerald-300'>
                   Verified
                 </span>
               ) : null}
@@ -242,7 +242,7 @@ function WalletAddressDetail({
                 </button>
               </form>
             ) : (
-              <div className='mt-4 flex items-center gap-3'>
+              <div className='mt-4 flex items-center gap-3 px-4'>
                 <h3 className='truncate font-ct text-xl leading-none text-[#18120f] dark:text-white'>
                   {wallet.walletName}
                 </h3>
@@ -258,30 +258,30 @@ function WalletAddressDetail({
                 </button>
               </div>
             )}
-            <p className='mt-2 max-w-2xl break-all font-mono text-sm leading-6 text-[#675d53] dark:text-white/58'>
+            <p className='max-w-2xl px-4 break-all font-mono text-sm leading-6 text-[#675d53] dark:text-white/58'>
               {wallet.address}
             </p>
           </div>
 
-          <div className='flex shrink-0 flex-wrap gap-2'>
+          <div className='h-9 flex items-center flex-wrap shrink-0'>
             <button
               type='button'
               onClick={() => onCopy(wallet)}
-              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white dark:hover:bg-white/8'>
+              className='h-full flex items-center bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white dark:hover:bg-white/8'>
               {copiedWalletId === wallet.id ? 'Copied' : 'Copy'}
             </button>
             <button
               type='button'
               onClick={() => onSetPrimary(wallet)}
               disabled={wallet.isPrimary || isSettingPrimary}
-              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-accent text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:hover:bg-white/8'>
+              className='h-full bg-white/70 px-2 font-mono text-accent text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:hover:bg-white/8'>
               {isSettingPrimary ? 'Saving' : 'Set primary'}
             </button>
             <button
               type='button'
               onClick={() => onArchive(wallet)}
               disabled={isArchiving}
-              className='h-6 border border-black/10 bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white/50 dark:hover:bg-white/8'>
+              className='h-full bg-white/70 px-2 font-mono text-[#18120f] text-[8px] text-center uppercase tracking-[0.22em] outline-accent hover:bg-white dark:border-white/10 dark:bg-white/4 dark:text-white/50 dark:hover:bg-white/8'>
               {isArchiving ? 'Archiving' : 'Archive'}
             </button>
           </div>

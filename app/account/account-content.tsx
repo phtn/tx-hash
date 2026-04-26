@@ -1,11 +1,13 @@
 'use client'
 
+import { snakey } from '@/components/pixel-grid'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { CurrentUserAvatar } from '@/components/user-avatar'
 import { Icon } from '@/lib/icons'
 import { Tabs } from '@base-ui/react/tabs'
 import { parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { PixelGrid } from 'three-px-react'
 import { ACTION_TABS, type ActionTab } from '../account/_components/action-tabs'
 import { SidebarItem } from '../account/_components/sidebar-items'
 import { ActionTabFlow } from '../account/_components/tab-flow'
@@ -107,6 +109,9 @@ const AccountContentInner = ({ profile }: AccountContentProps) => {
             <div className='space-x-4 flex items-center w-full h-20'>
               <CurrentUserAvatar profile={profile} className='aspect-square' />
               <ThemeToggle className='size-10 rounded-full border border-black/10 bg-white/70 dark:border-white/10 dark:bg-white/3' />
+              <div>
+                <PixelGrid animation={snakey} color='white' />
+              </div>
             </div>
           </aside>
         </Tabs.List>
